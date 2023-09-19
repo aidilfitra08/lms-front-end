@@ -7,7 +7,6 @@ import Homepage from './components/students/Homepage';
 import Login from './components/login_register/Login';
 import SimpleVideoConference from './components/video_conference/simpleVideoConference';
 import VideoConference from './components/video_conference/VideoConference';
-import Navbar from './components/navbar/navbar';
 import Navbar2 from './components/navbar/navbar2';
 import Sidenav from './components/navbar/Sidenav';
 import Footer from './components/footer/Footer';
