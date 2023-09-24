@@ -16,6 +16,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@videosdk.live/react-sdk": "^0.1.68",
+    "axios": "^1.5.0",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-calendar": "^4.2.1",
