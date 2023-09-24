@@ -8,11 +8,11 @@ function Homepage(props) {
     return classes.filter(Boolean).join(' ')
   }
   
-  const testingMap = [1,2,3,4,5]
+  const testingMap = [1,2,3,4,5];
   return (
     <>
       {/* <Sidenav/> */}
-      <div className={classNames(props.sideBarTrigger ? 'pl-0': 'pl-64', 'pt-16 grid grid-cols-12 bg-blue-400')} >
+      <div className={classNames(props.sideBarTrigger ? 'pl-64': 'pl-0', 'pt-16 grid grid-cols-12 bg-blue-400')} >
         <div className='col-span-9 bg-slate-200 grid grid-cols-3'>
 
           {testingMap.map((number) => (
