@@ -6,7 +6,7 @@ function Footer(props) {
   }
 
   return (
-    <div className={classNames(props.sideBarTrigger ? 'pl-0': 'pl-64', ' bg-slate-400 bottom-0 h-36')}>Footer</div>
+    <footer className={classNames(props.sideBarTrigger ? 'pl-64': 'pl-0', ' bg-slate-300 bottom-0 h-36')}>Footer</footer>
   )
 }
 
