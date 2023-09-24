@@ -1,7 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import Background from '../../assets/login_bg.jpg' 
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  let navigate = useNavigate();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(process.env.REACT_APP_BASE_URL);
+    axios
+      .post(
+        process.env.REACT_APP_BASE_URL + '/apiv1/login',
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: false }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          // alert('!LOGGED');
+          console.log(res);
+          console.log(res.data);
+          console.log(res.data.data.token);
+          sessionStorage.setItem("token", res.data.data.token);
+          sessionStorage.setItem("name", res.data.data.name);
+          // setToken(res.data.data.token)
+
+          navigate("/", { replace: true });
+          window.location.reload(true);
+          // return res.data;
+        } else if (res.status === 400) {
+          // console.log(res.data);
+          alert(res.data.message);
+        }
+        // console.log(res.data);
+        // alert('!LOGGED');
+        // navigate("/")
+      })
+      .catch((error) => {
+        // let parsedErrors = [];
+        // parsedErrors = JSON.parse(error.request.response);
+        console.log(error.response.data.message);
+        alert(error.response.data.message);
+        // setHandleErrors(parsedErrors);
+
+        // setIsSubmitted(true);
+      });
+    // setToken("token123")
+    // sessionStorage.setItem('token', JSON.stringify("token123"));
+    // setToken(res.data.token);
+  };
+
   return (
     <div className='grid grid-cols-2'>
       <div className=' bg-cover col-span-1 h-screen' style={{backgroundImage: 'url('+Background+')'}}>
@@ -14,7 +66,7 @@ function Login() {
               <p className=' text-4xl font-semibold text-center'>Login</p>
             </div>
 
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" action="#" method="POST" onSubmit={handleLogin}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   Email address
@@ -27,6 +79,7 @@ function Login() {
                     autoComplete="email"
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -50,6 +103,7 @@ function Login() {
                     autoComplete="current-password"
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
