@@ -4,15 +4,15 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        '128' : '32rem',
+        128: "32rem",
       },
       height: {
-        '128': '32rem',
-      }
+        128: "32rem",
+      },
+      zIndex: {
+        100: "100",
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
-}
-
+  plugins: [require("@tailwindcss/forms")],
+};
