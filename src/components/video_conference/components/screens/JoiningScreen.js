@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MeetingDetailsScreen } from "../MeetingDetailsScreen";
-import { createMeeting, getToken, validateMeeting } from "../../../../API/API";
+import {
+  createMeeting,
+  getToken,
+  validateMeeting,
+} from "../../../../services/API";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import SettingDialogueBox from "../SettingDialogueBox";
 import ConfirmBox from "../ConfirmBox";
