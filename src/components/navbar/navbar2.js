@@ -9,8 +9,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ProfilePicture from "../../assets/me.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../redux/Credential/UserAction";
+import { useNavigate, Navigate } from "react-router-dom";
 
 function Navbar2(props) {
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   function onClick() {
     props.setSideBarTrigger(!props.sideBarTrigger);
   }
@@ -30,6 +35,18 @@ function Navbar2(props) {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
+
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    dispatch(userLogout());
+    // alert(props.user.name + " is successfully logged in!");
+    navigate("/login", { replace: true });
+    window.location.reload(true);
+  };
+
+  // if (props.isLoggedIn === false) {
+  //   return <Navigate to="/" />;
+  // }
 
   if (searchInput.length > 0) {
     console.log(searchInput);
@@ -85,22 +102,26 @@ function Navbar2(props) {
           <div
             className={classNames(
               profileDropDown ? " hidden" : "block",
-              "z-50 bg-slate-800 fixed w-48 -ml-36 text-white"
+              "z-50 bg-slate-800 absolute w-48 -ml-36 text-white p-1 rounded-lg"
             )}
             style={{ marginTop: "2px" }}
           >
+            <div
+              className="fixed w-screen h-screen top-0 right-0 -z-50"
+              onClick={onClickDropdown}
+            ></div>
             <a
               href="#"
               className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
             >
               Profile
             </a>
-            <a
-              href="#"
-              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
+            <button
+              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
+              onClick={handleLogOut}
             >
               Sign Out
-            </a>
+            </button>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -8,6 +8,7 @@ import {
   faHouseChimney,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Sidenav(props) {
   function close_button() {}
@@ -24,11 +25,13 @@ function Sidenav(props) {
   ];
 
   const location = useLocation();
+  let sections = useSelector((state) => state.studenCourse);
+  console.log(sections);
   return (
     <aside
       className={classNames(
         props.sideBarTrigger ? " bg-neutral-300" : " hidden",
-        "pt-16 w-64 h-screen fixed inset-y-0 flex flex-col overflow-scroll"
+        "pt-16 w-64 h-screen fixed inset-y-0 flex flex-col overflow-auto"
       )}
     >
       <a
@@ -82,14 +85,21 @@ function Sidenav(props) {
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />{" "}
-        Messages
+        Messages (Lecture & Student)
       </a>
       <a
         href="/lecture/courses/create-course"
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />
-        Create Course
+        Create Course (Lecture)
+      </a>
+      <a
+        href="/conference"
+        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+      >
+        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />
+        Conference (Lecture & Student)
       </a>
 
       {location.pathname == "/student/courses" ? (
