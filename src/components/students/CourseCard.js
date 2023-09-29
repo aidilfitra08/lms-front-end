@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TestCoursePhoto from "../../assets/man-photo.png";
+import { category } from "./category";
 
 function CourseCard(props) {
   const totalSection = 14;
@@ -12,6 +13,7 @@ function CourseCard(props) {
     setSectionCompletion(numb + "%");
     console.log(numb + "%");
   };
+
   useEffect(() => {
     // setSectionCompletion((sectionComplete/totalSection)*100);
     // console.log(sectionCompletion)
@@ -24,24 +26,38 @@ function CourseCard(props) {
         href="/student/courses/course-page"
         className="thumbnail0 w-full  rounded-t-md"
       >
-        <img src={TestCoursePhoto} className="rounded-t-md" />
+        <img
+          src={
+            props.courseDetail.thumbnail
+              ? props.courseDetail.thumbnail
+              : TestCoursePhoto
+          }
+          className="rounded-t-md"
+        />
       </a>
       <a
-        href="/student/courses/course-page"
+        href={
+          "/student/courses/course-page?courseID=" + props.courseDetail.courseID
+        }
         className="title text-xl font-semibold block"
       >
-        Ini untuk nama kursus
+        {props.courseDetail.title}
       </a>
-      <p className=" text-md font-normal">Class Type</p>
-      <div className=" text-md font-medium">Instructor Name</div>
-      <div className=" bg-slate-300 rounded-lg">
+      <p className=" text-md font-normal">
+        {category[props.courseDetail.categoryID - 1]}
+      </p>
+      <div className=" text-md font-medium">{props.courseDetail.User.name}</div>
+      {/* <div className=" bg-slate-300 rounded-lg">
         <div
           className={` bg-yellow-600 py-1 rounded-lg`}
           style={{ width: sectionCompletion }}
         ></div>
-      </div>
+      </div> */}
       <div className="thumbnail">
-        Completion <span className=" font-semibold">{sectionCompletion}</span>
+        Total:{" "}
+        <span className=" font-semibold">
+          {props.courseDetail.Sections.length} Sections
+        </span>
       </div>
     </div>
   );

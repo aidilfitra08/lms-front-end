@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CourseCard from "../CourseCard";
 import Footer from "../../footer/Footer";
+import { connect, useDispatch } from "react-redux";
+import { fetchAllCourses } from "../../../redux/Student/StudentAction";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 function CoursesPage(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
+  const courses = props.course.allCourses;
+  const dispatch = useDispatch();
+  // const courses = useSelector((state)=>state.studentCourse.allCourses)
   const testingCoursesMap = [1, 2, 3, 4, 5];
+  useEffect(() => {
+    dispatch(fetchAllCourses());
+  }, []);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", " pt-16")}
@@ -28,13 +37,24 @@ function CoursesPage(props) {
           </div>
         </div>
       </div>
+      {props.course.loading ? (
+        <div>
+          <FontAwesomeIcon icon={faSpinner} size="lg" />
+        </div>
+      ) : props.course.errorMessage ? (
+        <div>
+          <h2>{props.course.errorMessage}</h2>
+        </div>
+      ) : (
+        "berhasil"
+      )}
       <div className="bg-slate-400">
         {/* Class Type */}
         <div className=""></div>
         <div className="grid grid-cols-4 ">
-          {testingCoursesMap.map((number) => (
+          {courses.map((course) => (
             <div className="col-span-1">
-              <CourseCard />
+              <CourseCard courseDetail={course} />
             </div>
           ))}
         </div>
@@ -45,4 +65,16 @@ function CoursesPage(props) {
   );
 }
 
-export default CoursesPage;
+const mapStateToProps = (state) => {
+  return {
+    course: state.studentCourse,
+  };
+};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//       loaduser: () => dispatch(FetchUserList()),
+//       removeuser:(code)=>dispatch(Removeuser(code))
+//   }
+// }
+
+export default connect(mapStateToProps)(CoursesPage);
