@@ -1,20 +1,40 @@
-import React from 'react'
-import Background from '../../assets/login_bg.jpg' 
+import React from "react";
+import Background from "../../assets/login_bg.jpg";
 
-function Login() {
+function Register() {
   return (
-    <div className='grid grid-cols-2'>
+    <div className="grid grid-cols-2">
       {/* Form */}
-      <div className=' bg-slate-400 col-span-1 h-screen grid content-center justify-center'>
-        <div className=' bg-yellow-300 h-128 w-128 rounded-lg'>
+      <div className=" bg-slate-400 col-span-1 h-screen grid content-center justify-center">
+        <div className=" bg-yellow-300 h-fit w-128 rounded-lg">
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-8">
-            <div className=''>
-              <p className=' text-4xl font-semibold text-center'>Register</p>
+            <div className="">
+              <p className=" text-4xl font-semibold text-center">Register</p>
             </div>
 
             <form className="space-y-6" action="#" method="POST">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-base font-medium leading-6 text-gray-900"
+                >
                   Email address
                 </label>
                 <div className="mt-2">
@@ -22,23 +42,22 @@ function Login() {
                     id="email"
                     name="email"
                     type="email"
-                    autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    style={{ fontSize: "16px" }}
+                    // onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                      Forgot password?
-                    </a>
-                  </div>
                 </div>
                 <div className="mt-2">
                   <input
@@ -52,10 +71,33 @@ function Login() {
                 </div>
               </div>
 
+              <div>
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Confirm Password
+                  </label>
+                </div>
+                <div className="mt-2">
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
               <p className="mt-10 text-center text-sm text-gray-500">
-                Do not have an account?{' '}
-                <a href="register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                  Register Here
+                Already have an account?{" "}
+                <a
+                  href="/login"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                >
+                  Sign in Here
                 </a>
               </p>
 
@@ -68,19 +110,19 @@ function Login() {
                 </button>
               </div>
             </form>
-        </div>
-
+          </div>
         </div>
       </div>
 
       {/* image */}
-      <div className=' bg-cover col-span-1 h-screen' style={{backgroundImage: 'url('+Background+')'}}>
+      <div
+        className=" bg-cover col-span-1 h-screen"
+        style={{ backgroundImage: "url(" + Background + ")" }}
+      >
         {/* <img src={Background} className='object-cover' /> */}
       </div>
     </div>
-    
-    
-  )
+  );
 }
 
-export default Login
+export default Register;
