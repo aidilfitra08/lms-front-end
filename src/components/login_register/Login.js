@@ -1,74 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import Background from '../../assets/login_bg.jpg' 
+import { Link, useNavigate, Navigate } from "react-router-dom";
+import Background from "../../assets/login_bg.jpg";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../../redux/Credential/UserAction";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const isLoggedin = useSelector(state => state.user.isLoggedin)
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(process.env.REACT_APP_BASE_URL);
-    axios
-      .post(
-        process.env.REACT_APP_BASE_URL + '/apiv1/login',
-        {
-          email: email,
-          password: password,
-        },
-        { withCredentials: false }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          // alert('!LOGGED');
-          console.log(res);
-          console.log(res.data);
-          console.log(res.data.data.token);
-          sessionStorage.setItem("token", res.data.data.token);
-          sessionStorage.setItem("name", res.data.data.name);
-          // setToken(res.data.data.token)
-
-          navigate("/", { replace: true });
-          window.location.reload(true);
-          // return res.data;
-        } else if (res.status === 400) {
-          // console.log(res.data);
-          alert(res.data.message);
-        }
-        // console.log(res.data);
-        // alert('!LOGGED');
-        // navigate("/")
-      })
-      .catch((error) => {
-        // let parsedErrors = [];
-        // parsedErrors = JSON.parse(error.request.response);
-        console.log(error.response.data.message);
-        alert(error.response.data.message);
-        // setHandleErrors(parsedErrors);
-
-        // setIsSubmitted(true);
-      });
-    // setToken("token123")
-    // sessionStorage.setItem('token', JSON.stringify("token123"));
-    // setToken(res.data.token);
+    console.log(props.errorMessage);
+    dispatch(userLogin(email, password)).then(() => {
+      // alert(props.user.name + " is successfully logged in!");
+      navigate("/", { replace: true });
+      window.location.reload(true);
+    });
+    if (props.isLoggedIn == true && localStorage.getItem("user")) {
+      console.log(props.isLoggedIn);
+    } else {
+    }
   };
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  function togglePasswordVisibility() {
+    setIsPasswordVisible((prevState) => !prevState);
+  }
+
+  if (props.isLoggedIn) {
+    return <Navigate to="/" />;
+  }
+
   return (
-    <div className='grid grid-cols-2'>
-      <div className=' bg-cover col-span-1 h-screen' style={{backgroundImage: 'url('+Background+')'}}>
+    <div className="grid grid-cols-2">
+      {props.user && alert(props.user.name + " is successfully logged in!")}
+      <div
+        className=" bg-cover col-span-1 h-screen"
+        style={{ backgroundImage: "url(" + Background + ")" }}
+      >
         {/* <img src={Background} className='object-cover' /> */}
       </div>
-      <div className=' bg-slate-400 col-span-1 h-screen grid content-center justify-center'>
-        <div className=' bg-yellow-300 h-128 w-128 rounded-lg'>
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-8">
-            <div className=''>
-              <p className=' text-4xl font-semibold text-center'>Login</p>
+      <div className=" col-span-1 h-screen grid content-center justify-center">
+        <div className=" bg-neutral-200 shadow h-128 w-128 rounded-lg">
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6">
+            <div className=" space-y-2">
+              <p className=" text-3xl font-bold">Sign In</p>
+              <p className=" ">Please enter your account information.</p>
             </div>
 
-            <form className="space-y-6" action="#" method="POST" onSubmit={handleLogin}>
+            <form className="space-y-6" method="POST" onSubmit={handleLogin}>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-base font-medium leading-6 text-gray-900"
+                >
                   Email address
                 </label>
                 <div className="mt-2">
@@ -76,9 +68,9 @@ function Login() {
                     id="email"
                     name="email"
                     type="email"
-                    autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    style={{ fontSize: "16px" }}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
@@ -86,11 +78,17 @@ function Login() {
 
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label
+                    htmlFor="password"
+                    className="block text-base font-medium leading-6 text-gray-900"
+                  >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  <div className="text-base">
+                    <a
+                      href="#"
+                      className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    >
                       Forgot password?
                     </a>
                   </div>
@@ -102,15 +100,35 @@ function Login() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    style={{ fontSize: "16px" }}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  {/* <div
+                    className="relative -mt-7 float-right"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {isPasswordVisible ? (
+                      <FontAwesomeIcon icon={faEye} />
+                    ) : (
+                      <FontAwesomeIcon icon={faEyeSlash} />
+                    )}
+                  </div> */}
                 </div>
               </div>
-
+              {props.errorMessage && (
+                <div className="form-group">
+                  <div className="alert alert-danger" role="alert">
+                    {props.errorMessage}
+                  </div>
+                </div>
+              )}
               <p className="mt-10 text-center text-sm text-gray-500">
-                Do not have an account?{' '}
-                <a href="register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                Do not have an account?{" "}
+                <a
+                  href="register"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                >
                   Register Here
                 </a>
               </p>
@@ -118,21 +136,31 @@ function Login() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  disabled={props.loading}
                 >
+                  {props.loading && (
+                    <span className="mr-3">
+                      <FontAwesomeIcon icon={faSpinner} size="lg" />
+                    </span>
+                  )}
                   Sign in
                 </button>
               </div>
             </form>
-        </div>
-
+          </div>
         </div>
       </div>
     </div>
-
-    
-    
-  )
+  );
 }
 
-export default Login
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.isLoggedIn,
+    errorMessage: state.user.errorMessage,
+    loading: state.user.loading,
+    user: state.user.user,
+  };
+};
+export default connect(mapStateToProps)(Login);
