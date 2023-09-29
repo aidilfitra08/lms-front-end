@@ -5,7 +5,7 @@ import {
   useMeeting,
   useParticipant,
 } from "@videosdk.live/react-sdk";
-import { authToken, createMeeting } from "../../API/API";
+import { authToken, createMeeting } from "../../services/API";
 import ReactPlayer from "react-player";
 
 function JoinScreen({ getMeetingAndToken }) {
@@ -158,7 +158,7 @@ function SimpleVideoConference() {
     setMeetingId(null);
   };
 
-  //-----------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------------------------------------------
   return authToken && meetingId ? (
     <MeetingProvider
       config={{
