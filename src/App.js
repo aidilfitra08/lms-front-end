@@ -9,7 +9,7 @@ import {
 
 import Homepage from "./components/students/Homepage";
 import Login from "./components/login_register/Login";
-import SimpleVideoConference from "./components/video_conference/simpleVideoConference";
+// import SimpleVideoConference from "./components/video_conference/simpleVideoConference";
 import Navbar2 from "./components/navbar/navbar2";
 import Sidenav from "./components/navbar/Sidenav";
 import Footer from "./components/footer/Footer";
@@ -57,7 +57,7 @@ function App() {
         ></Route>
 
         <Route path="conference/:meetingId" element={<VideoConference2 />} />
-        <Route path="simpleconference" element={<SimpleVideoConference />} />
+        {/* <Route path="simpleconference" element={<SimpleVideoConference />} /> */}
         <Route
           element={
             <>
