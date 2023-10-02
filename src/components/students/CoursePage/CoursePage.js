@@ -4,7 +4,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { fetchCourse } from "../../../redux/Student/StudentAction";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { category } from "../category";
 
 function CoursePage(props) {
@@ -103,28 +103,38 @@ function CoursePage(props) {
           <p className=" text-3xl">Course Detail</p>
           <p>{props.courseDetail.description}</p>
         </div>
-        <div className="col-span-1 border border-gray-500 h-auto w-2/4 place-self-center shadow bg-gray-200 p-4 space-y-2">
-          <div className=" border-b-2 border-gray-500">Course Section</div>
+        <div className="col-span-1 border border-gray-500 h-auto w-2/4 place-self-center shadow p-4 space-y-2">
+          <div className=" pb-2 border-b border-gray-500">Course Section</div>
           <div>
             <p>
               {props.courseDetail.Sections.length} Section .{" "}
               <span>{countLessons()} Lessons</span>
             </p>
           </div>
-          <div className=" text-lg ">
+          <div className=" text-base ">
             <ul className="list-none">
               {props.courseDetail.Sections.map((section) => {
                 return (
                   <>
                     <hr />
-                    <li className="">
-                      <a href="course-page/sections">{section.title}</a>
-                      <ul className="list-none">
+                    <li className="py-2">
+                      {/* <button className="mr-2">
+                        <FontAwesomeIcon icon={faAngleDown} />
+                      </button> */}
+                      <a
+                        href={
+                          "course-page/sections?sectionID=" + section.sectionID
+                        }
+                        className="mt-2"
+                      >
+                        {section.title}
+                      </a>
+                      <ul className="list-none space-y-2 pt-2">
                         {section.Lessons.map((lesson) => {
                           return (
                             <>
                               <hr />
-                              <li className="">{lesson.title}</li>
+                              <li className="pl-6">{lesson.title}</li>
                             </>
                           );
                         })}
