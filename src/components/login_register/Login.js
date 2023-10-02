@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+
+import { useNavigate, Navigate } from "react-router-dom";
 import Background from "../../assets/login_bg.jpg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/Credential/UserAction";
@@ -13,26 +13,17 @@ function Login(props) {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  // const isLoggedin = useSelector(state => state.user.isLoggedin)
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(props.errorMessage);
-    dispatch(userLogin(email, password)).then(() => {
-      // alert(props.user.name + " is successfully logged in!");
-      navigate("/", { replace: true });
-      window.location.reload(true);
-    });
-    if (props.isLoggedIn == true && localStorage.getItem("user")) {
-      console.log(props.isLoggedIn);
-    } else {
-    }
+
+    dispatch(userLogin(email, password));
   };
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  // const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  function togglePasswordVisibility() {
-    setIsPasswordVisible((prevState) => !prevState);
-  }
+  // function togglePasswordVisibility() {
+  //   setIsPasswordVisible((prevState) => !prevState);
+  // }
 
   if (props.isLoggedIn) {
     return <Navigate to="/" />;
@@ -40,15 +31,19 @@ function Login(props) {
 
   return (
     <div className="grid grid-cols-2">
-      {props.user && alert(props.user.name + " is successfully logged in!")}
+      {/* {props.user && alert(props.user.name + " is successfully logged in!")} */}
       <div
         className=" bg-cover col-span-1 h-screen"
-        style={{ backgroundImage: "url(" + Background + ")" }}
+        // style={{ backgroundImage: "url(" + Background + ")" }}
       >
-        {/* <img src={Background} className='object-cover' /> */}
+        <img
+          src={Background}
+          className="object-cover h-screen"
+          loading="lazy"
+        />
       </div>
       <div className=" col-span-1 h-screen grid content-center justify-center">
-        <div className=" bg-neutral-200 shadow h-128 w-128 rounded-lg">
+        <div className=" bg-neutral-200 shadow w-128 rounded-lg max-h-fit pb-12">
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6">
             <div className=" space-y-2">
               <p className=" text-3xl font-bold">Sign In</p>
@@ -117,8 +112,8 @@ function Login(props) {
                 </div>
               </div>
               {props.errorMessage && (
-                <div className="form-group">
-                  <div className="alert alert-danger" role="alert">
+                <div className=" border-red-600 border-2 rounded-md p-3">
+                  <div className=" italic font-medium" role="alert">
                     {props.errorMessage}
                   </div>
                 </div>
@@ -140,7 +135,7 @@ function Login(props) {
                   disabled={props.loading}
                 >
                   {props.loading && (
-                    <span className="mr-3">
+                    <span className="mr-3 animate-spin">
                       <FontAwesomeIcon icon={faSpinner} size="lg" />
                     </span>
                   )}
