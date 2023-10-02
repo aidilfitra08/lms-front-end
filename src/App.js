@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 import {
@@ -11,7 +10,6 @@ import {
 import Homepage from "./components/students/Homepage";
 import Login from "./components/login_register/Login";
 import SimpleVideoConference from "./components/video_conference/simpleVideoConference";
-import VideoConference from "./components/video_conference/VideoConference";
 import Navbar2 from "./components/navbar/navbar2";
 import Sidenav from "./components/navbar/Sidenav";
 import Footer from "./components/footer/Footer";
@@ -19,28 +17,17 @@ import Register from "./components/login_register/Register";
 import CoursePage from "./components/students/CoursePage/CoursePage";
 import CoursesPage from "./components/students/CoursesPage/CoursesPage";
 import SectionPage from "./components/students/CoursePage/SectionPage";
-import Protected from "./components/ProtectedRoute";
+import {
+  Protected,
+  ProtectedFromLecture,
+  ProtectedFromStudent,
+  ProtectedNotFoundPage,
+} from "./components/ProtectedRoute";
 import CreateCourse from "./components/lecture/CreateCourse/CreateCourse";
+import VideoConference2 from "./components/video_conference/VideoConference2";
+import NotFoundPage from "./components/NotFoundPage";
 
 function App() {
-  //   const LoginContainer = () => (
-  //     <div className="container">
-  //       {/* <Route exact path="/" render={() => <Redirect to="/login" />} /> */}
-  //       <Route path="/login" element={<Login />}/>
-  //     </div>
-  //   )
-
-  //   const DefaultContainer = () => (
-  //     <div>
-  //     {/* <Header toggleAlert={this.toggleAlert} /> */}
-  //       <div className="container">
-  //         <Navbar />
-  //         <Route path='/login' element={<Login />}/>
-  //         <Route path="/conference" element={<SimpleVideoConference/>} />
-  //       </div>
-  //     </div>
-  //  )
-
   // if (localStorage.getItem("token")) {
   //   console.log(localStorage.getItem("token"));
   // }
@@ -68,19 +55,20 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="conference" element={<VideoConference />} />
+
+        <Route path="conference/:meetingId" element={<VideoConference2 />} />
         <Route path="simpleconference" element={<SimpleVideoConference />} />
         <Route
           element={
             <>
-              <Protected>
+              <ProtectedFromLecture>
                 <Navbar2
                   setSideBarTrigger={setSideBarTrigger}
                   sideBarTrigger={sideBarTrigger}
                 />
                 <Sidenav sideBarTrigger={sideBarTrigger} />
                 <Outlet />
-              </Protected>
+              </ProtectedFromLecture>
             </>
           }
           path="student"
@@ -112,32 +100,53 @@ function App() {
               </Route>
             </Route>
           </Route>
-
-          {/* <Route path="conference" element={<SimpleVideoConference/>} /> */}
         </Route>
 
         <Route
           element={
             <>
-              <Navbar2
-                setSideBarTrigger={setSideBarTrigger}
-                sideBarTrigger={sideBarTrigger}
-              />
-              <Sidenav sideBarTrigger={sideBarTrigger} />
+              <ProtectedFromStudent>
+                <Navbar2
+                  setSideBarTrigger={setSideBarTrigger}
+                  sideBarTrigger={sideBarTrigger}
+                />
+                <Sidenav sideBarTrigger={sideBarTrigger} />
+              </ProtectedFromStudent>
               <Outlet />
             </>
           }
           path="lecture"
         >
-          <Route path="" element={<Homepage />} />
+          <Route
+            path=""
+            element={<Homepage sideBarTrigger={sideBarTrigger} />}
+          />
           <Route path="courses">
             <Route
               path="create-course"
               element={<CreateCourse sideBarTrigger={sideBarTrigger} />}
             />
           </Route>
-          {/* <Route path="conference" element={<SimpleVideoConference/>} /> */}
         </Route>
+        <Route
+          path="*"
+          element={
+            <>
+              <ProtectedNotFoundPage>
+                <Navbar2
+                  setSideBarTrigger={setSideBarTrigger}
+                  sideBarTrigger={sideBarTrigger}
+                />
+                <Sidenav sideBarTrigger={sideBarTrigger} />
+                <NotFoundPage
+                  setSideBarTrigger={setSideBarTrigger}
+                  sideBarTrigger={sideBarTrigger}
+                />
+                <Outlet />
+              </ProtectedNotFoundPage>
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
