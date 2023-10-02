@@ -62,12 +62,15 @@ export const userLogin = (email, password) => {
         if (res.data.payload.accessToken) {
           localStorage.setItem("user", JSON.stringify(res.data.payload));
         }
-        console.log(res.data.payload);
         dispatch(loginSuccess(res.data.payload));
       })
       .catch((error) => {
         // console.log(error.response.status);
+        // if (error.response.data.message) {
+        //   dispatch(loginFail(error.response.data.message));
+        // } else {
         dispatch(loginFail(error.response.data.message));
+        // }
       });
   };
 };

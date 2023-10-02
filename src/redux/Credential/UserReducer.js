@@ -29,6 +29,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        errorMessage: "",
       };
     case REGISTER_SUCCESS:
       return {
