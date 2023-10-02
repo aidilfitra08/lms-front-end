@@ -1,178 +1,52 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addLessonData,
+  addSectionsData,
+} from "../../../../redux/Lecture/LectureAction";
+import LessonComponent from "./LessonPopup/ComponentLesson";
 
 function LessonForm(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
   const [showAddLessonPopUP, setShowAddLessonPopUp] = useState(false);
-  const [showAddSection, setShowAddSection] = useState(false);
   const [showSectionForm, setShowSectionForm] = useState(false);
-  const [showButtonAddLesson, setShowButtonAddLesson] = useState(false);
 
   const [sectionTitle, setSectionTitle] = useState("");
   const [sectionDescription, setSectionDescription] = useState("");
-  const [LessonTitle, setLessonTitle] = useState("");
-  const [lessonDescription, setLessonDescription] = useState("");
-  const [lessonType, setLessonType] = useState("");
-  const [videoType, setVideoType] = useState("");
-  const [videoLink, setVideoLink] = useState("");
-  const [attachment, setAttachment] = useState();
-  const [summary, setSummary] = useState("");
+  const [indexNow, setIndexNow] = useState(null);
+  const [lessonIndexNow, setLessonIndexNow] = useState(null);
 
-  const [sectionData, setSectionData] = useState(null);
-  const [sectionsData, setSectionsData] = useState([]);
+  const dispatch = useDispatch();
+  const createSectionsData = useSelector(
+    (state) => state.lectureCreateCourse.sections
+  );
 
-  const testData = [
-    {
-      sectionTitle: "section title",
-      sectionDescription: "deskripsi",
-      lessons: [
-        {
-          LessonTitle: "lesson title",
-          lessonDescription: "deskripsi lesson",
-          lessonType: "video",
-          videoType: "html",
-          videoLink: "linkVideo",
-          attachment: {},
-          summary: "summary",
-        },
-      ],
-    },
-  ];
-
-  const handleAddSection = () => {
-    // setSectionsData((current) => [...current, sectionData]);
-    // console.log(sectionsData);
-    // console.log(lessonType);
-    // console.log(attachment);
-  };
-
-  function onSaveLesson(sectionTitle) {
-    var tempLesson = {
-      LessonTitle: LessonTitle,
-      lessonDescription: lessonDescription,
-      lessonType: lessonType,
-      videoType: videoType,
-      videoLink: videoLink,
-      attachment: attachment,
-      summary: summary,
-    };
-
-    // sectionsData.forEach((element) => {
-    //   if (element.sectionTitle === sectionData.sectionTitle) {
-    //     element = sectionData;
-    //     console.log
-    //   } else {
-    //     console.log("error");
-    //   }
-    // });
-    var objIndex = sectionsData.findIndex(
-      (obj) => obj.sectionTitle === sectionTitle
-    );
-    if (objIndex === -1) {
-      console.log("error");
-    }
-
-    sectionsData[objIndex].lessons.push(tempLesson);
-    setShowAddLessonPopUp(false);
-  }
   function onSaveSection() {
-    setSectionData({
-      sectionTitle: sectionTitle,
-      sectionDescription: sectionDescription,
-      lessons: [],
-    });
-    setSectionsData((current) => [
-      ...current,
-      {
+    //----------------------------------------------------------
+    dispatch(
+      addSectionsData({
         sectionTitle: sectionTitle,
         sectionDescription: sectionDescription,
         lessons: [],
-      },
-    ]);
-    // console.log(sectionData);
+      })
+    );
+    setSectionTitle("");
+    setSectionDescription("");
     setShowSectionForm(false);
-    setShowButtonAddLesson(true);
   }
 
-  function renderSwitch(param) {
-    switch (param) {
-      case "video":
-        return (
-          <>
-            <label htmlFor="videoType">Video Type</label>
-            <select
-              id="videoType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              onChange={(event) => setVideoType(event.target.value)}
-            >
-              <option selected>Select Video Type</option>
-              <option value="html">HTML5(mp4)</option>
-              <option value="externalURL">External URL</option>
-              <option value="yt">Youtube</option>
-              <option value="embedded">embedded</option>
-            </select>
-            {renderSwitchVideo(videoType)}
-          </>
-        );
-      default:
-        return "";
-    }
-  }
-
-  function renderSwitchVideo(param) {
-    switch (param) {
-      case "html":
-        return (
-          <>
-            <label htmlFor="videoURL">Upload File</label>
-            <input
-              id="videoURL"
-              name="videoURL"
-              type="file"
-              required
-              accept="video/mp4"
-              className="block"
-              // onChange={(event) => setVideoType(event.target.files[0])}
-            />
-          </>
-        );
-      case "yt":
-      case "externalURL":
-      case "embedded":
-        return (
-          <>
-            <label htmlFor="videoURL">Video Link</label>
-            <input
-              id="videoURL"
-              name="videoURL"
-              type="text"
-              required
-              className="block"
-              onChange={(event) => setVideoLink(event.target.value)}
-            />
-          </>
-        );
-      default:
-        break;
-    }
-  }
-
-  useEffect(() => {
-    props.setLessonFormData(sectionsData);
-    console.log(sectionsData);
-  }, [sectionsData]);
   return (
-    <div className="form">
+    <div className="space-y-4">
       <div>
-        <div>
-          <p>Section(s)</p>
+        <div className="space-y-4">
+          <p className=" text-2xl font-bold">Section(s)</p>
           <button
-            className=" bg-slate-300 p-3"
+            className=" bg-yellow-400 px-4 py-3 rounded-md hover:bg-yellow-200"
             onClick={() => {
-              setShowAddSection(true);
               setShowSectionForm(true);
             }}
           >
@@ -185,36 +59,45 @@ function LessonForm(props) {
         <div
           className={classNames(
             showSectionForm ? "block" : "hidden",
-            "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform"
+            "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center"
           )}
         >
           <div
-            className="fixed w-screen h-screen top-0 right-0 -z-10"
-            onClick={() => setShowAddLessonPopUp(false)}
+            className="fixed w-screen h-screen top-0 right-0 -z-30"
+            onClick={() => setShowSectionForm(false)}
           ></div>
-          <div className="bg-white h-128 w-128 z-100">
-            <label htmlFor="sectionTitle">Section Title</label>
-            <input
-              id="sectionTitle"
-              name="sectionTitle"
-              type="text"
-              autoComplete="sectionTitle"
-              required
-              className="block"
-              onChange={(event) => setSectionTitle(event.target.value)}
-            />
-            <label htmlFor="sectionDescription">Section Description</label>
-            <textarea
-              id="sectionDescription"
-              name="sectionDescription"
-              rows={4}
-              cols={30}
-              required
-              className="block"
-              onChange={(event) => setSectionDescription(event.target.value)}
-            />
-            <div>
-              <button className=" bg-slate-500 p-3" onClick={onSaveSection}>
+          <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="sectionTitle">Section Title</label>
+              <input
+                id="sectionTitle"
+                name="sectionTitle"
+                type="text"
+                autoComplete="sectionTitle"
+                required
+                className="block w-full rounded-md"
+                value={sectionTitle}
+                onChange={(event) => setSectionTitle(event.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="sectionDescription">Section Description</label>
+              <textarea
+                id="sectionDescription"
+                name="sectionDescription"
+                rows={4}
+                required
+                className="block w-full rounded-md"
+                value={sectionDescription}
+                onChange={(event) => setSectionDescription(event.target.value)}
+              />
+            </div>
+
+            <div className="pt-8">
+              <button
+                className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
+                onClick={onSaveSection}
+              >
                 Save Section
               </button>
             </div>
@@ -222,127 +105,96 @@ function LessonForm(props) {
         </div>
       </div>
 
-      <div className=" bg-slate-900 text-white">
-        <p>All Sections Preview</p>
-        {sectionsData != [] ? (
-          sectionsData.map((section) => {
-            return (
-              <div>
-                <p>section: {section.sectionTitle}</p>
-                lessons:{" "}
-                {section.lessons.map((lesson) => {
-                  return <div>{lesson.LessonTitle}</div>;
-                })}
-                <div
-                  className={classNames(
-                    showButtonAddLesson ? "block" : "hidden",
-                    ""
-                  )}
-                >
-                  <button
-                    className="bg-yellow-300 p-2 hover:bg-yellow-500"
-                    onClick={() => setShowAddLessonPopUp(true)}
-                  >
-                    Add Lesson
-                  </button>
-                </div>
-                <Transition
-                  show={showAddLessonPopUP}
-                  enter="transition-all ease-in-out duration-500 delay-[200ms]"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="transition-all ease-in-out duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div
-                    className={classNames(
-                      showAddLessonPopUP ? "block" : "hidden",
-                      "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
-                    )}
-                  >
-                    <div
-                      className="fixed w-screen h-screen top-0 right-0 -z-10"
-                      onClick={() => setShowAddLessonPopUp(false)}
-                    ></div>
-                    <div className="bg-white h-128 w-128 z-100">
-                      <label htmlFor="lessonTitle">Lesson Title</label>
-                      <input
-                        id="lessonTitle"
-                        name="lessonTitle"
-                        type="text"
-                        required
-                        className="block"
-                        onChange={(event) => setLessonTitle(event.target.value)}
-                      />
-                      <label htmlFor="lessonDescription">
-                        Lesson Description
-                      </label>
-                      <textarea
-                        id="lessonDescription"
-                        name="lessonDescription"
-                        rows={4}
-                        cols={30}
-                        autoComplete="lessonDescription"
-                        required
-                        className="block"
-                        onChange={(event) =>
-                          setLessonDescription(event.target.value)
-                        }
-                      />
-
-                      <label htmlFor="videoType">Lesson Type</label>
-                      <select
-                        id="lessonType"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        onChange={(event) => setLessonType(event.target.value)}
-                      >
-                        <option selected>Select Video Type</option>
-                        <option value="video">Video</option>
-                        <option value="text">Text</option>
-                        <option value="attachment">Text & Attachment</option>
-                      </select>
-
-                      {renderSwitch(lessonType)}
-                      <label htmlFor="attachment">Attachment</label>
-                      <input
-                        id="attachment"
-                        name="attachment"
-                        type="file"
-                        required
-                        className="block"
-                        onChange={(event) =>
-                          setAttachment(event.target.files[0])
-                        }
-                      />
-                      <label htmlFor="summary">Summary</label>
-                      <input
-                        id="summary"
-                        name="summary"
-                        type="text"
-                        className="block"
-                        onChange={(event) => setSummary(event.target.value)}
-                      />
-
-                      <div>
-                        <button
-                          className=" bg-slate-500 p-3"
-                          onClick={() => {
-                            onSaveLesson(section.sectionTitle);
-                          }}
-                        >
-                          Save Lesson
-                        </button>
-                      </div>
-                    </div>
+      <div className=" bg-slate-200 rounded-md p-3">
+        <p className="text-xl border-b border-indigo-700 pb-3">
+          All Sections Preview
+        </p>
+        <div className="pt-3">
+          {createSectionsData != [] ? (
+            createSectionsData.map((section, index) => {
+              return (
+                <div className="space-y-3 mb-3">
+                  <p className="">
+                    section:{" "}
+                    <span className="font-semibold">
+                      {section.sectionTitle}
+                    </span>
+                  </p>
+                  <div>
+                    <button
+                      className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
+                      onClick={() => {
+                        setShowAddLessonPopUp(true);
+                        setIndexNow(index);
+                        setLessonIndexNow(null);
+                      }}
+                    >
+                      Add Lesson
+                    </button>
                   </div>
-                </Transition>
-              </div>
-            );
-          })
-        ) : (
-          <div>null </div>
-        )}
+                  <div className="pb-3">
+                    Lessons:{" "}
+                    {section.lessons.map((lesson, lessonIndex) => {
+                      return (
+                        <div className="border border-indigo-700 p-3 mt-1 rounded-md grid grid-cols-12">
+                          <div className="col-span-10">
+                            <p>Title: {lesson.title}</p>
+                            <p>Description: {lesson.detail}</p>
+                          </div>
+
+                          <div className="col-span-2 space-y-2 border-l border-indigo-700 pl-3">
+                            <button
+                              className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
+                              onClick={() => {
+                                setShowAddLessonPopUp(true);
+                                setIndexNow(index);
+                                setLessonIndexNow(lessonIndex);
+                              }}
+                            >
+                              Update
+                            </button>
+                            <button className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md">
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div>null </div>
+          )}
+        </div>
+
+        <Transition
+          show={showAddLessonPopUP}
+          enter="transition-all ease-in-out duration-500 delay-[200ms]"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-all ease-in-out duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className={classNames(
+              showAddLessonPopUP ? "block" : "hidden",
+              "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
+            )}
+          >
+            <div
+              className="fixed w-screen h-screen top-0 right-0 -z-10"
+              onClick={() => setShowAddLessonPopUp(false)}
+            ></div>
+            <LessonComponent
+              setShowAddLessonPopUp={setShowAddLessonPopUp}
+              indexSection={indexNow}
+              lessonIndexNow={lessonIndexNow}
+            />
+          </div>
+        </Transition>
       </div>
     </div>
   );

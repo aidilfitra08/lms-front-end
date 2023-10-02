@@ -3,33 +3,56 @@ import PropTypes from "prop-types";
 import LessonForm from "./form/LessonForm";
 import QuizForm from "./form/QuizForm";
 import BasicForm from "./form/BasicForm";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addEnrollCode,
+  postCourse,
+} from "../../../redux/Lecture/LectureAction";
 
 function CreateCourse(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
-  const [basicFormData, setBasicFormData] = useState({
-    title: "",
-    shortDescription: "",
-    description: "",
-    courseLanguage: "",
-    category: null,
-  });
-  const [lessonFormData, setLessonFormData] = useState([]);
-  const [quizFormData, setQuizFormData] = useState({});
+  const basicInformation = useSelector(
+    (state) => state.lectureCreateCourse.basicInformation
+  );
+  const [enrollCode, setEnrollCode] = useState(
+    basicInformation ? basicInformation.enrollCode : ""
+  );
+  // const [quizFormData, setQuizFormData] = useState({});
   const components = [
-    <BasicForm
-      setBasicFormData={setBasicFormData}
-      basicFormData={basicFormData}
-    />,
-    <LessonForm setLessonFormData={setLessonFormData} />,
-    <QuizForm />,
-    <div>is reviewed by admin or not</div>,
+    <BasicForm />,
+    <LessonForm />,
+    <div className=" text-center text-2xl">Under maintenance please Next</div>,
+    <div className="space-y-2">
+      <label htmlFor="enrollCode">EnrollCode</label>
+      <div className="relative">
+        <input
+          id="enrollCode"
+          name="enrollCode"
+          type="text"
+          autoComplete="enrollCode"
+          required
+          className="block w-full pr-12 rounded-md"
+          placeholder="Enroll Code"
+          maxLength={25}
+          value={enrollCode}
+          onChange={(event) => setEnrollCode(event.target.value)}
+        />
+      </div>
+    </div>,
   ];
 
   const [pageCount, setPageCount] = useState(0);
   const [sectionCompletion, setSectionCompletion] = useState("0%");
+
+  const sectionsDataToUpload = useSelector(
+    (state) => state.lectureCreateCourse
+  );
+  const dispatch = useDispatch();
+  const handleUpload = () => {
+    dispatch(postCourse(sectionsDataToUpload));
+  };
   useEffect(() => {
     // setSectionCompletion((sectionComplete/totalSection)*100);
     // console.log(sectionCompletion)
@@ -46,9 +69,9 @@ function CreateCourse(props) {
     // console.log(basicFormData);
   }, [pageCount]);
 
-  // useEffect(() => {
-  //   console.log(basicFormData);
-  // }, [basicFormData]);
+  useEffect(() => {
+    dispatch(addEnrollCode(enrollCode));
+  }, [enrollCode]);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
@@ -58,7 +81,7 @@ function CreateCourse(props) {
           <p className=" text-3xl font-bold">Create New Course</p>
           <div className=" bg-slate-300 rounded-lg w-full">
             <div
-              className={` bg-yellow-600 py-1 rounded-lg`}
+              className={` bg-yellow-400 py-1 rounded-lg`}
               style={{ width: sectionCompletion }}
             ></div>
           </div>
@@ -72,13 +95,11 @@ function CreateCourse(props) {
             // render component from our components array
             components[pageCount]
           }
-          {console.log(basicFormData)}
-          {console.log(lessonFormData)}
           {/* show previous button if we are not on first element */}
           {pageCount > 0 && (
             <button
               onClick={() => setPageCount(pageCount - 1)}
-              className=" float-left"
+              className=" float-left my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
               prev
             </button>
@@ -88,9 +109,17 @@ function CreateCourse(props) {
           {pageCount < components.length - 1 && (
             <button
               onClick={() => setPageCount(pageCount + 1)}
-              className=" float-right"
+              className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
               next
+            </button>
+          )}
+          {pageCount === 3 && (
+            <button
+              className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
+              onClick={handleUpload}
+            >
+              Upload Course
             </button>
           )}
         </div>
