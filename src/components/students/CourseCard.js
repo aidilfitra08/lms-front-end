@@ -21,7 +21,7 @@ function CourseCard(props) {
     // console.log(sectionCompletion)
   }, []);
   return (
-    <div className="flex flex-col m-2 bg-neutral-100 rounded-md p-2 space-y-2">
+    <div className="flex flex-col m-2 bg-neutral-200 rounded-md p-2 space-y-2">
       <a
         href="/student/courses/course-page"
         className="thumbnail0 w-full  rounded-t-md"
