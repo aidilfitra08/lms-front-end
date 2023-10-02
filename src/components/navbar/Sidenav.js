@@ -7,8 +7,9 @@ import {
   faEnvelope,
   faHouseChimney,
 } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Sidenav(props) {
   function close_button() {}
@@ -23,7 +24,21 @@ function Sidenav(props) {
     { name: "Conference", href: "/student/conference", current: false },
     { name: "Calendar", href: "#", current: false },
   ];
-
+  let navigate = useNavigate();
+  const loading = useSelector((state) => state.user.loading);
+  const handleConference = () => {
+    axios
+      .post(process.env.REACT_APP_BASE_URL + "/apiv1/conference/create-room")
+      .then((res) => {
+        let roomId = res.data.payload.roomId;
+        console.log(roomId);
+        navigate("/conference/" + roomId, { replace: true });
+        window.location.reload(true);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
   const location = useLocation();
   let sections = useSelector((state) => state.studenCourse);
   console.log(sections);
@@ -31,76 +46,66 @@ function Sidenav(props) {
     <aside
       className={classNames(
         props.sideBarTrigger ? " bg-neutral-300" : " hidden",
-        "pt-16 w-64 h-screen fixed inset-y-0 flex flex-col overflow-auto"
+        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto"
       )}
     >
       <a
         href="/student"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100 content-center"
       >
-        <FontAwesomeIcon icon={faHouseChimney} size="lg" className="px-3" />{" "}
-        Homepage
+        <FontAwesomeIcon
+          icon={faHouseChimney}
+          size="lg"
+          className="px-5 pr-[16px]"
+        />
+        <span className="hidden md:inline">Homepage</span>
       </a>
       <a
         href="/student/courses"
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
-        <FontAwesomeIcon icon={faBook} size="lg" className="px-3" /> Courses
-      </a>
-      {/* <div
-        className={classNames(
-          coursesDropDown ? " hidden" : "block",
-          " bg-slate-800 text-white"
-        )}
-      >
-        <a
-          href="#"
-          className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
-        >
-          Profile
-        </a>
-        <a
-          href="#"
-          className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
-        >
-          Sign Out
-        </a>
-      </div> */}
-      <a
-        href="/student/homepage"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-      >
-        <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-3" />{" "}
-        Calendar
+        <FontAwesomeIcon icon={faBook} size="lg" className="px-5" />
+        <span className="hidden md:inline">Courses</span>
       </a>
       <a
         href="/student/homepage"
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
-        <FontAwesomeIcon icon={faChartLine} size="lg" className="px-3" />{" "}
-        Activities
+        <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-5" />
+        <span className="hidden md:inline">Calendar</span>
       </a>
       <a
         href="/student/homepage"
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
-        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />{" "}
-        Messages (Lecture & Student)
+        <FontAwesomeIcon icon={faChartLine} size="lg" className="px-5" />
+        <span className="hidden md:inline">Activities</span>
+      </a>
+      <a
+        href="/student/homepage"
+        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+      >
+        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
+        <span className="hidden md:inline">Messages (Lecture & Student)</span>
       </a>
       <a
         href="/lecture/courses/create-course"
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
-        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />
-        Create Course (Lecture)
+        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
+        <span className="hidden md:inline">Create Course (Lecture)</span>
       </a>
-      <a
-        href="/conference"
+      <button
+        onClick={handleConference}
         className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
       >
-        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-3" />
-        Conference (Lecture & Student)
-      </a>
+        <FontAwesomeIcon
+          icon={faEnvelope}
+          size="lg"
+          className="px-5 md:-ml-12"
+        />
+        <span className="hidden md:inline">Conference (Lecture)</span>
+      </button>
 
       {location.pathname == "/student/courses" ? (
         <div>
