@@ -51,7 +51,7 @@ function Sidenav(props) {
     >
       <a
         href="/student"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100 content-center"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200 content-center"
       >
         <FontAwesomeIcon
           icon={faHouseChimney}
@@ -62,42 +62,42 @@ function Sidenav(props) {
       </a>
       <a
         href="/student/courses"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faBook} size="lg" className="px-5" />
         <span className="hidden md:inline">Courses</span>
       </a>
       <a
         href="/student/homepage"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-5" />
         <span className="hidden md:inline">Calendar</span>
       </a>
       <a
         href="/student/homepage"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faChartLine} size="lg" className="px-5" />
         <span className="hidden md:inline">Activities</span>
       </a>
       <a
         href="/student/homepage"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
         <span className="hidden md:inline">Messages (Lecture & Student)</span>
       </a>
       <a
         href="/lecture/courses/create-course"
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
         <span className="hidden md:inline">Create Course (Lecture)</span>
       </a>
       <button
         onClick={handleConference}
-        className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon
           icon={faEnvelope}
@@ -110,10 +110,10 @@ function Sidenav(props) {
       {location.pathname == "/student/courses" ? (
         <div>
           <hr className="py-[1px] mx-3 my-4 bg-black" />
-          <p className="w-full bg-yellow-300 block py-4"> Your Class</p>
+          <p className="w-full bg-yellow-400 block py-4"> Your Class</p>
           <a
             href="/student/courses/course-page"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
+            className="w-full bg-yellow-400 block py-4 hover:bg-yellow-400"
           >
             {" "}
             Class Page 1
