@@ -30,7 +30,7 @@ function Navbar2(props) {
 
   const [profileDropDown, setProfileDropDown] = useState(true);
   const [searchInput, setSearchInput] = useState("");
-
+  const user = useSelector((state) => state.user);
   const handleSearchInputChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
@@ -53,21 +53,24 @@ function Navbar2(props) {
   }
 
   return (
-    <nav className="bg-white shadow fixed inset-x-0 w-screen h-16 flex flex-col text-center sm:flex-row sm:text-left sm:justify-between items-center z-40 pr-10">
+    <nav className="bg-white shadow fixed inset-x-0 w-screen h-16 flex flex-row text-center sm:flex-row sm:text-left justify-between items-center z-40 pr-2 sm:pr-10">
       <div className="flex">
         <div>
-          <button className=" bg-yellow-400 py-5 px-6" onClick={onClick}>
+          <button
+            className=" bg-yellow-400 py-5 px-6 max-md:px-[23px]"
+            onClick={onClick}
+          >
             <FontAwesomeIcon icon={faBars} size="lg" />
           </button>
         </div>
 
-        <div className="pt-5 px-6">
-          <a className=" px-6" href="/">
+        <div className="pt-5 px-6 ">
+          <a className="" href="/">
             <FontAwesomeIcon icon={faSchool} size="lg" /> My Logo
           </a>
         </div>
 
-        <div className="searchbar pt-3 pl-60">
+        {/* <div className="searchbar pt-3 hidden md:block md:pl-16 max lg:pl-24 xl:pl-52">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             size="lg"
@@ -79,9 +82,9 @@ function Navbar2(props) {
             onChange={handleSearchInputChange}
             value={searchInput}
           />
-        </div>
+        </div> */}
       </div>
-      <div className="flex">
+      <div className="flex sm:ml-10">
         <div className="pt-5 pr-2">
           <button>
             <FontAwesomeIcon
@@ -110,6 +113,12 @@ function Navbar2(props) {
               className="fixed w-screen h-screen top-0 right-0 -z-50"
               onClick={onClickDropdown}
             ></div>
+            <div className="block w-full py-3 px-3 bg-slate-800 border-b border-neutral-200">
+              <p className="w-full text-center">{user.user.name}</p>
+              <p className="w-full text-center font-light text-sm italic">
+                {user.user.email}
+              </p>
+            </div>
             <a
               href="#"
               className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
