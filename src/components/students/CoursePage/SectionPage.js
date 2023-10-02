@@ -3,13 +3,25 @@ import TestCoursePhoto from "../../../assets/man-photo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-solid-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";
+import { connect, useDispatch } from "react-redux";
+import { fetchSection } from "../../../redux/Student/StudentAction";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function SectionPage(props) {
-  const lectureName = "Mr. Doe";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sectionID = searchParams.get("sectionID");
+  const [videoDetail, setVideoDetail] = useState({});
+  const [attachmentDetail, setAttachmentDetail] = useState({});
+  const navigate = useNavigate();
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
+  console.log(searchParams.size);
+  if (searchParams.size === 0) {
+    navigate(-1, { replace: true });
+    // window.location.reload(true);
+  }
+  const dispatch = useDispatch();
   const testData = {
     name: "section 1",
     lessons: [
@@ -47,18 +59,19 @@ function SectionPage(props) {
       },
     ],
   };
-
+  console.log(videoDetail.url);
   const sectionsOption = [
     <iframe
       // width={1280}
       // height={}
-      src="https://www.youtube.com/embed/aqz-KE-bpKQ"
+      src={videoDetail.url}
       title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"
-      frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
+      allowfullscreen="true"
       className="w-full aspect-video rounded-xl my-auto bg-white"
-    ></iframe>,
+    >
+      Video Unavailable
+    </iframe>,
     <p>Show Below For More</p>,
     <p>Download Attachment here</p>,
   ];
@@ -66,7 +79,15 @@ function SectionPage(props) {
     type: "video",
     sectionsOption: 0,
   });
-  const sectionClicked = (lessonType) => {
+  const sectionClicked = (
+    lessonType,
+    videoType,
+    videoUrl,
+    attachment,
+    attachmentType
+  ) => {
+    setVideoDetail({ type: videoType, url: videoUrl });
+    setAttachmentDetail({ type: attachmentType, attachment: attachment });
     if (lessonType === "video") {
       setFocusLessonType({ type: lessonType, sectionsOption: 0 });
     } else if (lessonType === "text") {
@@ -75,9 +96,12 @@ function SectionPage(props) {
       setFocusLessonType({ type: lessonType, sectionsOption: 2 });
     }
   };
+  // useEffect(() => {
+  //   console.log(focusLessonType.sectionsOption);
+  // }, [focusLessonType]);
   useEffect(() => {
-    console.log(focusLessonType.sectionsOption);
-  }, [focusLessonType]);
+    dispatch(fetchSection(sectionID));
+  }, []);
   // const [video, setVideo] = useState([]);
   return (
     <div
@@ -87,36 +111,36 @@ function SectionPage(props) {
         <div className="grid grid-cols-4 bg-neutral-400 px-16">
           <div
             className={classNames(
-              focusLessonType.sectionsOption != 0 ? " h-128 pt-52" : "",
+              focusLessonType.sectionsOption != 0
+                ? " h-128 pt-52"
+                : " min-h-128",
               " col-span-3 max-md:col-span-4 text-center my-8 mr-6"
             )}
           >
             {sectionsOption[focusLessonType.sectionsOption]}
-            {/* <iframe
-              // width={1280}
-              // height={}
-              src="https://www.youtube.com/embed/aqz-KE-bpKQ"
-              title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              className="w-full aspect-video rounded-xl my-auto bg-white"
-            ></iframe> */}
           </div>
           <div className="col-span-1 max-md:col-span-4  bg-white px-6 rounded-xl my-8">
             <p className="pt-6 pb-4">Lessons</p>
             <div className="relative h-full">
               <div className=" text-lg space-y-3 absolute h-[86%] w-full overflow-x-hidden overflow-y-auto">
                 <ul className="list-none space-y-2">
-                  {testData.lessons.map((lesson) => {
+                  {props.sectionDetail.Lessons.map((lesson) => {
                     return (
                       <>
                         <li className="">
                           <button
-                            onClick={() => sectionClicked(lesson.lessonType)}
+                            onClick={() =>
+                              sectionClicked(
+                                lesson.lessonType,
+                                lesson.videoType,
+                                lesson.videoUrl,
+                                lesson.attachment,
+                                lesson.attachmentType
+                              )
+                            }
                           >
                             <FontAwesomeIcon icon={faCirclePlay} />{" "}
-                            {lesson.name}
+                            {lesson.title}
                           </button>
                         </li>
                         <hr />
@@ -129,7 +153,7 @@ function SectionPage(props) {
           </div>
         </div>
         <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
-          <p className=" text-3xl">Section Detail</p>
+          <p className=" text-3xl">{props.sectionDetail.title}</p>
           <p>
             Pada sesi ini. Lorem ipsum dolor sit amet, consectetur adipiscing
             elit. Quisque tristique leo vel sapien sagittis, id convallis erat
@@ -164,5 +188,11 @@ function SectionPage(props) {
     </div>
   );
 }
-
-export default SectionPage;
+const mapStateToProps = (state) => {
+  return {
+    sectionDetail: state.studentCourse.sectionDetail,
+    loading: state.studentCourse.loading,
+    errorMessage: state.studentCourse.errorMessage,
+  };
+};
+export default connect(mapStateToProps)(SectionPage);
