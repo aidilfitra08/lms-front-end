@@ -12,6 +12,9 @@ module.exports = {
       zIndex: {
         100: "100",
       },
+      minHeight: {
+        128: "32rem",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
