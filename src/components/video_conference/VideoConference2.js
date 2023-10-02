@@ -1,0 +1,141 @@
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { VideoSDKMeeting } from "@videosdk.live/rtc-js-prebuilt";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+function VideoConference2(props) {
+  const user = useSelector((state) => state.user);
+
+  // const [name, setName] = useState("");
+  const { meetingId } = useParams();
+  // useEffect(() => {
+  console.log(meetingId);
+  // }, []);
+  console.log(user);
+  let userPermission = {
+    pin: true,
+    askToJoin: true, // Ask joined participants for entry in meeting
+    toggleParticipantMic: false, // Can toggle other participant's mic
+    toggleParticipantWebcam: false, // Can toggle other participant's webcam
+    toggleParticipantScreenshare: false, // Can toggle other partcipant's screen share
+    toggleParticipantMode: false, // Can toggle other participant's mode
+    canCreatePoll: false, // Can create a poll
+    toggleHls: false, // Can toggle Start HLS button
+    drawOnWhiteboard: true, // Can draw on whiteboard
+    toggleWhiteboard: false, // Can toggle whiteboard
+    toggleVirtualBackground: true, // Can toggle virtual background
+    toggleRecording: false, // Can toggle meeting recording
+    toggleLivestream: false, //can toggle live stream
+    removeParticipant: false, // Can remove participant
+    endMeeting: false, // Can end meeting
+    changeLayout: true, //can change layout
+  };
+  if (JSON.parse(localStorage.getItem("user")).role === "lecture") {
+    userPermission = {
+      pin: true,
+      askToJoin: false, // Ask joined participants for entry in meeting
+      toggleParticipantMic: true, // Can toggle other participant's mic
+      toggleParticipantWebcam: true, // Can toggle other participant's webcam
+      toggleParticipantScreenshare: true, // Can toggle other partcipant's screen share
+      toggleParticipantMode: true, // Can toggle other participant's mode
+      canCreatePoll: true, // Can create a poll
+      toggleHls: true, // Can toggle Start HLS button
+      drawOnWhiteboard: true, // Can draw on whiteboard
+      toggleWhiteboard: true, // Can toggle whiteboard
+      toggleVirtualBackground: true, // Can toggle virtual background
+      toggleRecording: true, // Can toggle meeting recording
+      toggleLivestream: true, //can toggle live stream
+      removeParticipant: true, // Can remove participant
+      endMeeting: true, // Can end meeting
+      changeLayout: true, //can change layout
+    };
+  }
+  console.log(userPermission);
+  const config = {
+    name: user.user.name,
+    meetingId: meetingId,
+    apiKey: "a7a4af88-1b97-45e0-bffb-0d4a729ceccc",
+
+    containerId: null,
+    // redirectOnLeave: "/",
+
+    micEnabled: true,
+    webcamEnabled: true,
+    participantCanToggleSelfWebcam: true,
+    participantCanToggleSelfMic: true,
+    participantCanLeave: true,
+
+    chatEnabled: true,
+    screenShareEnabled: true,
+    pollEnabled: true,
+    whiteboardEnabled: true,
+    raiseHandEnabled: true,
+    mode: "CONFERENCE", // VIEWER || CONFERENCE
+
+    // recording: {
+    //   autoStart: true, // auto start recording on participant joined
+    //   enabled: true,
+    //   webhookUrl: "https://www.videosdk.live/callback",
+    //   awsDirPath: `/meeting-recordings/${meetingId}/`, // automatically save recording in this s3 path
+    // },
+
+    // livestream: {
+    //   autoStart: true,
+    //   enabled: true,
+    // },
+    hls: {
+      enabled: true,
+      autoStart: false,
+    },
+    layout: {
+      type: "SPOTLIGHT", // "SPOTLIGHT" | "SIDEBAR" | "GRID"
+      priority: "PIN", // "SPEAKER" | "PIN",
+      // gridSize: 3,
+    },
+    branding: {
+      enabled: true,
+      logoURL:
+        "https://static.zujonow.com/videosdk.live/videosdk_logo_circle_big.png",
+      name: "Prebuilt",
+      poweredBy: false,
+    },
+    permissions: userPermission,
+
+    joinScreen: {
+      visible: true, // Show the join screen ?
+      title: "Daily scrum", // Meeting title
+      meetingUrl: window.location.href, // Meeting joining url
+    },
+
+    leftScreen: {
+      // visible when redirect on leave not provieded
+      actionButton: {
+        // optional action button
+        label: "Homepage", // action button label
+        href: "http://localhost:3000", // action button href
+      },
+    },
+
+    notificationSoundEnabled: true,
+
+    debug: true, // pop up error during invalid config or netwrok error
+
+    maxResolution: "sd", // "hd" or "sd"
+    /*
+
+   Other Feature Properties
+    
+    */
+  };
+  useEffect(() => {
+    const meeting = new VideoSDKMeeting();
+    meeting.init(config);
+  }, []);
+
+  return <div></div>;
+}
+
+// VideoConference2.propTypes = {}
+
+export default VideoConference2;
