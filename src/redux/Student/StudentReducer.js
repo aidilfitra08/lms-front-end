@@ -9,12 +9,16 @@ const courseDetailInitialState = {
   User: {},
   Sections: [],
 };
+
+const sectionDetailInitialState = {
+  Lessons: [],
+};
 const initialState = {
   loading: false,
   errorMessage: "",
   allCourses: [],
   courseDetail: courseDetailInitialState,
-  sectionDetail: null,
+  sectionDetail: sectionDetailInitialState,
 };
 export const courseReducer = (state = initialState, action) => {
   switch (action.type) {

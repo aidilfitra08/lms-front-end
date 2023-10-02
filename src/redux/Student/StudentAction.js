@@ -59,7 +59,7 @@ export const fetchCourse = (courseID) => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/course-detail/", {
+      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/course-detail", {
         params: { courseID: courseID },
       })
       .then((res) => {
@@ -75,13 +75,11 @@ export const fetchSection = (sectionID) => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(
-        process.env.REACT_APP_BASE_URL +
-          "/apiv1/student/section-detail/" +
-          sectionID
-      )
+      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/section-detail", {
+        params: { sectionID: sectionID },
+      })
       .then((res) => {
-        dispatch(getCourseDetail(res.data.payload));
+        dispatch(getSectionDetail(res.data.payload));
       })
       .catch((err) => {
         dispatch(failRequest(err.message));
