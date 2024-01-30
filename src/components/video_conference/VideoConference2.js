@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { VideoSDKMeeting } from "@videosdk.live/rtc-js-prebuilt";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 function VideoConference2(props) {
   const user = useSelector((state) => state.user);
-
+  const navigate = useNavigate();
   // const [name, setName] = useState("");
   const { meetingId } = useParams();
   // useEffect(() => {
   console.log(meetingId);
   // }, []);
-  console.log(user);
+  // console.log(user);
+  const userRole = JSON.parse(localStorage.getItem("user")).role;
+
   let userPermission = {
     pin: true,
     askToJoin: true, // Ask joined participants for entry in meeting
@@ -31,7 +34,7 @@ function VideoConference2(props) {
     endMeeting: false, // Can end meeting
     changeLayout: true, //can change layout
   };
-  if (JSON.parse(localStorage.getItem("user")).role === "lecture") {
+  if (userRole === "lecture") {
     userPermission = {
       pin: true,
       askToJoin: false, // Ask joined participants for entry in meeting
@@ -129,8 +132,22 @@ function VideoConference2(props) {
     */
   };
   useEffect(() => {
-    const meeting = new VideoSDKMeeting();
-    meeting.init(config);
+    axios
+      .get(
+        process.env.REACT_APP_BASE_URL +
+          "/apiv1/conference/validate-room/" +
+          meetingId
+      )
+      .then((res) => {
+        const meeting = new VideoSDKMeeting();
+        meeting.init(config);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Wrong Meeting Id. Please Enter a valid Meeting Id!");
+        navigate("/", { replace: true });
+        window.location.reload(true);
+      });
   }, []);
 
   return <div></div>;
