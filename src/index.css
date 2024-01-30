@@ -40,6 +40,14 @@ code {
 div .button {
   margin: 0 15px 15px 0;
 }
+
+.button {
+  border-radius: 0.375rem;
+}
+
+th {
+  padding: 0.75rem;
+}
 /* importan */
 .video-contain video {
   object-fit: contain;
