@@ -6,10 +6,18 @@ import {
   ADD_SECTIONS_STATE,
   FAIL_REQUEST,
   FINISH_LOADING,
+  GET_ALL_COURSES,
   LOADING_PERCENTAGE,
   MAKE_REQUEST,
-  POST_COURSE_SUCCESS,
+  REQUEST_SUCCESS,
   UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
+  UPDATE_STATUS_COURSE,
+  POST_COURSE_SUCCESS,
+  COURSE_DETAIL,
+  DELETE_LESSON_STATE,
+  DELETE_SECTION_STATE,
+  UPDATE_LESSON_STATE,
+  UPDATE_SECTIONS_STATE,
 } from "./LectureActionTypes";
 
 export const addBasicInformData = (basicInformData) => {
@@ -33,10 +41,43 @@ export const addSectionsData = (sectionsData) => {
   };
 };
 
+export const updateSectionsData = (sectionsData) => {
+  return {
+    type: UPDATE_SECTIONS_STATE,
+    payload: sectionsData,
+  };
+};
+export const deleteSection = (sectionIndex, sectionID = null) => {
+  return {
+    type: DELETE_SECTION_STATE,
+    payload: { sectionIndex: sectionIndex, sectionID: sectionID },
+  };
+};
+
 export const addLessonData = (lessonData) => {
   return {
     type: ADD_LESSON_STATE,
     payload: lessonData,
+  };
+};
+
+export const updateLessonData = (lessonData) => {
+  return {
+    type: UPDATE_LESSON_STATE,
+    payload: lessonData,
+  };
+};
+
+export const deleteLesson = (sectionIndex, lessonIndex, lessonID = null) => {
+  // console.log(sectionIndex);
+  // console.log(lessonIndex);
+  return {
+    type: DELETE_LESSON_STATE,
+    payload: {
+      sectionIndex: sectionIndex,
+      lessonIndex: lessonIndex,
+      lessonID: lessonID,
+    },
   };
 };
 
@@ -68,6 +109,27 @@ const postCourseSuccess = () => {
 const uploadCloudinarySuccess = (data) => {
   return {
     type: UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
+    payload: data,
+  };
+};
+
+const getAllCourses = (data) => {
+  return {
+    type: GET_ALL_COURSES,
+    payload: data,
+  };
+};
+
+const requestSuccess = (courseID) => {
+  return {
+    type: REQUEST_SUCCESS,
+    payload: courseID,
+  };
+};
+
+const courseDetail = (data) => {
+  return {
+    type: COURSE_DETAIL,
     payload: data,
   };
 };
@@ -134,7 +196,9 @@ export const uploadVideo = (data) => {
 };
 
 export const postCourse = (data) => {
-  localStorage.getItem("user");
+  const user = localStorage.getItem("user");
+  let userDetail = JSON.parse(user);
+  // console.log(data);
   return (dispatch) => {
     dispatch(makeRequest());
     let payload = {
@@ -144,16 +208,147 @@ export const postCourse = (data) => {
     axios
       .post(
         process.env.REACT_APP_BASE_URL + "/apiv1/lecture/create-course",
-        payload
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${myToken}`,
-        //   },
-        // }
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${userDetail.accessToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        // if (res.status == 201) {
+        // console.log("berhasil");
+        dispatch(postCourseSuccess());
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(failRequest(err.message));
+      });
+    console.log(userDetail.accessToken);
+  };
+};
+
+export const fetchAllCourses = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .get(process.env.REACT_APP_BASE_URL + "/apiv1/lecture", {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      })
+      .then((res) => {
+        dispatch(getAllCourses(res.data.payload));
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};
+
+export const updateCourseStatus = (courseID, courseStatus) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.accessToken);
+  console.log(courseID);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .put(
+        process.env.REACT_APP_BASE_URL +
+          `/apiv1/lecture/update-status?courseID=${courseID}`,
+        { courseStatus: courseStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
       )
       .then((res) => {
         if (res.status == 201) {
-          dispatch(postCourseSuccess());
+          dispatch(requestSuccess(courseID));
+        }
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};
+
+export const deleteCourse = (courseID) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.accessToken);
+  console.log(courseID);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .delete(
+        process.env.REACT_APP_BASE_URL +
+          `/apiv1/lecture/delete-course?courseID=${courseID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          dispatch(requestSuccess(courseID));
+        }
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};
+
+export const getCourseDetail = (courseID) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.accessToken);
+  console.log(courseID);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .get(
+        process.env.REACT_APP_BASE_URL +
+          `/apiv1/lecture/course-detail?courseID=${courseID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          dispatch(courseDetail(res.data.payload));
+        }
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};
+
+export const updateCourse = (data, courseID) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  data.courseID = courseID;
+  data.sections = data.sections.filter(Boolean);
+  console.log(data);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    axios
+      .put(
+        process.env.REACT_APP_BASE_URL + `/apiv1/lecture/update-course`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status == 201) {
+          dispatch(requestSuccess(courseID));
         }
       })
       .catch((err) => {

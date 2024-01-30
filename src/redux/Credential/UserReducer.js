@@ -1,10 +1,14 @@
 import {
+  ADD_PROFILE_STATE,
+  FAIL_REQUEST,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
   MAKE_REQUEST,
+  PROFILE_REQUEST_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  SUCCESS_REQUEST,
 } from "./UserActionTypes";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -15,11 +19,22 @@ const initialState = user
       isLoggedIn: true,
       user,
       errorMessage: "",
+      profile: {
+        name: "",
+        email: "",
+        mobileNumber: "",
+        dateBirth: "",
+        gender: "",
+        address: "",
+        profilePicture: "",
+      },
     }
   : {
       loading: false,
       isLoggedIn: false,
+      isRegistered: false,
       user: null,
+      message: "",
       errorMessage: "",
     };
 
@@ -32,6 +47,9 @@ export const userReducer = (state = initialState, action) => {
         errorMessage: "",
       };
     case REGISTER_SUCCESS:
+      state.errorMessage = "";
+      state.isRegistered = true;
+
       return {
         ...state,
         loading: false,
@@ -41,6 +59,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        isRegistered: false,
         errorMessage: action.payload,
       };
     case LOGIN_SUCCESS:
@@ -66,6 +85,34 @@ export const userReducer = (state = initialState, action) => {
         isLoggedIn: false,
         user: null,
         errorMessage: "",
+      };
+
+    case FAIL_REQUEST:
+      return {
+        ...state,
+        loading: false,
+        errorMessage: action.payload,
+      };
+
+    case PROFILE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        profile: action.payload,
+        errorMessage: "",
+      };
+
+    case SUCCESS_REQUEST:
+      return {
+        ...state,
+        loading: false,
+        errorMessage: "",
+      };
+
+    case ADD_PROFILE_STATE:
+      return {
+        ...state,
+        profile: action.payload,
       };
     default:
       return state;
