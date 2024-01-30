@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TestCoursePhoto from "../../../assets/man-photo.png";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { fetchCourse } from "../../../redux/Student/StudentAction";
+import {
+  checkEnrollment,
+  fetchCourse,
+} from "../../../redux/Student/StudentAction";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -16,17 +19,13 @@ function CoursePage(props) {
   }
   const navigate = useNavigate();
 
-  if (searchParams.size === 0) {
-    navigate("/student/courses", { replace: true });
-    // window.location.reload(true);
-  }
   // const courseState = useSelector((state) => state.studentCourse);
   // const courseDetail = courseState.courseDetail;
 
   console.log(props.courseDetail);
-  useEffect(() => {
-    dispatch(fetchCourse(courseID));
-  }, []);
+  // useEffect(() => {
+
+  // }, []);
   const testData = {
     sections: [
       {
@@ -65,6 +64,32 @@ function CoursePage(props) {
     // console.log(counter);
     return counter;
   }
+  useEffect(() => {
+    if (searchParams.size === 0) {
+      navigate("/student/courses", { replace: true });
+      // window.location.reload(true);
+    }
+    dispatch(checkEnrollment(courseID));
+    // if (props.enrollmentStatus === false) {
+    //   navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
+    //     replace: true,
+    //   });
+
+    dispatch(fetchCourse(courseID));
+  }, [props.enrollmentStatus]);
+  useEffect(() => {
+    // if (searchParams.size === 0) {
+    //   navigate("/student/courses", { replace: true });
+    //   // window.location.reload(true);
+    // }
+    // dispatch(checkEnrollment(courseID));
+    if (props.enrollmentStatus === false) {
+      navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
+        replace: true,
+      });
+    }
+    // dispatch(fetchCourse(courseID));
+  }, [props.enrollmentStatus]);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
@@ -81,11 +106,11 @@ function CoursePage(props) {
                 <h2>{props.errorMessage}</h2>
               </div>
             ) : (
-              "berhasil"
+              ""
             )}
             <p className=" text-4xl font-bold">{props.courseDetail.title}</p>
             <p className="">{props.courseDetail.shortDescription}</p>
-            <p className=" text-lg">estimate time: hours</p>
+            {/* <p className=" text-lg">estimate time: hours</p> */}
             <a href="#" className="block text-md font-semibold">
               {category[props.courseDetail.categoryID - 1]}
             </a>
@@ -152,9 +177,10 @@ function CoursePage(props) {
 }
 const mapStateToProps = (state) => {
   return {
-    courseDetail: state.studentCourse.courseDetail,
-    loading: state.studentCourse.loading,
-    errorMessage: state.studentCourse.errorMessage,
+    courseDetail: state.student.courseDetail,
+    loading: state.student.loading,
+    errorMessage: state.student.errorMessage,
+    enrollmentStatus: state.student.enrollmentStatus,
   };
 };
 export default connect(mapStateToProps)(CoursePage);

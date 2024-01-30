@@ -14,10 +14,11 @@ function BasicForm(props) {
   );
   const [description, setDescription] = useState(basicForm.description);
   const [courseLanguage, setCourseLanguage] = useState(basicForm.language);
-  const [category, setCategory] = useState(basicForm.category);
+  const [category, setCategory] = useState(basicForm.categoryID);
   const [thumbnail, setThumbnail] = useState(null);
   const [titleCounter, setTitleCounter] = useState(100);
-
+  console.log(category);
+  console.log(courseLanguage);
   const dispatch = useDispatch();
   useEffect(() => {
     setTitleCounter(100 - title.length);
@@ -120,7 +121,7 @@ function BasicForm(props) {
             <select
               id="sectionType"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={basicForm.category}
+              value={basicForm.categoryID}
               onChange={(event) => setCategory(event.target.value)}
             >
               <option selected>Choose category</option>

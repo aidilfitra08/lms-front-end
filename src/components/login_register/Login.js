@@ -47,7 +47,7 @@ function Login(props) {
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6">
             <div className=" space-y-2">
               <p className=" text-3xl font-bold">Sign In</p>
-              <p className=" ">Please enter your account information.</p>
+              <p className=" ">Please enter your account information below.</p>
             </div>
 
             <form className="space-y-6" method="POST" onSubmit={handleLogin}>

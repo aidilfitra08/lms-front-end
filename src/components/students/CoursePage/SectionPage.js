@@ -6,6 +6,7 @@ import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";
 import { connect, useDispatch } from "react-redux";
 import { fetchSection } from "../../../redux/Student/StudentAction";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ReactPlayer from "react-player/lazy";
 
 function SectionPage(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -61,20 +62,38 @@ function SectionPage(props) {
   };
   console.log(videoDetail.url);
   const sectionsOption = [
-    <iframe
-      // width={1280}
-      // height={}
-      src={videoDetail.url}
-      title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen="true"
-      className="w-full aspect-video rounded-xl my-auto bg-white"
-    >
-      Video Unavailable
-    </iframe>,
+    <ReactPlayer
+      url={videoDetail.url}
+      controls={true}
+      pip={true}
+      width="100%"
+      height="100%"
+      className="absolute top-0 right-0 overflow-hidden rounded-lg bg-white"
+    />,
+    // <iframe
+    //   // width={1280}
+    //   // height={}
+    //   src={videoDetail.url ? videoDetail.url : ""}
+    //   title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"
+    //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    //   allowfullscreen="true"
+    //   className="w-full aspect-video rounded-xl my-auto bg-white"
+    // ></iframe>
     <p>Show Below For More</p>,
     <p>Download Attachment here</p>,
   ];
+
+  // const videoRender = (videoType) => {
+  //   switch (videoType) {
+  //     case "html":
+  //       return (
+
+  //       )
+
+  //     default:
+  //       break;
+  //   }
+  // }
   const [focusLessonType, setFocusLessonType] = useState({
     type: "video",
     sectionsOption: 0,
@@ -113,8 +132,8 @@ function SectionPage(props) {
             className={classNames(
               focusLessonType.sectionsOption != 0
                 ? " h-128 pt-52"
-                : " min-h-128",
-              " col-span-3 max-md:col-span-4 text-center my-8 mr-6"
+                : " min-h-128 pt-[55%]",
+              " col-span-3 max-md:col-span-4 text-center my-8 mr-6 relative "
             )}
           >
             {sectionsOption[focusLessonType.sectionsOption]}
@@ -166,6 +185,7 @@ function SectionPage(props) {
             tellus.
           </p>
         </div>
+
         <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
           <p className=" text-3xl">Lesson Summary</p>
           <p>
@@ -181,18 +201,18 @@ function SectionPage(props) {
           </p>
         </div>
 
-        <div className="col-span-1">
+        {/* <div className="col-span-1">
           <button className=" bg-gray-800 text-white p-4">Next Section</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 }
 const mapStateToProps = (state) => {
   return {
-    sectionDetail: state.studentCourse.sectionDetail,
-    loading: state.studentCourse.loading,
-    errorMessage: state.studentCourse.errorMessage,
+    sectionDetail: state.student.sectionDetail,
+    loading: state.student.loading,
+    errorMessage: state.student.errorMessage,
   };
 };
 export default connect(mapStateToProps)(SectionPage);

@@ -9,6 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ProfilePicture from "../../assets/me.jpg";
+import LogoLong from "../../assets/logo_long.png";
+import LogoOnly from "../../assets/logo_only.png";
+import LogoScript from "../../assets/logo_script.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/Credential/UserAction";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -64,9 +67,9 @@ function Navbar2(props) {
           </button>
         </div>
 
-        <div className="pt-5 px-6 ">
+        <div className="pt-1 px-6 ">
           <a className="" href="/">
-            <FontAwesomeIcon icon={faSchool} size="lg" /> My Logo
+            <img src={LogoLong} className="h-14" />
           </a>
         </div>
 
@@ -119,8 +122,13 @@ function Navbar2(props) {
                 {user.user.email}
               </p>
             </div>
+            {console.log(user.user.role)}
             <a
-              href="#"
+              href={
+                user.user.role === "student"
+                  ? "/student/profile"
+                  : "/lecture/profile"
+              }
               className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
             >
               Profile

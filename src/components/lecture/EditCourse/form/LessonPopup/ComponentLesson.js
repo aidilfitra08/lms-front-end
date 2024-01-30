@@ -5,6 +5,8 @@ import {
   updateLessonData,
   uploadVideo,
 } from "../../../../../redux/Lecture/LectureAction";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 // import PropTypes from 'prop-types'
 
 function LessonComponent(props) {
@@ -246,6 +248,13 @@ function LessonComponent(props) {
   }
   return (
     <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4 overflow-auto">
+      <div className="flex justify-end">
+        <FontAwesomeIcon
+          icon={faXmark}
+          size="xl"
+          onClick={() => props.setShowAddLessonPopUp(false)}
+        />
+      </div>
       <div className="space-y-2">
         <label htmlFor="lessonTitle">Lesson Title</label>
         <input

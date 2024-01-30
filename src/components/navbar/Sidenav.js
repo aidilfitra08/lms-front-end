@@ -12,7 +12,6 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 function Sidenav(props) {
-  function close_button() {}
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -26,6 +25,7 @@ function Sidenav(props) {
   ];
   let navigate = useNavigate();
   const loading = useSelector((state) => state.user.loading);
+  const role = useSelector((state) => state.user.user.role);
   const handleConference = () => {
     axios
       .post(process.env.REACT_APP_BASE_URL + "/apiv1/conference/create-room")
@@ -50,7 +50,7 @@ function Sidenav(props) {
       )}
     >
       <a
-        href="/student"
+        href="/"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200 content-center"
       >
         <FontAwesomeIcon
@@ -61,11 +61,17 @@ function Sidenav(props) {
         <span className="hidden md:inline">Homepage</span>
       </a>
       <a
-        href="/student/courses"
+        href={
+          role === "student"
+            ? "/student/courses"
+            : role === "lecture"
+            ? "/lecture/courses"
+            : "/"
+        }
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faBook} size="lg" className="px-5" />
-        <span className="hidden md:inline">Courses</span>
+        <span className="hidden md:inline">Your Courses</span>
       </a>
       <a
         href="/student/homepage"
@@ -88,24 +94,37 @@ function Sidenav(props) {
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
         <span className="hidden md:inline">Messages (Lecture & Student)</span>
       </a>
-      <a
-        href="/lecture/courses/create-course"
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
-      >
-        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
-        <span className="hidden md:inline">Create Course (Lecture)</span>
-      </a>
-      <button
-        onClick={handleConference}
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
-      >
-        <FontAwesomeIcon
-          icon={faEnvelope}
-          size="lg"
-          className="px-5 md:-ml-12"
-        />
-        <span className="hidden md:inline">Conference (Lecture)</span>
-      </button>
+      {role === "lecture" && (
+        <a
+          href="/lecture/courses/create-course"
+          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+        >
+          <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
+          <span className="hidden md:inline">Create Course</span>
+        </a>
+      )}
+      {role === "lecture" && (
+        <button
+          onClick={handleConference}
+          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+        >
+          <FontAwesomeIcon
+            icon={faEnvelope}
+            size="lg"
+            className="px-5 md:-ml-12"
+          />
+          <span className="hidden md:inline">Conference (Lecture)</span>
+        </button>
+      )}
+      {role === "student" && (
+        <a
+          href="/student/join-conference"
+          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+        >
+          <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
+          <span className="hidden md:inline">Join Conference</span>
+        </a>
+      )}
 
       {location.pathname == "/student/courses" ? (
         <div>

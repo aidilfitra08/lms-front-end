@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import LessonForm from "./form/LessonForm";
+import SectionForm from "./form/SectionForm";
 import QuizForm from "./form/QuizForm";
 import BasicForm from "./form/BasicForm";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   addEnrollCode,
+  getCourseDetail,
   postCourse,
+  updateCourse,
 } from "../../../redux/Lecture/LectureAction";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 
 function CreateCourse(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const courseID = searchParams.get("courseID");
+  // console.log(courseID);
   const basicInformation = useSelector(
     (state) => state.lecture.basicInformation
   );
@@ -23,7 +28,7 @@ function CreateCourse(props) {
   // const [quizFormData, setQuizFormData] = useState({});
   const components = [
     <BasicForm />,
-    <LessonForm />,
+    <SectionForm />,
     <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
       <label htmlFor="enrollCode">EnrollCode</label>
@@ -51,11 +56,11 @@ function CreateCourse(props) {
   // const postSuccess = useSelector((state) => state.lecture);
   const dispatch = useDispatch();
   const handleUpload = () => {
-    dispatch(postCourse(sectionsDataToUpload));
-    // if (sectionsDataToUpload.postSuccess) {
-
-    //   return <Navigate to="/" />;
-    // }
+    dispatch(updateCourse(sectionsDataToUpload, courseID));
+    if (sectionsDataToUpload.postSuccess) {
+      alert("update sukses");
+      return <Navigate to="/" />;
+    }
   };
 
   useEffect(() => {
@@ -75,8 +80,12 @@ function CreateCourse(props) {
   }, [pageCount]);
 
   useEffect(() => {
-    dispatch(addEnrollCode(enrollCode));
+    // dispatch(addEnrollCode(enrollCode));
   }, [enrollCode]);
+
+  useEffect(() => {
+    dispatch(getCourseDetail(courseID));
+  }, []);
 
   if (sectionsDataToUpload.postSuccess) {
     alert(
@@ -90,7 +99,7 @@ function CreateCourse(props) {
     >
       <div className="grid grid-cols-1 space-y-6 mt-6 mx-48">
         <div className=" col-span-1 space-y-6">
-          <p className=" text-3xl font-bold">Create New Course</p>
+          <p className=" text-3xl font-bold">Edit Course</p>
           <div className=" bg-slate-300 rounded-lg w-full">
             <div
               className={` bg-yellow-400 py-1 rounded-lg`}

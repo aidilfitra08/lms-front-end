@@ -10,8 +10,10 @@ import {
   updateSectionsData,
 } from "../../../../redux/Lecture/LectureAction";
 import LessonComponent from "./LessonPopup/ComponentLesson";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-function LessonForm(props) {
+function SectionForm(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -51,6 +53,7 @@ function LessonForm(props) {
   }
 
   function updateSection() {
+    console.log(indexNow);
     //----------------------------------------------------------
     dispatch(
       updateSectionsData({
@@ -65,13 +68,15 @@ function LessonForm(props) {
     setShowSectionForm(false);
   }
 
-  const delLesson = (sectionIndex, lessonIndex) => {
-    dispatch(deleteLesson(sectionIndex, lessonIndex));
+  const delLesson = (sectionIndex, lessonIndex, lessonID) => {
+    dispatch(deleteLesson(sectionIndex, lessonIndex, lessonID));
   };
-  const delSection = (index) => {
+
+  const delSection = (index, sectionID) => {
     console.log(index);
-    dispatch(deleteSection(index));
+    dispatch(deleteSection(index, sectionID));
   };
+  useEffect(() => {}, [createSectionsData]);
   return (
     <div className="space-y-4">
       <div>
@@ -92,7 +97,7 @@ function LessonForm(props) {
         <div
           className={classNames(
             showSectionForm ? "block" : "hidden",
-            "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center"
+            "fixed bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center"
           )}
         >
           <div
@@ -104,7 +109,20 @@ function LessonForm(props) {
               setSectionDescription("");
             }}
           ></div>
+
           <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4">
+            <div className="flex justify-end">
+              <FontAwesomeIcon
+                icon={faXmark}
+                size="xl"
+                onClick={() => {
+                  setShowSectionForm(false);
+                  setIndexNow(null);
+                  setSectionTitle("");
+                  setSectionDescription("");
+                }}
+              />
+            </div>
             <div className="space-y-2">
               <label htmlFor="sectionTitle">Section Title</label>
               <input
@@ -130,23 +148,22 @@ function LessonForm(props) {
                 onChange={(event) => setSectionDescription(event.target.value)}
               />
             </div>
-
             {indexNow != null ? (
               <div className="pt-8">
                 <button
                   className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
-                  onClick={updateSection}
+                  onClick={() => updateSection()}
                 >
-                  Update Section
+                  Update
                 </button>
               </div>
             ) : (
               <div className="pt-8">
                 <button
                   className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
-                  onClick={onSaveSection}
+                  onClick={() => onSaveSection()}
                 >
-                  Save Section
+                  Save
                 </button>
               </div>
             )}
@@ -190,7 +207,7 @@ function LessonForm(props) {
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
                       onClick={() => {
-                        delSection(index);
+                        delSection(index, section.sectionID);
                       }}
                     >
                       Delete Section
@@ -222,7 +239,11 @@ function LessonForm(props) {
                                 <button
                                   className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
                                   onClick={() => {
-                                    delLesson(index, lessonIndex);
+                                    delLesson(
+                                      index,
+                                      lessonIndex,
+                                      lesson.lessonID
+                                    );
                                   }}
                                 >
                                   Delete
@@ -252,7 +273,7 @@ function LessonForm(props) {
           <div
             className={classNames(
               showAddLessonPopUP ? "block" : "hidden",
-              "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
+              "fixed bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
             )}
           >
             <div
@@ -271,6 +292,6 @@ function LessonForm(props) {
   );
 }
 
-LessonForm.propTypes = {};
+SectionForm.propTypes = {};
 
-export default LessonForm;
+export default SectionForm;
