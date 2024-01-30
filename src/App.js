@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,12 +26,43 @@ import {
 import CreateCourse from "./components/lecture/CreateCourse/CreateCourse";
 import VideoConference2 from "./components/video_conference/VideoConference2";
 import NotFoundPage from "./components/NotFoundPage";
+import CoursesView from "./components/lecture/CoursesReview/CoursesView";
+import JoinMeetingPage from "./components/video_conference/JoinMeetingPage";
+import CourseEdit from "./components/lecture/EditCourse/EditCourse";
+import Profile from "./components/profile/profile";
+import { useDispatch } from "react-redux";
+import { userLogout } from "./redux/Credential/UserAction";
+import EnrollPage from "./components/students/CoursePage/EnrollPage";
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
 function App() {
   // if (localStorage.getItem("token")) {
   //   console.log(localStorage.getItem("token"));
   // }
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // console.log(user.accessToken);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      const decodedJwt = parseJwt(user.accessToken);
+
+      if (decodedJwt.exp * 1000 < Date.now()) {
+        dispatch(userLogout());
+        alert("Sesi anda telah habis silahkan login kembali!");
+        window.location.reload(true);
+      }
+    }
+  }, []);
   const [sideBarTrigger, setSideBarTrigger] = useState(true);
   return (
     <Router>
@@ -39,6 +70,7 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+
         <Route
           path=""
           element={
@@ -77,6 +109,24 @@ function App() {
             path=""
             element={<Homepage sideBarTrigger={sideBarTrigger} />}
           />
+          <Route
+            path="join-conference"
+            element={
+              <>
+                <JoinMeetingPage sideBarTrigger={sideBarTrigger} />
+                <Footer sideBarTrigger={sideBarTrigger} />
+              </>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <>
+                <Profile sideBarTrigger={sideBarTrigger} />
+                <Footer sideBarTrigger={sideBarTrigger} />
+              </>
+            }
+          />
           <Route path="courses">
             <Route
               index
@@ -90,15 +140,34 @@ function App() {
             <Route path="course-page">
               <Route
                 index
-                element={<CoursePage sideBarTrigger={sideBarTrigger} />}
+                element={
+                  <>
+                    <CoursePage sideBarTrigger={sideBarTrigger} />
+                    <Footer sideBarTrigger={sideBarTrigger} />
+                  </>
+                }
               />
               <Route path="sections">
                 <Route
                   index
-                  element={<SectionPage sideBarTrigger={sideBarTrigger} />}
+                  element={
+                    <>
+                      <SectionPage sideBarTrigger={sideBarTrigger} />
+                      <Footer sideBarTrigger={sideBarTrigger} />
+                    </>
+                  }
                 />
               </Route>
             </Route>
+            <Route
+              path="enroll-page"
+              element={
+                <>
+                  <EnrollPage sideBarTrigger={sideBarTrigger} />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                </>
+              }
+            />
           </Route>
         </Route>
 
@@ -126,7 +195,19 @@ function App() {
               path="create-course"
               element={<CreateCourse sideBarTrigger={sideBarTrigger} />}
             />
+            <Route
+              path="edit-course"
+              element={<CourseEdit sideBarTrigger={sideBarTrigger} />}
+            />
+            <Route
+              path=""
+              element={<CoursesView sideBarTrigger={sideBarTrigger} />}
+            />
           </Route>
+          <Route
+            path="profile"
+            element={<Profile sideBarTrigger={sideBarTrigger} />}
+          />
         </Route>
         <Route
           path="*"
