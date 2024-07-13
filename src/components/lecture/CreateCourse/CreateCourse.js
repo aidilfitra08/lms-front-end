@@ -9,6 +9,14 @@ import {
   postCourse,
 } from "../../../redux/Lecture/LectureAction";
 import { Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  faArrowLeft,
+  faArrowRight,
+  faComputer,
+  faLaptop,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CreateCourse(props) {
   function classNames(...classes) {
@@ -27,7 +35,7 @@ function CreateCourse(props) {
     <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
       <label htmlFor="enrollCode">EnrollCode</label>
-      <div className="relative">
+      <div className="">
         <input
           id="enrollCode"
           name="enrollCode"
@@ -79,16 +87,28 @@ function CreateCourse(props) {
   }, [enrollCode]);
 
   if (sectionsDataToUpload.postSuccess) {
-    alert(
-      "Kursus Anda berhasil ditambahkan, silahkan ubah status kursus di halaman Courses!"
-    );
+    Swal.fire({
+      title: "Kursus Berhasil ditambahkan",
+      text: "Kursus Anda berhasil ditambahkan, silahkan ubah status kursus di halaman Courses!",
+      icon: "success",
+      confirmButtonColor: "#3085d6",
+    });
     return <Navigate to="/lecture/courses" />;
   }
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64 max-lg:pl-0" : "pl-0",
+        "pt-16"
+      )}
     >
-      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48">
+      <div className="hidden max-md:block text-center min-h-screen content-center -mt-16 w-screen">
+        <FontAwesomeIcon icon={faComputer} className="h-16 text-slate-800 " />
+        <p className="text-lg">
+          Silahkan akses halaman ini pada browser dekstop anda.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48 max-md:hidden">
         <div className=" col-span-1 space-y-6">
           <p className=" text-3xl font-bold">Create New Course</p>
           <div className=" bg-slate-300 rounded-lg w-full">
@@ -113,7 +133,7 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount - 1)}
               className=" float-left my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              prev
+              <FontAwesomeIcon icon={faArrowLeft} />
             </button>
           )}
 
@@ -123,7 +143,7 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount + 1)}
               className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              next
+              <FontAwesomeIcon icon={faArrowRight} />
             </button>
           )}
           {pageCount === 3 && (

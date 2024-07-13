@@ -40,7 +40,7 @@ function BasicForm(props) {
       <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="courseTitle">Course Title</label>
-          <div className="relative">
+          <div className="">
             <input
               id="courseTitle"
               name="courseTitle"
@@ -60,7 +60,7 @@ function BasicForm(props) {
         </div>
         <div className="space-y-2">
           <label htmlFor="thumbnail">Thumbnail</label>
-          <div className="relative">
+          <div className="">
             <input
               id="thumbnail"
               name="thumbnail"

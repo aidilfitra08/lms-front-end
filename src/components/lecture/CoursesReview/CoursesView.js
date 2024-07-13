@@ -6,6 +6,7 @@ import {
   fetchAllCourses,
   updateCourseStatus,
 } from "../../../redux/Lecture/LectureAction";
+import Swal from "sweetalert2";
 
 function Homepage(props) {
   function classNames(...classes) {
@@ -47,15 +48,52 @@ function Homepage(props) {
   ];
 
   const updateStatus = (courseID, status) => {
-    dispatch(updateCourseStatus(courseID, status));
-    alert("Status berhasil diubah!");
-    setClicked(!clicked);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be able to change later!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Yes, ${
+        status === "published" ? "Publish" : "hide"
+      } it!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(updateCourseStatus(courseID, status));
+        setClicked(!clicked);
+        Swal.fire({
+          title: "Status Changed!",
+          text: "Your course status has been changed.",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        });
+      }
+    });
   };
 
   const delCourse = (courseID) => {
-    dispatch(deleteCourse(courseID));
-    alert("Kursus berhasil di hapus!");
-    setClicked(!clicked);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteCourse(courseID));
+        setClicked(!clicked);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+
+    // alert("Kursus berhasil di hapus!");
   };
 
   useEffect(() => {
@@ -64,9 +102,12 @@ function Homepage(props) {
   return (
     <>
       <div
-        className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+        className={classNames(
+          props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
+          "pt-16"
+        )}
       >
-        <div className="flex flex-row mx-10 my-5 justify-between">
+        <div className="flex flex-row mx-10 max-md:mx-2 mt-5 justify-between">
           <p className=" text-2xl font-bold">Courses</p>
 
           <a
@@ -76,8 +117,10 @@ function Homepage(props) {
             Create Course
           </a>
         </div>
-
-        <div className="mx-10 my-5">
+        <p className="mx-10 max-md:mx-2 my-5">
+          Silahkan klik nama kursus untuk masuk ke diskusi kelas.
+        </p>
+        <div className="mx-10 max-md:mx-2 my-5">
           <table className=" w-full text-center rounded-md border-separate">
             <tr className=" bg-indigo-200">
               <th className=" rounded-tl-md">No.</th>
@@ -93,10 +136,17 @@ function Homepage(props) {
               return (
                 <tr key={key} className="bg-slate-100">
                   <td>{key + 1}</td>
-                  <td>{val.title}</td>
+                  <td>
+                    <a
+                      href={`/lecture/courses/course-page?courseID=${val.courseID}`}
+                      className="font-semibold hover:text-blue-800"
+                    >
+                      {val.title}
+                    </a>
+                  </td>
                   <td>{dateCourse}</td>
                   <td>{val.courseStatus}</td>
-                  <td className="space-x-2">
+                  <td className="space-x-2 space-y-2 max-lg:grid p-3">
                     {/* <button className="bg-yellow-400 p-2 w-20 rounded-md">
                       Students
                     </button> */}

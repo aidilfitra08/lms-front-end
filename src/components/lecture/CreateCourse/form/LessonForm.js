@@ -10,6 +10,14 @@ import {
   updateSectionsData,
 } from "../../../../redux/Lecture/LectureAction";
 import LessonComponent from "./LessonPopup/ComponentLesson";
+import Swal from "sweetalert2";
+import {
+  faCirclePlus,
+  faInfo,
+  faPen,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function LessonForm(props) {
   function classNames(...classes) {
@@ -22,6 +30,7 @@ function LessonForm(props) {
   const [sectionDescription, setSectionDescription] = useState("");
   const [indexNow, setIndexNow] = useState(null);
   const [lessonIndexNow, setLessonIndexNow] = useState(null);
+  const [disableText, setDisableText] = useState(null);
 
   const dispatch = useDispatch();
   const createSectionsData = useSelector((state) => state.lecture.sections);
@@ -66,23 +75,64 @@ function LessonForm(props) {
   }
 
   const delLesson = (sectionIndex, lessonIndex) => {
-    dispatch(deleteLesson(sectionIndex, lessonIndex));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteLesson(sectionIndex, lessonIndex));
+        // setClicked(!clicked);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Lesson has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
   const delSection = (index) => {
-    console.log(index);
-    dispatch(deleteSection(index));
+    // console.log(index);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteSection(index));
+        // setClicked(!clicked);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your section has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
   return (
     <div className="space-y-4">
       <div>
         <div className="space-y-4">
           <p className=" text-2xl font-bold">Section(s)</p>
+          <p className=" text-sm">
+            Silahkan klik update section jika anda ingin melihat atau/dan
+            mengubah detail section.
+          </p>
           <button
             className=" bg-yellow-400 px-4 py-3 rounded-md hover:bg-yellow-200"
             onClick={() => {
               setShowSectionForm(true);
             }}
           >
+            <FontAwesomeIcon icon={faCirclePlus} className="pr-2" />
             New Section
           </button>
           {/* <div>section created</div> */}
@@ -105,6 +155,9 @@ function LessonForm(props) {
             }}
           ></div>
           <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4">
+            <div className="space-y-2 text-center p-2 border-b-2">
+              <p className="text-xl font-semibold">Section</p>
+            </div>
             <div className="space-y-2">
               <label htmlFor="sectionTitle">Section Title</label>
               <input
@@ -134,7 +187,7 @@ function LessonForm(props) {
             {indexNow != null ? (
               <div className="pt-8">
                 <button
-                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
+                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={updateSection}
                 >
                   Update Section
@@ -143,20 +196,33 @@ function LessonForm(props) {
             ) : (
               <div className="pt-8">
                 <button
-                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
+                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={onSaveSection}
                 >
                   Save Section
                 </button>
               </div>
             )}
+            <div className="">
+              <button
+                className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
+                onClick={() => {
+                  setShowSectionForm(false);
+                  setIndexNow(null);
+                  setSectionTitle("");
+                  setSectionDescription("");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className=" bg-slate-200 rounded-md p-3">
-        <p className="text-xl border-b border-indigo-700 pb-3">
-          All Sections Preview
+        <p className="text-xl border-b border-slate-800 pb-3">
+          Sections Preview
         </p>
         <div className="pt-3">
           {createSectionsData != [] ? (
@@ -164,10 +230,10 @@ function LessonForm(props) {
               return section === undefined ? null : (
                 <div className="space-y-3 mb-3">
                   <p className="">
-                    section:{" "}
+                    Section Name:{" "}
                     <span className="font-semibold">{section.title}</span>
                   </p>
-                  <div className="space-x-2">
+                  <div className="space-x-2 space-y-2">
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
                       onClick={() => {
@@ -176,6 +242,7 @@ function LessonForm(props) {
                         setLessonIndexNow(null);
                       }}
                     >
+                      <FontAwesomeIcon icon={faCirclePlus} className="pr-1" />{" "}
                       Add Lesson
                     </button>
                     <button
@@ -185,7 +252,8 @@ function LessonForm(props) {
                         setIndexNow(index);
                       }}
                     >
-                      Update Section
+                      <FontAwesomeIcon icon={faPen} className="pr-1" /> Update
+                      Section
                     </button>
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -193,11 +261,12 @@ function LessonForm(props) {
                         delSection(index);
                       }}
                     >
+                      <FontAwesomeIcon icon={faTrash} className="pr-1" />
                       Delete Section
                     </button>
                   </div>
-                  <div className="pb-3">
-                    Lessons:{" "}
+                  <div className="pb-3 space-y-2">
+                    <p>Lesson(s):</p>
                     {section === undefined
                       ? null
                       : section.Lessons.map((lesson, lessonIndex) => {
@@ -215,9 +284,20 @@ function LessonForm(props) {
                                     setShowAddLessonPopUp(true);
                                     setIndexNow(index);
                                     setLessonIndexNow(lessonIndex);
+                                    setDisableText(true);
                                   }}
                                 >
-                                  Update
+                                  <FontAwesomeIcon icon={faInfo} />
+                                </button>
+                                <button
+                                  className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
+                                  onClick={() => {
+                                    setShowAddLessonPopUp(true);
+                                    setIndexNow(index);
+                                    setLessonIndexNow(lessonIndex);
+                                  }}
+                                >
+                                  <FontAwesomeIcon icon={faPen} />
                                 </button>
                                 <button
                                   className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -225,7 +305,7 @@ function LessonForm(props) {
                                     delLesson(index, lessonIndex);
                                   }}
                                 >
-                                  Delete
+                                  <FontAwesomeIcon icon={faTrash} />
                                 </button>
                               </div>
                             </div>
@@ -257,12 +337,17 @@ function LessonForm(props) {
           >
             <div
               className="fixed w-screen h-screen top-0 right-0 -z-10"
-              onClick={() => setShowAddLessonPopUp(false)}
+              onClick={() => {
+                setShowAddLessonPopUp(false);
+                setDisableText(false);
+              }}
             ></div>
             <LessonComponent
               setShowAddLessonPopUp={setShowAddLessonPopUp}
               indexSection={indexNow}
               lessonIndexNow={lessonIndexNow}
+              disableText={disableText}
+              setDisableText={setDisableText}
             />
           </div>
         </Transition>

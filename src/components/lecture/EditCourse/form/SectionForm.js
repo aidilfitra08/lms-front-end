@@ -11,7 +11,14 @@ import {
 } from "../../../../redux/Lecture/LectureAction";
 import LessonComponent from "./LessonPopup/ComponentLesson";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCirclePlus,
+  faInfo,
+  faPen,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 function SectionForm(props) {
   function classNames(...classes) {
@@ -24,6 +31,7 @@ function SectionForm(props) {
   const [sectionDescription, setSectionDescription] = useState("");
   const [indexNow, setIndexNow] = useState(null);
   const [lessonIndexNow, setLessonIndexNow] = useState(null);
+  const [disableText, setDisableText] = useState(null);
 
   const dispatch = useDispatch();
   const createSectionsData = useSelector((state) => state.lecture.sections);
@@ -69,12 +77,47 @@ function SectionForm(props) {
   }
 
   const delLesson = (sectionIndex, lessonIndex, lessonID) => {
-    dispatch(deleteLesson(sectionIndex, lessonIndex, lessonID));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteLesson(sectionIndex, lessonIndex, lessonID));
+        // setClicked(!clicked);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Lesson has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const delSection = (index, sectionID) => {
-    console.log(index);
-    dispatch(deleteSection(index, sectionID));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteSection(index, sectionID));
+        // setClicked(!clicked);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Lesson has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
   useEffect(() => {}, [createSectionsData]);
   return (
@@ -88,6 +131,7 @@ function SectionForm(props) {
               setShowSectionForm(true);
             }}
           >
+            <FontAwesomeIcon icon={faCirclePlus} className="pr-2" />
             New Section
           </button>
           {/* <div>section created</div> */}
@@ -111,17 +155,8 @@ function SectionForm(props) {
           ></div>
 
           <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4">
-            <div className="flex justify-end">
-              <FontAwesomeIcon
-                icon={faXmark}
-                size="xl"
-                onClick={() => {
-                  setShowSectionForm(false);
-                  setIndexNow(null);
-                  setSectionTitle("");
-                  setSectionDescription("");
-                }}
-              />
+            <div className="space-y-2 text-center p-2 border-b-2">
+              <p className="text-xl font-semibold">Section</p>
             </div>
             <div className="space-y-2">
               <label htmlFor="sectionTitle">Section Title</label>
@@ -151,7 +186,7 @@ function SectionForm(props) {
             {indexNow != null ? (
               <div className="pt-8">
                 <button
-                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
+                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={() => updateSection()}
                 >
                   Update
@@ -160,20 +195,33 @@ function SectionForm(props) {
             ) : (
               <div className="pt-8">
                 <button
-                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3"
+                  className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={() => onSaveSection()}
                 >
                   Save
                 </button>
               </div>
             )}
+            <div className="">
+              <button
+                className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
+                onClick={() => {
+                  setShowSectionForm(false);
+                  setIndexNow(null);
+                  setSectionTitle("");
+                  setSectionDescription("");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className=" bg-slate-200 rounded-md p-3">
-        <p className="text-xl border-b border-indigo-700 pb-3">
-          All Sections Preview
+        <p className="text-xl border-b border-slate-800 pb-3">
+          Section Preview
         </p>
         <div className="pt-3">
           {createSectionsData != [] ? (
@@ -193,6 +241,7 @@ function SectionForm(props) {
                         setLessonIndexNow(null);
                       }}
                     >
+                      <FontAwesomeIcon icon={faCirclePlus} className="pr-2" />
                       Add Lesson
                     </button>
                     <button
@@ -202,6 +251,7 @@ function SectionForm(props) {
                         setIndexNow(index);
                       }}
                     >
+                      <FontAwesomeIcon icon={faPen} className="pr-1" />
                       Update Section
                     </button>
                     <button
@@ -210,7 +260,8 @@ function SectionForm(props) {
                         delSection(index, section.sectionID);
                       }}
                     >
-                      Delete Section
+                      <FontAwesomeIcon icon={faTrash} className="pr-1" /> Delete
+                      Section
                     </button>
                   </div>
                   <div className="pb-3">
@@ -232,9 +283,23 @@ function SectionForm(props) {
                                     setShowAddLessonPopUp(true);
                                     setIndexNow(index);
                                     setLessonIndexNow(lessonIndex);
+                                    setDisableText(true);
                                   }}
                                 >
-                                  Update
+                                  <FontAwesomeIcon icon={faInfo} />
+                                </button>
+                                <button
+                                  className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
+                                  onClick={() => {
+                                    setShowAddLessonPopUp(true);
+                                    setIndexNow(index);
+                                    setLessonIndexNow(lessonIndex);
+                                  }}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faPen}
+                                    className="pr-1"
+                                  />
                                 </button>
                                 <button
                                   className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -246,7 +311,10 @@ function SectionForm(props) {
                                     );
                                   }}
                                 >
-                                  Delete
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className="pr-1"
+                                  />
                                 </button>
                               </div>
                             </div>
@@ -284,6 +352,8 @@ function SectionForm(props) {
               setShowAddLessonPopUp={setShowAddLessonPopUp}
               indexSection={indexNow}
               lessonIndexNow={lessonIndexNow}
+              disableText={disableText}
+              setDisableText={setDisableText}
             />
           </div>
         </Transition>

@@ -8,18 +8,23 @@ function BasicForm(props) {
     return classes.filter(Boolean).join(" ");
   }
   const basicForm = useSelector((state) => state.lecture.basicInformation);
-  const [title, setTitle] = useState(basicForm.title);
-  const [shortDescription, setShortDescription] = useState(
-    basicForm.shortDescription
-  );
-  const [description, setDescription] = useState(basicForm.description);
-  const [courseLanguage, setCourseLanguage] = useState(basicForm.language);
-  const [category, setCategory] = useState(basicForm.categoryID);
+  const [title, setTitle] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
+  const [description, setDescription] = useState("");
+  const [courseLanguage, setCourseLanguage] = useState("");
+  const [category, setCategory] = useState();
   const [thumbnail, setThumbnail] = useState(null);
   const [titleCounter, setTitleCounter] = useState(100);
-  console.log(category);
-  console.log(courseLanguage);
+  // console.log(category);
+  // console.log(title);
   const dispatch = useDispatch();
+  useEffect(() => {
+    setTitle(basicForm.title);
+    setShortDescription(basicForm.shortDescription);
+    setDescription(basicForm.description);
+    setCourseLanguage(basicForm.language);
+    setCategory(basicForm.categoryID);
+  }, [basicForm]);
   useEffect(() => {
     setTitleCounter(100 - title.length);
   }, [title]);
@@ -51,7 +56,7 @@ function BasicForm(props) {
               className="block w-full pr-12 rounded-md"
               placeholder="Course Title"
               maxLength={100}
-              value={basicForm.title}
+              value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
             <p className="block h-10 absolute top-[1px] right-[1px] bg-yellow-300 pt-2 px-2 rounded-md">

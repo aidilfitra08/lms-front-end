@@ -137,6 +137,7 @@ function LessonComponent(props) {
             <label htmlFor="videoType">Video Type</label>
             <select
               id="videoType"
+              disabled={props.disableText}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={videoType}
               onChange={(event) => setVideoType(event.target.value)}
@@ -160,6 +161,7 @@ function LessonComponent(props) {
               id="attachment"
               name="attachment"
               type="file"
+              disabled={props.disableText}
               required
               accept=".pdf"
               className="block"
@@ -184,6 +186,7 @@ function LessonComponent(props) {
                 name="videoURL"
                 type="file"
                 required
+                disabled={props.disableText}
                 accept="video/mp4"
                 className="block"
                 // value={videoFile}
@@ -234,6 +237,7 @@ function LessonComponent(props) {
               name="videoURL"
               type="text"
               required
+              disabled={props.disableText}
               className="block w-full rounded-md"
               value={videoLink}
               onChange={(event) => setVideoLink(event.target.value)}
@@ -246,6 +250,9 @@ function LessonComponent(props) {
   }
   return (
     <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4 overflow-auto">
+      <div className="space-y-2 text-center p-2 border-b-2">
+        <p className="text-xl font-semibold">Lesson</p>
+      </div>
       <div className="space-y-2">
         <label htmlFor="lessonTitle">Lesson Title</label>
         <input
@@ -253,6 +260,7 @@ function LessonComponent(props) {
           name="lessonTitle"
           type="text"
           required
+          disabled={props.disableText}
           className="block w-full rounded-md"
           value={lessonTitle}
           onChange={(event) => setLessonTitle(event.target.value)}
@@ -267,6 +275,7 @@ function LessonComponent(props) {
           rows={4}
           autoComplete="lessonDescription"
           required
+          disabled={props.disableText}
           className="block w-full rounded-md"
           value={lessonDescription}
           onChange={(event) => setLessonDescription(event.target.value)}
@@ -279,6 +288,7 @@ function LessonComponent(props) {
           id="lessonType"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           value={lessonType}
+          disabled={props.disableText}
           onChange={(event) => setLessonType(event.target.value)}
         >
           <option selected>Select Video Type</option>
@@ -296,6 +306,7 @@ function LessonComponent(props) {
           id="summary"
           name="summary"
           type="text"
+          disabled={props.disableText}
           className="block w-full rounded-md"
           value={summary}
           onChange={(event) => setSummary(event.target.value)}
@@ -304,7 +315,9 @@ function LessonComponent(props) {
 
       {props.lessonIndexNow != null ? (
         <button
-          className="block w-full bg-yellow-400 p-3 rounded-md hover:bg-yellow-200"
+          className={`w-full bg-yellow-400 p-3 rounded-md hover:bg-yellow-200 ${
+            props.disableText === true ? "hidden" : "block"
+          }`}
           onClick={() => {
             onUpdateLesson(props.indexSection, props.lessonIndexNow);
           }}
@@ -321,6 +334,15 @@ function LessonComponent(props) {
           Save Lesson
         </button>
       )}
+      <button
+        className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
+        onClick={() => {
+          props.setShowAddLessonPopUp(false);
+          props.setDisableText(false);
+        }}
+      >
+        Cancel
+      </button>
     </div>
   );
 }
