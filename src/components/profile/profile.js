@@ -77,9 +77,12 @@ function Profile(props) {
   }, [password, confirmPassword]);
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64 max-lg:pl-0" : "pl-0",
+        "pt-16"
+      )}
     >
-      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48">
+      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48 max-md:mx-2">
         <div className=" col-span-1 flex items-centre justify-between">
           <p className=" text-3xl font-bold py-2">My Profile</p>
           <button
@@ -90,8 +93,8 @@ function Profile(props) {
           </button>
         </div>
         <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
-        <div className="grid grid-cols-12">
-          <div className="col-span-5 space-y-6">
+        <div className="grid grid-cols-12 max-lg:grid-cols-1">
+          <div className="col-span-5 max-lg:col-span-1 space-y-6">
             <div className="space-y-5 grid justify-items-stretch">
               <label htmlFor="profilePicture" className="mb-1">
                 Profile Picture
@@ -189,7 +192,7 @@ function Profile(props) {
               </p>
             </div>
           </div>
-          <div className=" col-span-7 space-y-6 ml-8">
+          <div className=" col-span-7 max-lg:col-span-1 max-lg:mt-4 max-lg:ml-0 space-y-6 ml-8">
             <div className="space-y-2">
               <label htmlFor="name">Name</label>
               <div className="relative">
@@ -298,7 +301,7 @@ function Profile(props) {
             </div>
           </div>
           <div
-            className="col-span-12 mt-5 mb-5"
+            className="col-span-12 max-lg:col-span-1 mt-5 mb-5"
             hidden={clickedButton === true ? false : true}
           >
             <button

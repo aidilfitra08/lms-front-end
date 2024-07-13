@@ -39,14 +39,16 @@ function CourseCard(props) {
         href={
           "/student/courses/course-page?courseID=" + props.courseDetail.courseID
         }
-        className="title text-xl font-semibold block"
+        className="title text-xl max-md:text-lg font-semibold block"
       >
         {props.courseDetail.title}
       </a>
-      <p className=" text-md font-normal">
+      <p className=" max-md:text-sm font-normal">
         {category[props.courseDetail.categoryID - 1]}
       </p>
-      <div className=" text-md font-medium">{props.courseDetail.User.name}</div>
+      <div className=" max-md:text-sm font-medium">
+        {props.courseDetail.User.name}
+      </div>
       {/* <div className=" bg-slate-300 rounded-lg">
         <div
           className={` bg-yellow-600 py-1 rounded-lg`}
@@ -55,7 +57,7 @@ function CourseCard(props) {
       </div> */}
       <div className="thumbnail">
         Total:{" "}
-        <span className=" font-semibold">
+        <span className="max-md:text-sm font-semibold">
           {props.courseDetail.Sections.length} Sections
         </span>
       </div>

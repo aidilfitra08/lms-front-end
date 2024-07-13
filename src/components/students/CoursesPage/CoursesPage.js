@@ -22,10 +22,13 @@ function CoursesPage(props) {
   }, []);
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", " pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
+        " pt-16"
+      )}
     >
-      <div className="grid grid-cols-2 mt-6 space-y-2">
-        <p className="text-4xl col-span-2">Your Joined Courses</p>
+      <div className="grid grid-cols-1 mt-6 space-y-2">
+        <p className="text-4xl col-span-1">Your Joined Courses</p>
         {/* <div className=" col-span-1 h-36 p-5">
           <div className="border-2 border-neutral-300 p-4">
             <p className="  text-lg font-normal">Course Complete</p>
@@ -40,9 +43,9 @@ function CoursesPage(props) {
             <p className=" text-4xl font-medium">3 / 5</p>
           </div>
         </div> */}
-        <div className="col-span-2">
+        <div className="col-span-1">
           {/* Class Type */}
-          <div className="grid grid-cols-4 ">
+          <div className="grid grid-cols-4 max-lg:grid-cols-2">
             {courses.map((course) => (
               <div className="col-span-1">
                 <CourseCard courseDetail={course} />

@@ -9,6 +9,7 @@ import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { category } from "../category";
+import Discussion from "../../discussion/discussion";
 
 function CoursePage(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -171,6 +172,8 @@ function CoursePage(props) {
             </ul>
           </div>
         </div>
+
+        <Discussion courseID={courseID} />
       </div>
     </div>
   );

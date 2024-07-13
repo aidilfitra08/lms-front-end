@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidenav from "../navbar/Sidenav";
 import Footer from "../footer/Footer";
 import CourseCard from "./CourseCard";
@@ -24,34 +24,92 @@ function Homepage(props) {
     dispatch(fetchAllJoinedCourses());
     dispatch(fetchAllCourses(0, 5));
   }, []);
+
+  const [numberToMap, setNumberToMap] = useState(
+    window.innerWidth <= 1024 ? 2 : 3
+  );
+
+  const mapAllCourses = (number) => (
+    <>
+      {allCourses.slice(0, number).map((course) => (
+        <div className="col-span-1">
+          <CourseCard courseDetail={course} />
+        </div>
+      ))}
+    </>
+  );
+
+  const mapYourCourses = (number) => (
+    <>
+      {joinedCourses.slice(0, number).map((course) => (
+        <div className="col-span-1">
+          <CourseCard courseDetail={course} />
+        </div>
+      ))}
+    </>
+  );
+
+  const minHandler = () => setNumberToMap(2);
+  const maxHandler = () => setNumberToMap(3);
+  useEffect(() => {
+    const minMedia = window.matchMedia("(min-width: 1025px)");
+    minMedia.addEventListener("change", minHandler);
+
+    const maxMedia = window.matchMedia("(max-width: 1026px)");
+    maxMedia.addEventListener("change", maxHandler);
+    return () => {
+      minMedia.removeEventListener("change", minHandler);
+      maxMedia.removeEventListener("change", maxHandler);
+    };
+  }, [window.innerWidth]);
   return (
     <>
       {/* <Sidenav/> */}
       <div
         className={classNames(
-          props.sideBarTrigger ? "pl-64" : "pl-0",
+          props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
           "pt-16 grid grid-cols-12 "
         )}
       >
-        <div className="col-span-9 ml-6 mt-6 space-y-2">
-          <p className="col-span-3 text-4xl">Your Joined Course(s)</p>
-          <div className="grid grid-cols-3 py-6 ">
-            {joinedCourses.map((course) => (
-              <div className="col-span-1">
-                <CourseCard courseDetail={course} />
-              </div>
-            ))}
+        <div className=" col-span-9 min-lg:ml-6 max-lg:pr-2 mt-6 space-y-2 max-lg:col-span-12 max-md:pl-2">
+          <div className="flex flex-row justify-between">
+            <p className="text-4xl max-md:text-2xl">Kursus yang Anda Ikuti</p>
+            <a
+              href="/student/courses"
+              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
+            >
+              Show More
+            </a>
           </div>
-          <p className="col-span-3 text-4xl">All Available Courses</p>
-          <div className="grid grid-cols-3 py-6 ">
-            {allCourses.map((course) => (
-              <div className="col-span-1">
-                <CourseCard courseDetail={course} />
-              </div>
-            ))}
+
+          {/* <div className="flex flex-row mx-10 my-5 justify-between">
+            <p className=" text-2xl font-bold">Courses</p>
+
+            <a
+              href="/lecture/courses/create-course"
+              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
+            >
+              Create Course
+            </a>
+          </div> */}
+
+          <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
+            {mapYourCourses(numberToMap)}
+          </div>
+          <div className="flex flex-row justify-between">
+            <p className="text-4xl max-md:text-2xl">Seluruh Kursus</p>
+            <a
+              href="/student/courses"
+              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
+            >
+              Show More
+            </a>
+          </div>
+          <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
+            {mapAllCourses(numberToMap)}
           </div>
         </div>
-        <div className="col-span-3 m-6">
+        <div className="col-span-3 m-6 max-lg:hidden">
           <Calendar value={Date.now()} />
         </div>
       </div>

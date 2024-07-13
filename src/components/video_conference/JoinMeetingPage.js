@@ -37,7 +37,7 @@ function JoinMeetingPage(props) {
       {/* <Sidenav/> */}
       <div
         className={classNames(
-          props.sideBarTrigger ? "pl-64" : "pl-0",
+          props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
           "pt-16 h-36 grid content-center justify-center w-full mb-56"
         )}
       >
