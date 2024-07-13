@@ -1,12 +1,22 @@
 import { Navigate } from "react-router-dom";
 import React from "react";
 
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
 export const Protected = ({ children }) => {
   if (!localStorage.getItem("user")) {
     return <Navigate to="/login" replace />;
   }
-
-  let role = JSON.parse(localStorage.getItem("user")).role;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(user.accessToken);
+  const role = decodedJwt.role;
+  // let role = JSON.parse(localStorage.getItem("user")).role;
   if (role != "student" && role != "admin") {
     return <Navigate to="/lecture" replace />;
   } else if (role != "lecture" && role != "admin") {
@@ -20,7 +30,9 @@ export const ProtectedFromStudent = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  let role = JSON.parse(localStorage.getItem("user")).role;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(user.accessToken);
+  const role = decodedJwt.role;
   if (role != "admin") {
     if (role == "student") {
       return <Navigate to="/student" replace />;
@@ -35,7 +47,9 @@ export const ProtectedFromLecture = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  let role = JSON.parse(localStorage.getItem("user")).role;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(user.accessToken);
+  const role = decodedJwt.role;
   if (role != "admin") {
     if (role == "lecture") {
       return <Navigate to="/lecture" replace />;
