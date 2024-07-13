@@ -27,11 +27,16 @@ function Navbar2(props) {
     setProfileDropDown(!profileDropDown);
   }
 
+  function onClickNotificationBar() {
+    setNotificationBar(!notificationBar);
+  }
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
   const [profileDropDown, setProfileDropDown] = useState(true);
+  const [notificationBar, setNotificationBar] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const user = useSelector((state) => state.user);
   const handleSearchInputChange = (e) => {
@@ -69,7 +74,7 @@ function Navbar2(props) {
 
         <div className="pt-1 px-6 ">
           <a className="" href="/">
-            <img src={LogoLong} className="h-14" />
+            <img src={LogoOnly} className="h-14" />
           </a>
         </div>
 
@@ -89,13 +94,50 @@ function Navbar2(props) {
       </div>
       <div className="flex sm:ml-10">
         <div className="pt-5 pr-2">
-          <button>
+          <button onClick={onClickNotificationBar}>
             <FontAwesomeIcon
               icon={faBell}
               size="xl"
               style={{ color: "#000000" }}
             />
           </button>
+          <div
+            className={classNames(
+              notificationBar ? " hidden" : "block",
+              "z-50 bg-slate-800 absolute w-96 -ml-[350px] text-white p-1 rounded-lg"
+            )}
+            style={{ marginTop: "20px" }}
+          >
+            <div
+              className="fixed w-screen h-screen top-0 right-0 -z-50"
+              onClick={onClickNotificationBar}
+            ></div>
+            <div className="block w-full py-3 px-3 bg-slate-800 border-b border-neutral-200">
+              {/* <p className="w-full text-center">{user.user.name}</p>
+              <p className="w-full text-center font-light text-sm italic">
+                {user.user.email}
+              </p> */}
+              <p className=" font-bold">notifikasi 1</p>
+              <p>short detail</p>
+            </div>
+            {console.log(user.user.role)}
+            {/* <a
+              href={
+                user.user.role === "student"
+                  ? "/student/profile"
+                  : "/lecture/profile"
+              }
+              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
+            >
+              Profile
+            </a>
+            <button
+              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
+              onClick={handleLogOut}
+            >
+              Sign Out
+            </button> */}
+          </div>
         </div>
 
         <div className="  pt-2 px-6">
@@ -129,7 +171,7 @@ function Navbar2(props) {
                   ? "/student/profile"
                   : "/lecture/profile"
               }
-              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
+              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
             >
               Profile
             </a>
