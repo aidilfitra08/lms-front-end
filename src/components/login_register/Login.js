@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate, Navigate } from "react-router-dom";
 import Background from "../../assets/login_bg.jpg";
+import LogoApp from "../../assets/logo_only.png";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/Credential/UserAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,10 +31,10 @@ function Login(props) {
   }
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-2 max-lg:grid-cols-1">
       {/* {props.user && alert(props.user.name + " is successfully logged in!")} */}
       <div
-        className=" bg-cover col-span-1 h-screen"
+        className=" bg-cover col-span-1 h-screen max-lg:hidden"
         // style={{ backgroundImage: "url(" + Background + ")" }}
       >
         <img
@@ -43,20 +44,33 @@ function Login(props) {
         />
       </div>
       <div className=" col-span-1 h-screen grid content-center justify-center">
-        <div className=" bg-neutral-200 shadow w-128 rounded-lg max-h-fit pb-12">
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6">
-            <div className=" space-y-2">
-              <p className=" text-3xl font-bold">Sign In</p>
-              <p className=" ">Please enter your account information below.</p>
+        <div className=" bg-neutral-200 shadow w-128 rounded-lg max-h-fit pb-12 max-lg:w-128 max-md:w-80 max-md:text-sm">
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6 ">
+            <div className="grid space-y-2 text-center justify-center">
+              <div className="col-span-1 flex justify-center items-center w-32 h-32 ml-3 my-[-20px] max-md:w-28 max-md:my-[-30px]">
+                <img src={LogoApp} alt="gfg" />
+              </div>
+
+              <p className=" col-span-1 text-3xl font-bold max-md:text-2xl">
+                Masuk
+              </p>
+              <p className=" col-span-1">Silahkan masuk disini.</p>
+
+              {/* <p className=" col-span-1 text-3xl font-bold">Masuk</p>
+              <p className=" col-span-1">Silahkan masuk disini.</p> */}
             </div>
 
-            <form className="space-y-6" method="POST" onSubmit={handleLogin}>
+            <form
+              className="space-y-6 text-base max-md:text-sm"
+              method="POST"
+              onSubmit={handleLogin}
+            >
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-base font-medium leading-6 text-gray-900"
+                  className="block font-medium leading-6 text-gray-900"
                 >
-                  Email address
+                  Email
                 </label>
                 <div className="mt-2">
                   <input
@@ -64,7 +78,8 @@ function Login(props) {
                     name="email"
                     type="email"
                     required
-                    className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Email"
+                    className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 max-md:text-sm sm:leading-6"
                     style={{ fontSize: "16px" }}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -75,16 +90,16 @@ function Login(props) {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
-                    className="block text-base font-medium leading-6 text-gray-900"
+                    className="block font-medium leading-6 text-gray-900"
                   >
                     Password
                   </label>
-                  <div className="text-base">
+                  <div className="">
                     <a
                       href="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
-                      Forgot password?
+                      Lupa password?
                     </a>
                   </div>
                 </div>
@@ -93,6 +108,7 @@ function Login(props) {
                     id="password"
                     name="password"
                     type="password"
+                    placeholder="Password"
                     autoComplete="current-password"
                     required
                     className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -119,12 +135,12 @@ function Login(props) {
                 </div>
               )}
               <p className="mt-10 text-center text-sm text-gray-500">
-                Do not have an account?{" "}
+                Belum Memiliki akun?{" "}
                 <a
                   href="register"
                   className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                 >
-                  Register Here
+                  Daftar disini
                 </a>
               </p>
 
@@ -139,7 +155,7 @@ function Login(props) {
                       <FontAwesomeIcon icon={faSpinner} size="lg" />
                     </span>
                   )}
-                  Sign in
+                  Masuk
                 </button>
               </div>
             </form>
