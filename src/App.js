@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import Homepage from "./components/students/Homepage";
+import HomepageLecture from "./components/lecture/Homepage";
 import Login from "./components/login_register/Login";
 // import SimpleVideoConference from "./components/video_conference/simpleVideoConference";
 import Navbar2 from "./components/navbar/navbar2";
@@ -33,6 +34,8 @@ import Profile from "./components/profile/profile";
 import { useDispatch } from "react-redux";
 import { userLogout } from "./redux/Credential/UserAction";
 import EnrollPage from "./components/students/CoursePage/EnrollPage";
+import Calendar from "./components/calendar/calendar";
+import CourseDiscussion from "./components/lecture/Course Discussion/CourseDiscussion";
 
 const parseJwt = (token) => {
   try {
@@ -63,7 +66,9 @@ function App() {
       }
     }
   }, []);
-  const [sideBarTrigger, setSideBarTrigger] = useState(true);
+  const [sideBarTrigger, setSideBarTrigger] = useState(
+    window.innerWidth <= 768 ? false : true
+  );
   return (
     <Router>
       {/* <Navbar /> */}
@@ -123,6 +128,15 @@ function App() {
             element={
               <>
                 <Profile sideBarTrigger={sideBarTrigger} />
+                <Footer sideBarTrigger={sideBarTrigger} />
+              </>
+            }
+          />
+          <Route
+            path="calendar"
+            element={
+              <>
+                <Calendar sideBarTrigger={sideBarTrigger} />
                 <Footer sideBarTrigger={sideBarTrigger} />
               </>
             }
@@ -188,12 +202,16 @@ function App() {
         >
           <Route
             path=""
-            element={<Homepage sideBarTrigger={sideBarTrigger} />}
+            element={<HomepageLecture sideBarTrigger={sideBarTrigger} />}
           />
           <Route path="courses">
             <Route
               path="create-course"
               element={<CreateCourse sideBarTrigger={sideBarTrigger} />}
+            />
+            <Route
+              path="course-page"
+              element={<CourseDiscussion sideBarTrigger={sideBarTrigger} />}
             />
             <Route
               path="edit-course"
