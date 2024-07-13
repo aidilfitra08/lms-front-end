@@ -6,11 +6,18 @@ import {
   faChartLine,
   faEnvelope,
   faHouseChimney,
+  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 function Sidenav(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -25,7 +32,11 @@ function Sidenav(props) {
   ];
   let navigate = useNavigate();
   const loading = useSelector((state) => state.user.loading);
-  const role = useSelector((state) => state.user.user.role);
+  const token = useSelector((state) => state.user.user.accessToken);
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(token);
+  const role = decodedJwt.role;
+
   const handleConference = () => {
     axios
       .post(process.env.REACT_APP_BASE_URL + "/apiv1/conference/create-room")
@@ -45,8 +56,8 @@ function Sidenav(props) {
   return (
     <aside
       className={classNames(
-        props.sideBarTrigger ? " bg-neutral-300" : " hidden",
-        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto"
+        props.sideBarTrigger ? " " : " hidden",
+        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl"
       )}
     >
       <a
@@ -74,7 +85,7 @@ function Sidenav(props) {
         <span className="hidden md:inline">Your Courses</span>
       </a>
       <a
-        href="/student/homepage"
+        href="/student/calendar"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-5" />
@@ -87,13 +98,13 @@ function Sidenav(props) {
         <FontAwesomeIcon icon={faChartLine} size="lg" className="px-5" />
         <span className="hidden md:inline">Activities</span>
       </a>
-      <a
+      {/* <a
         href="/student/homepage"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
         <span className="hidden md:inline">Messages (Lecture & Student)</span>
-      </a>
+      </a> */}
       {role === "lecture" && (
         <a
           href="/lecture/courses/create-course"
@@ -109,11 +120,11 @@ function Sidenav(props) {
           className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
         >
           <FontAwesomeIcon
-            icon={faEnvelope}
+            icon={faVideo}
             size="lg"
-            className="px-5 md:-ml-12"
+            className="px-5 md:-ml-28"
           />
-          <span className="hidden md:inline">Conference (Lecture)</span>
+          <span className="hidden md:inline">Conference</span>
         </button>
       )}
       {role === "student" && (
