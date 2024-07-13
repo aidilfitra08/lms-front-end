@@ -101,7 +101,7 @@ function Homepage(props) {
           <div className="flex flex-row justify-between">
             <p className="text-4xl max-md:text-2xl">Seluruh Kursus</p>
             <a
-              href="/student/courses"
+              href="/lecture/courses"
               className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
             >
               Show More
