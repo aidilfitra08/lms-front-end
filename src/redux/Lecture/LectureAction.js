@@ -320,6 +320,7 @@ export const getCourseDetail = (courseID) => {
       )
       .then((res) => {
         if (res.status == 201) {
+          console.log("berhasil");
           dispatch(courseDetail(res.data.payload));
         }
       })

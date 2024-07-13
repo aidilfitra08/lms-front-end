@@ -141,12 +141,15 @@ export const createCourseReducer = (state = initialState, action) => {
         language: action.payload.language,
         thumbnail: action.payload.thumbnail,
         enrollCode: action.payload.enrollCode,
+        courseStatus: action.payload.courseStatus,
+        lectureBy: action.payload.User.name,
       };
       state.sections = action.payload.Sections;
       return {
         ...state,
         loading: false,
         errorMessage: "",
+
         // courses: action.payload,
       };
 
@@ -155,6 +158,7 @@ export const createCourseReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         errorMessage: "",
+        requestSuccess: true,
       };
 
     case DELETE_LESSON_STATE:
