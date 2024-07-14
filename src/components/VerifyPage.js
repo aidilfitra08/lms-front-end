@@ -20,7 +20,6 @@ function VerifyPage(props) {
           alert(
             "Email anda berhasil di verifikasi, anda akan diarahkan ke halaman login."
           );
-          // console.log("berhasil");
         }
 
         // return <Navigate to="/lecture/courses" />;
