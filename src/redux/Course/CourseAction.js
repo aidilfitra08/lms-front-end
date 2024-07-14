@@ -106,7 +106,7 @@ export const fetchDiscussion = (courseID) => {
 export const postTopic = (data) => {
   const user = localStorage.getItem("user");
   let userDetail = JSON.parse(user);
-  // console.log(data);
+  console.log(data);
   return (dispatch) => {
     dispatch(makeRequest());
     let payload = {
@@ -116,7 +116,7 @@ export const postTopic = (data) => {
     axios
       .post(
         process.env.REACT_APP_BASE_URL +
-          `/apiv1/lecture/create-course?courseID=${data.courseID}`,
+          `/apiv1/new-discussion-topic?courseID=${data.courseID}`,
         payload,
         {
           headers: {
@@ -176,7 +176,7 @@ export const postReply = (data) => {
     axios
       .post(
         process.env.REACT_APP_BASE_URL +
-          `/apiv1/lecture/create-course?discussionID=${data.discussionID}`,
+          `/apiv1/new-reply-discussion?discussionID=${data.discussionID}`,
         payload,
         {
           headers: {

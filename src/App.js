@@ -36,6 +36,7 @@ import { userLogout } from "./redux/Credential/UserAction";
 import EnrollPage from "./components/students/CoursePage/EnrollPage";
 import Calendar from "./components/calendar/calendar";
 import CourseDiscussion from "./components/lecture/Course Discussion/CourseDiscussion";
+import VerifyPage from "./components/VerifyPage";
 
 const parseJwt = (token) => {
   try {
@@ -75,7 +76,7 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-
+        <Route path="verify-email" element={<VerifyPage />} />
         <Route
           path=""
           element={

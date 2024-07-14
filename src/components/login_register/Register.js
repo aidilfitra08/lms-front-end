@@ -40,7 +40,9 @@ function Register(props) {
 
   useEffect(() => {
     if (props.isRegistered) {
-      alert("Akun berhasil didaftarkan, silahkan login.");
+      alert(
+        "Akun berhasil didaftarkan, silahkan cek email anda untuk verifikasi."
+      );
 
       navigate(`/login`, { replace: true });
       window.location.reload(true);

@@ -8,9 +8,15 @@ import {
   faHouseChimney,
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { fetchCourse } from "../../redux/Student/StudentAction";
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -22,6 +28,10 @@ function Sidenav(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+  const dispatch = useDispatch();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const courseID = searchParams.get("courseID");
 
   const [coursesDropDown, setCoursesDropDown] = useState(false);
   const navigation = [
@@ -31,6 +41,7 @@ function Sidenav(props) {
     { name: "Calendar", href: "#", current: false },
   ];
   let navigate = useNavigate();
+
   const loading = useSelector((state) => state.user.loading);
   const token = useSelector((state) => state.user.user.accessToken);
   // const user = JSON.parse(localStorage.getItem("user"));
@@ -53,11 +64,16 @@ function Sidenav(props) {
   const location = useLocation();
   let sections = useSelector((state) => state.studenCourse);
   console.log(sections);
+
+  // useEffect(() => {
+  //   dispatch(fetchCourse(courseID));
+  // }, []);
+  console.log(props.courseDetail);
   return (
     <aside
       className={classNames(
         props.sideBarTrigger ? " " : " hidden",
-        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl"
+        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl bg-white"
       )}
     >
       <a
@@ -84,20 +100,20 @@ function Sidenav(props) {
         <FontAwesomeIcon icon={faBook} size="lg" className="px-5" />
         <span className="hidden md:inline">Your Courses</span>
       </a>
-      <a
+      {/* <a
         href="/student/calendar"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-5" />
         <span className="hidden md:inline">Calendar</span>
-      </a>
-      <a
+      </a> */}
+      {/* <a
         href="/student/homepage"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
         <FontAwesomeIcon icon={faChartLine} size="lg" className="px-5" />
         <span className="hidden md:inline">Activities</span>
-      </a>
+      </a> */}
       {/* <a
         href="/student/homepage"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
@@ -132,12 +148,12 @@ function Sidenav(props) {
           href="/student/join-conference"
           className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
         >
-          <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
+          <FontAwesomeIcon icon={faVideo} size="lg" className="px-5" />
           <span className="hidden md:inline">Join Conference</span>
         </a>
       )}
 
-      {location.pathname == "/student/courses" ? (
+      {/* {location.pathname == "/student/courses" ? (
         <div>
           <hr className="py-[1px] mx-3 my-4 bg-black" />
           <p className="w-full bg-yellow-400 block py-4"> Your Class</p>
@@ -149,129 +165,40 @@ function Sidenav(props) {
             Class Page 1
           </a>
         </div>
-      ) : null}
+      ) : null} */}
 
-      {location.pathname == "/student/courses/course-page" ? (
+      {location.pathname == "/student/courses/course-page" &&
+      props.enrollmentStatus ? (
         <div>
           <hr className="py-[1px] mx-3 my-4 bg-black" />
-          <p className="w-full bg-yellow-300 block py-4"> Section</p>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
-          <a
-            href="/student/courses/course-page/sections"
-            className="w-full bg-yellow-300 block py-4 hover:bg-yellow-100"
-          >
-            {" "}
-            Section 1
-          </a>
+          <p className="w-full  block py-4 px-3"> Section</p>
+          {props.courseDetail.Sections.map((section) => {
+            return (
+              <a
+                href={
+                  "/student/courses/course-page/sections?sectionID=" +
+                  section.sectionID
+                }
+                className="w-full hover:bg-yellow-300 block py-4 pl-4 font-semibold"
+              >
+                {section.title}
+              </a>
+            );
+          })}
         </div>
       ) : null}
-      <p>Current Pathname: {location.pathname}</p>
+      {/* <p>Current Pathname: {location.pathname}</p> */}
     </aside>
   );
 }
 
-export default Sidenav;
+const mapStateToProps = (state) => {
+  return {
+    courseDetail: state.student.courseDetail,
+    loading: state.student.loading,
+    errorMessage: state.student.errorMessage,
+    enrollmentStatus: state.student.enrollmentStatus,
+  };
+};
+
+export default connect(mapStateToProps)(Sidenav);

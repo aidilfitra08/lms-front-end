@@ -5,8 +5,20 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
 function VideoConference2(props) {
   const user = useSelector((state) => state.user);
+  console.log(user);
+  const decodedJwt = parseJwt(user.user.accessToken);
+  console.log(decodedJwt);
+  const userRole = decodedJwt.role;
   const navigate = useNavigate();
   // const [name, setName] = useState("");
   const { meetingId } = useParams();
@@ -14,7 +26,7 @@ function VideoConference2(props) {
   console.log(meetingId);
   // }, []);
   // console.log(user);
-  const userRole = JSON.parse(localStorage.getItem("user")).role;
+  // const userRole = JSON.parse(localStorage.getItem("user"));
 
   let userPermission = {
     pin: true,
@@ -25,7 +37,7 @@ function VideoConference2(props) {
     toggleParticipantMode: false, // Can toggle other participant's mode
     canCreatePoll: false, // Can create a poll
     toggleHls: false, // Can toggle Start HLS button
-    drawOnWhiteboard: true, // Can draw on whiteboard
+    drawOnWhiteboard: false, // Can draw on whiteboard
     toggleWhiteboard: false, // Can toggle whiteboard
     toggleVirtualBackground: true, // Can toggle virtual background
     toggleRecording: false, // Can toggle meeting recording
@@ -58,7 +70,7 @@ function VideoConference2(props) {
   const config = {
     name: user.user.name,
     meetingId: meetingId,
-    apiKey: "a7a4af88-1b97-45e0-bffb-0d4a729ceccc",
+    apiKey: process.env.REACT_APP_VIDEOSDK_API_KEY,
 
     containerId: null,
     // redirectOnLeave: "/",
@@ -83,10 +95,10 @@ function VideoConference2(props) {
     //   awsDirPath: `/meeting-recordings/${meetingId}/`, // automatically save recording in this s3 path
     // },
 
-    // livestream: {
-    //   autoStart: true,
-    //   enabled: true,
-    // },
+    livestream: {
+      autoStart: true,
+      enabled: true,
+    },
     hls: {
       enabled: true,
       autoStart: false,
@@ -100,7 +112,7 @@ function VideoConference2(props) {
       enabled: true,
       logoURL:
         "https://static.zujonow.com/videosdk.live/videosdk_logo_circle_big.png",
-      name: "Prebuilt",
+      name: "Meeting",
       poweredBy: false,
     },
     permissions: userPermission,
@@ -130,6 +142,7 @@ function VideoConference2(props) {
    Other Feature Properties
     
     */
+    theme: "DARK", // DARK || LIGHT || DEFAULT
   };
   useEffect(() => {
     axios

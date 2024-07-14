@@ -10,8 +10,8 @@ export const EVENTS = [
   {
     event_id: 2,
     title: "Event 2",
-    start: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
-    end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
+    start: new Date(new Date(new Date().setHours(0)).setMinutes(0)),
+    end: new Date(new Date(new Date().setHours(0)).setMinutes(0)),
     admin_id: 2,
     color: "#50b500",
   },
