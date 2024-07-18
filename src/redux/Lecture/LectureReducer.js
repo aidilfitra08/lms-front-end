@@ -16,6 +16,8 @@ import {
   DELETE_SECTION_STATE,
   UPDATE_LESSON_STATE,
   UPDATE_SECTIONS_STATE,
+  LOADING_PERCENTAGE_THUMBNAIL,
+  RESET_LOADING_PERCENTAGE,
 } from "./LectureActionTypes";
 
 const initialState = {
@@ -36,6 +38,7 @@ const initialState = {
     public_id: "",
   },
   loadingPercentage: 0,
+  loadingPercentageThumbnail: 0,
   courses: [],
   sectionDeleted: [],
   lessonDeleted: [],
@@ -53,11 +56,22 @@ export const createCourseReducer = (state = initialState, action) => {
         ...state,
         loadingPercentage: action.payload,
       };
+    case RESET_LOADING_PERCENTAGE:
+      return {
+        ...state,
+        loadingPercentage: 0,
+      };
+    case LOADING_PERCENTAGE_THUMBNAIL:
+      return {
+        ...state,
+        loadingPercentageThumbnail: action.payload,
+      };
     case UPLOAD_VIDEO_CLOUDINARY_SUCCESS:
       // state.loadingBar++;
       return {
         ...state,
         loading: false,
+        loadingPercentageThumbnail: 100,
         loadingPercentage: 100,
         tempCloudinaryData: {
           url: action.payload.url,

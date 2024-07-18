@@ -139,7 +139,7 @@ function SectionPage(props) {
             {sectionsOption[focusLessonType.sectionsOption]}
           </div>
           <div className="col-span-1 max-md:col-span-4  bg-white px-6 rounded-xl my-8">
-            <p className="pt-6 pb-4">Lessons</p>
+            <p className="pt-6 pb-4">Materi</p>
             <div className="relative h-full">
               <div className=" text-lg space-y-3 absolute h-[86%] w-full overflow-x-hidden overflow-y-auto">
                 <ul className="list-none space-y-2">

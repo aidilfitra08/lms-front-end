@@ -6,6 +6,8 @@ import {
   editProfile,
   fetchProfile,
 } from "../../redux/Credential/UserAction";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function Profile(props) {
   function classNames(...classes) {
@@ -36,6 +38,7 @@ function Profile(props) {
 
   console.log(props.profile.dateBirth);
   const [clickedButton, setClickedButton] = useState(false);
+  const [photo, setPhoto] = useState(null);
   const editButton = () => {
     setClickedButton(!clickedButton);
     setName(props.profile.name);
@@ -75,6 +78,7 @@ function Profile(props) {
       setPassCheck(true);
     }
   }, [password, confirmPassword]);
+  console.log(photo);
   return (
     <div
       className={classNames(
@@ -96,14 +100,21 @@ function Profile(props) {
         <div className="grid grid-cols-12 max-lg:grid-cols-1">
           <div className="col-span-5 max-lg:col-span-1 space-y-6">
             <div className="space-y-5 grid justify-items-stretch">
-              <label htmlFor="profilePicture" className="mb-1">
+              {/* <label htmlFor="profilePicture" className="mb-1">
                 Profile Picture
-              </label>
-              <img
-                src={ProfilePicture}
-                className="h-40 rounded-full object-contain justify-self-center"
-              />
-              <div
+              </label> */}
+              {photo === null ? (
+                <div className="h-40 w-40 rounded-full object-contain justify-self-center bg-slate-200 content-center text-center">
+                  <FontAwesomeIcon icon={faUser} size="2xl" className="" />
+                </div>
+              ) : (
+                <img
+                  src={URL.createObjectURL(photo)}
+                  className="h-40 rounded-full object-contain justify-self-center"
+                />
+              )}
+
+              {/* <div
                 className="relative"
                 hidden={clickedButton === true ? false : true}
               >
@@ -117,7 +128,21 @@ function Profile(props) {
                   placeholder="Profile picture link"
                   value={ProfilePicture}
                 />
-              </div>
+                <div className="space-y-2 w-full">
+                  <label htmlFor="photo">Upload Photo</label>
+                  <input
+                    id="photo"
+                    name="photo"
+                    type="file"
+                    required
+                    // disabled={props.disableText}
+                    accept="image/png, image/jpeg"
+                    className="block w-full"
+                    // value={Photo}
+                    onChange={(event) => setPhoto(event.target.files[0])}
+                  />
+                </div>
+              </div> */}
               <div
                 className="space-y-2"
                 hidden={clickedButton === true ? false : true}
@@ -131,7 +156,7 @@ function Profile(props) {
                 className="space-y-2"
                 hidden={clickedButton === true ? false : true}
               >
-                <label htmlFor="oldPassword">Old Password</label>
+                <label htmlFor="oldPassword">Password Lama</label>
                 <div className="relative">
                   <input
                     id="oldPassword"
@@ -170,7 +195,7 @@ function Profile(props) {
                 className="space-y-2"
                 hidden={clickedButton === true ? false : true}
               >
-                <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">Konfirmasi Password</label>
                 <div className="relative">
                   <input
                     id="confirmPassword"
@@ -188,7 +213,7 @@ function Profile(props) {
                 </div>
               </div>
               <p className={classNames(passCheck ? "hidden" : " text-red-700")}>
-                Your password and confirmation password do not match.
+                Password Anda tidak cocok dengan konfirmasi password
               </p>
             </div>
           </div>

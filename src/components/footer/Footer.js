@@ -1,10 +1,22 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
 function Footer(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
+  const token = useSelector((state) => state.user.user.accessToken);
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(token);
+  const role = decodedJwt.role;
   return (
     <footer
       className={classNames(
@@ -14,9 +26,16 @@ function Footer(props) {
     >
       <div className="grid grid-cols-2 py-6 px-10 mt-12">
         <div className="col-span-1">
-          <a href="homepage" className="block">
-            Home
-          </a>
+          {role === "lecture" && (
+            <a href="/lecture" className="block">
+              Home
+            </a>
+          )}
+          {role === "student" && (
+            <a href="/student" className="block">
+              Home
+            </a>
+          )}
         </div>
         <div className="col-span-1">
           <p className="">Need Help? </p>

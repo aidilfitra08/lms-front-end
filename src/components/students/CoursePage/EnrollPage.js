@@ -21,11 +21,13 @@ function EnrollPage(props) {
   const navigate = useNavigate();
   const [enrollKey, setEnrollKey] = useState("");
   if (searchParams.size === 0) {
-    navigate("/student/courses", { replace: true });
+    navigate("/student/all-courses", { replace: true });
+    // window.location.reload(true);
+  } else if (props.enrollmentStatus === true) {
+    navigate(`/student/course-page?courseID=${courseID}`, { replace: true });
     // window.location.reload(true);
   }
-  // const courseState = useSelector((state) => state.studentCourse);
-  // const courseDetail = courseState.courseDetail;
+
   const handleEnroll = () => {
     dispatch(enrollMe(courseID, enrollKey));
   };
@@ -37,9 +39,6 @@ function EnrollPage(props) {
 
   useEffect(() => {
     if (props.enrollmentStatus === true) {
-      navigate(`/student/courses/course-page?courseID=${courseID}`, {
-        replace: true,
-      });
     }
   }, [props.enrollmentStatus]);
 

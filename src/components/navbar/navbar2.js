@@ -12,9 +12,17 @@ import ProfilePicture from "../../assets/me.jpg";
 import LogoLong from "../../assets/logo_long.png";
 import LogoOnly from "../../assets/logo_only.png";
 import LogoScript from "../../assets/logo_script.png";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/Credential/UserAction";
 import { useNavigate, Navigate } from "react-router-dom";
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
 function Navbar2(props) {
   const navigate = useNavigate();
@@ -59,7 +67,9 @@ function Navbar2(props) {
   if (searchInput.length > 0) {
     console.log(searchInput);
   }
-
+  const token = useSelector((state) => state.user.user.accessToken);
+  const decodedJwt = parseJwt(token);
+  const role = decodedJwt.role;
   return (
     <nav className="bg-white shadow fixed inset-x-0 w-screen h-16 flex flex-row text-center sm:flex-row sm:text-left justify-between items-center z-40 pr-2 sm:pr-10">
       <div className="flex">
@@ -93,59 +103,18 @@ function Navbar2(props) {
         </div> */}
       </div>
       <div className="flex sm:ml-10">
-        <div className="pt-5 pr-2">
-          <button onClick={onClickNotificationBar}>
-            <FontAwesomeIcon
-              icon={faBell}
-              size="xl"
-              style={{ color: "#000000" }}
-            />
-          </button>
-          <div
-            className={classNames(
-              notificationBar ? " hidden" : "block",
-              "z-50 bg-slate-800 absolute w-96 -ml-[350px] text-white p-1 rounded-lg"
-            )}
-            style={{ marginTop: "20px" }}
-          >
-            <div
-              className="fixed w-screen h-screen top-0 right-0 -z-50"
-              onClick={onClickNotificationBar}
-            ></div>
-            <div className="block w-full py-3 px-3 bg-slate-800 border-b border-neutral-200">
-              {/* <p className="w-full text-center">{user.user.name}</p>
-              <p className="w-full text-center font-light text-sm italic">
-                {user.user.email}
-              </p> */}
-              <p className=" font-bold">notifikasi 1</p>
-              <p>short detail</p>
-            </div>
-            {console.log(user.user.role)}
-            {/* <a
-              href={
-                user.user.role === "student"
-                  ? "/student/profile"
-                  : "/lecture/profile"
-              }
-              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600"
-            >
-              Profile
-            </a>
-            <button
-              className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
-              onClick={handleLogOut}
-            >
-              Sign Out
-            </button> */}
-          </div>
-        </div>
-
         <div className="  pt-2 px-6">
           <button onClick={onClickDropdown}>
-            <img
-              src={ProfilePicture}
-              className=" h-12 rounded-full object-contain"
-            />
+            {props.photo === null ? (
+              <div className="h-12 rounded-full bg-slate-200 w-12 content-center -mt-1">
+                <FontAwesomeIcon icon={faUser} />
+              </div>
+            ) : (
+              <img
+                src={ProfilePicture}
+                className=" h-12 rounded-full object-contain"
+              />
+            )}
           </button>
           <div
             className={classNames(
@@ -159,27 +128,25 @@ function Navbar2(props) {
               onClick={onClickDropdown}
             ></div>
             <div className="block w-full py-3 px-3 bg-slate-800 border-b border-neutral-200">
-              <p className="w-full text-center">{user.user.name}</p>
-              <p className="w-full text-center font-light text-sm italic">
+              <p className="w-full">{user.user.name}</p>
+              <p className="w-full font-light text-sm italic">
                 {user.user.email}
               </p>
             </div>
             {console.log(user.user.role)}
             <a
               href={
-                user.user.role === "student"
-                  ? "/student/profile"
-                  : "/lecture/profile"
+                role === "student" ? "/student/profile" : "/lecture/profile"
               }
               className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
             >
-              Profile
+              Profil Anda
             </a>
             <button
               className="block w-full py-3 px-3 bg-slate-800 hover:bg-slate-600 text-left"
               onClick={handleLogOut}
             >
-              Sign Out
+              Keluar
             </button>
           </div>
         </div>
@@ -188,6 +155,10 @@ function Navbar2(props) {
   );
 }
 
-Navbar2.propTypes = {};
+const mapStateToProps = (state) => {
+  return {
+    photo: state.user.user.photo,
+  };
+};
 
-export default Navbar2;
+export default connect(mapStateToProps)(Navbar2);

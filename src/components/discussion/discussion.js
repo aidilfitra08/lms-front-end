@@ -133,7 +133,7 @@ function Discussion(props) {
             }}
           >
             {" "}
-            <FontAwesomeIcon icon={faPen} className="pr-1" /> Topic Baru
+            <FontAwesomeIcon icon={faPen} className="pr-1" /> Tambahkan
           </button>
         </div>
       </div>

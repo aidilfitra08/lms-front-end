@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
+  faBookmark,
   faCalendarDays,
   faChartLine,
   faEnvelope,
   faHouseChimney,
+  faPen,
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -73,7 +75,7 @@ function Sidenav(props) {
     <aside
       className={classNames(
         props.sideBarTrigger ? " " : " hidden",
-        "pt-16 w-64 max-md:w-16 h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl bg-white"
+        "pt-16 w-64  h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl bg-white"
       )}
     >
       <a
@@ -83,23 +85,33 @@ function Sidenav(props) {
         <FontAwesomeIcon
           icon={faHouseChimney}
           size="lg"
-          className="px-5 pr-[16px]"
+          className="px-5 pr-5"
         />
-        <span className="hidden md:inline">Homepage</span>
+        <span className=" md:inline">Halaman Utama</span>
       </a>
       <a
         href={
           role === "student"
-            ? "/student/courses"
+            ? "/student/joined-courses"
             : role === "lecture"
             ? "/lecture/courses"
             : "/"
         }
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
       >
-        <FontAwesomeIcon icon={faBook} size="lg" className="px-5" />
-        <span className="hidden md:inline">Your Courses</span>
+        <FontAwesomeIcon icon={faBookmark} size="lg" className="px-6" />
+        <span className=" md:inline">Kursus Anda</span>
       </a>
+      {role === "student" && (
+        <a
+          href="/student/all-courses"
+          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+        >
+          <FontAwesomeIcon icon={faBook} size="lg" className="px-6" />
+          <span className=" md:inline">Semua Kursus</span>
+        </a>
+      )}
+
       {/* <a
         href="/student/calendar"
         className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
@@ -126,8 +138,8 @@ function Sidenav(props) {
           href="/lecture/courses/create-course"
           className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
         >
-          <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
-          <span className="hidden md:inline">Create Course</span>
+          <FontAwesomeIcon icon={faPen} size="lg" className="px-5" />
+          <span className=" md:inline">Buat Kursus</span>
         </a>
       )}
       {role === "lecture" && (
@@ -135,12 +147,8 @@ function Sidenav(props) {
           onClick={handleConference}
           className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
         >
-          <FontAwesomeIcon
-            icon={faVideo}
-            size="lg"
-            className="px-5 md:-ml-28"
-          />
-          <span className="hidden md:inline">Conference</span>
+          <FontAwesomeIcon icon={faVideo} size="lg" className="pr-4  -ml-16" />
+          <span className=" md:inline ">Buat Pertemuan</span>
         </button>
       )}
       {role === "student" && (
@@ -148,8 +156,8 @@ function Sidenav(props) {
           href="/student/join-conference"
           className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
         >
-          <FontAwesomeIcon icon={faVideo} size="lg" className="px-5" />
-          <span className="hidden md:inline">Join Conference</span>
+          <FontAwesomeIcon icon={faVideo} size="lg" className="pl-6 pr-5" />
+          <span className=" md:inline">Gabung Pertemuan</span>
         </a>
       )}
 

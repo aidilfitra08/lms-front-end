@@ -98,18 +98,6 @@ function Homepage(props) {
           <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
             {mapYourCourses(numberToMap)}
           </div>
-          <div className="flex flex-row justify-between">
-            <p className="text-4xl max-md:text-2xl">Seluruh Kursus</p>
-            <a
-              href="/lecture/courses"
-              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
-            >
-              Show More
-            </a>
-          </div>
-          <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
-            {/* {mapAllCourses(numberToMap)} */}
-          </div>
         </div>
         <div className="col-span-3 m-6 max-lg:hidden">
           <Calendar value={Date.now()} />

@@ -116,7 +116,7 @@ function LessonComponent(props) {
     (state) => state.lecture.tempCloudinaryData
   );
   const loadingPercentage = useSelector(
-    (state) => state.lecture.loadingPercentage
+    (state) => state.lecture.loadingPercentageThumbnail
   );
   const loading = useSelector((state) => state.lecture.loading);
   const errorMessage = useSelector((state) => state.lecture.errorMessage);
@@ -128,6 +128,7 @@ function LessonComponent(props) {
     dispatch(uploadVideo(videoFile));
     setVideoLink(cloudinaryLink.url);
     setpublicId(cloudinaryLink.public_id);
+    // setUploadClick(false);
   }
   function renderSwitch(lessonType) {
     switch (lessonType) {
@@ -143,7 +144,7 @@ function LessonComponent(props) {
               onChange={(event) => setVideoType(event.target.value)}
             >
               <option selected>Select Video Type</option>
-              <option value="html">HTML5(mp4)</option>
+              {/* <option value="html">HTML5(mp4)</option> */}
               <option value="externalURL">External URL</option>
               <option value="yt">Youtube</option>
               <option value="embedded">embedded</option>
@@ -329,6 +330,7 @@ function LessonComponent(props) {
           className="block w-full bg-yellow-400 p-3 rounded-md hover:bg-yellow-200"
           onClick={() => {
             onSaveLesson(props.indexSection);
+            setVideoFile(null);
           }}
         >
           Save Lesson

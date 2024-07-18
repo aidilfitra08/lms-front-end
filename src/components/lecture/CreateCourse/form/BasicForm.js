@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { addBasicInformData } from "../../../../redux/Lecture/LectureAction";
+import {
+  addBasicInformData,
+  uploadPhoto,
+} from "../../../../redux/Lecture/LectureAction";
 
 function BasicForm(props) {
   function classNames(...classes) {
@@ -15,10 +18,27 @@ function BasicForm(props) {
   const [description, setDescription] = useState(basicForm.description);
   const [courseLanguage, setCourseLanguage] = useState(basicForm.language);
   const [category, setCategory] = useState(basicForm.category);
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [thumbnail, setThumbnail] = useState(basicForm.thumbnail);
   const [titleCounter, setTitleCounter] = useState(100);
-
+  const cloudinaryLink = useSelector(
+    (state) => state.lecture.tempCloudinaryData
+  );
+  let loadingPercentage = useSelector(
+    (state) => state.lecture.loadingPercentage
+  );
+  const [uploadClick, setUploadClick] = useState(false);
   const dispatch = useDispatch();
+
+  function onUpload() {
+    setUploadClick(true);
+    // console.log(videoFile);
+    // console.log(videoFile[0]);
+    dispatch(uploadPhoto(thumbnailFile));
+    setThumbnail(cloudinaryLink.url);
+    // setpublicId(cloudinaryLink.public_id);
+  }
+
   useEffect(() => {
     setTitleCounter(100 - title.length);
   }, [title]);
@@ -69,8 +89,30 @@ function BasicForm(props) {
               accept=".jpg"
               required
               className="block w-full"
-              onChange={(event) => setThumbnail(event.target.files[0])}
+              onChange={(event) => setThumbnailFile(event.target.files[0])}
             />
+          </div>
+          <div className="col-span-1 ">
+            {uploadClick && (
+              <progress
+                value={loadingPercentage}
+                max={100}
+                className="my-2 w-full"
+              >
+                32%
+              </progress>
+            )}
+            {loadingPercentage == 100 && (
+              <p className=" text-center">Upload Complete</p>
+            )}
+            {thumbnailFile != null && loadingPercentage != 100 && (
+              <button
+                className="block bg-yellow-400 py-2 px-5 mt-2 w-full"
+                onClick={onUpload}
+              >
+                Upload
+              </button>
+            )}
           </div>
         </div>
         <div className="space-y-2">

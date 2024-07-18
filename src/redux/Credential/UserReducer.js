@@ -1,6 +1,7 @@
 import {
   ADD_PROFILE_STATE,
   FAIL_REQUEST,
+  LOADING_PERCENTAGE,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -9,6 +10,7 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   SUCCESS_REQUEST,
+  UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
 } from "./UserActionTypes";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -113,6 +115,23 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+      };
+
+    case LOADING_PERCENTAGE:
+      return {
+        ...state,
+        loadingPercentage: action.payload,
+      };
+    case UPLOAD_VIDEO_CLOUDINARY_SUCCESS:
+      // state.loadingBar++;
+      return {
+        ...state,
+        loading: false,
+        loadingPercentage: 100,
+        tempCloudinaryData: {
+          url: action.payload.url,
+          public_id: action.payload.public_id,
+        },
       };
     default:
       return state;

@@ -18,6 +18,8 @@ import {
   DELETE_SECTION_STATE,
   UPDATE_LESSON_STATE,
   UPDATE_SECTIONS_STATE,
+  LOADING_PERCENTAGE_THUMBNAIL,
+  RESET_LOADING_PERCENTAGE,
 } from "./LectureActionTypes";
 
 export const addBasicInformData = (basicInformData) => {
@@ -100,6 +102,12 @@ const loadingUpdate = (percentage) => {
     payload: percentage,
   };
 };
+const loadingUpdateThumbnail = (percentage) => {
+  return {
+    type: LOADING_PERCENTAGE_THUMBNAIL,
+    payload: percentage,
+  };
+};
 const postCourseSuccess = () => {
   return {
     type: POST_COURSE_SUCCESS,
@@ -131,6 +139,12 @@ const courseDetail = (data) => {
   return {
     type: COURSE_DETAIL,
     payload: data,
+  };
+};
+
+export const resetLoadingPercentage = () => {
+  return {
+    type: RESET_LOADING_PERCENTAGE,
   };
 };
 
@@ -170,6 +184,65 @@ export const uploadVideo = (data) => {
     };
     axiosInstance
       .post("/video/upload", formData, options)
+      .then((res) => {
+        let data = {
+          url: res.data.secure_url,
+          public_id: res.data.public_id,
+        };
+        dispatch(uploadCloudinarySuccess(data));
+        // console.log(res);
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
+export const uploadPhoto = (data) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(user.accessToken);
+  const userId = decodedJwt.userID;
+  var sha1 = require("sha1");
+  let public_id = `photo_${userId}`;
+  let api_key = "891875937589394";
+  let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
+  let timestamp = Date.now();
+  let folder = `skripsi/photo/course_user${userId}`;
+  let signature = sha1(
+    `folder=${folder}&public_id=${public_id}&timestamp=${timestamp}${api_secret}`
+  );
+  const formData = new FormData();
+  formData.append("file", data);
+  formData.append("api_key", api_key);
+  formData.append("timestamp", timestamp);
+  formData.append("signature", signature);
+  formData.append("folder", folder);
+  formData.append("public_id", public_id);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_CLOUDINARY_URL,
+    });
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+
+        if (percent < 100) {
+          dispatch(loadingUpdateThumbnail(percent));
+        }
+      },
+    };
+    axiosInstance
+      .post("/image/upload", formData, options)
       .then((res) => {
         let data = {
           url: res.data.secure_url,

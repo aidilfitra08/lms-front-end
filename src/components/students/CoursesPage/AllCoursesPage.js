@@ -9,16 +9,16 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-function CoursesPage(props) {
+function AllCoursesPage(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-  const courses = props.course.allJoinedCourses;
+  const courses = props.course.allCourses;
   const dispatch = useDispatch();
   // const courses = useSelector((state)=>state.studentCourse.allCourses)
   const testingCoursesMap = [1, 2, 3, 4, 5];
   useEffect(() => {
-    dispatch(fetchAllJoinedCourses());
+    dispatch(fetchAllCourses());
   }, []);
   return (
     <div
@@ -28,7 +28,7 @@ function CoursesPage(props) {
       )}
     >
       <div className="grid grid-cols-1 mt-6 space-y-2">
-        <p className="text-4xl col-span-1">Your Joined Courses</p>
+        <p className="text-4xl col-span-1">Semua Kursus</p>
         {/* <div className=" col-span-1 h-36 p-5">
           <div className="border-2 border-neutral-300 p-4">
             <p className="  text-lg font-normal">Course Complete</p>
@@ -83,4 +83,4 @@ const mapStateToProps = (state) => {
 //   }
 // }
 
-export default connect(mapStateToProps)(CoursesPage);
+export default connect(mapStateToProps)(AllCoursesPage);

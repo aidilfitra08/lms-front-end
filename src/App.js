@@ -16,7 +16,7 @@ import Sidenav from "./components/navbar/Sidenav";
 import Footer from "./components/footer/Footer";
 import Register from "./components/login_register/Register";
 import CoursePage from "./components/students/CoursePage/CoursePage";
-import CoursesPage from "./components/students/CoursesPage/CoursesPage";
+import JoinedCoursesPage from "./components/students/CoursesPage/JoinedCoursesPage";
 import SectionPage from "./components/students/CoursePage/SectionPage";
 import {
   Protected,
@@ -37,6 +37,7 @@ import EnrollPage from "./components/students/CoursePage/EnrollPage";
 import Calendar from "./components/calendar/calendar";
 import CourseDiscussion from "./components/lecture/Course Discussion/CourseDiscussion";
 import VerifyPage from "./components/VerifyPage";
+import AllCoursesPage from "./components/students/CoursesPage/AllCoursesPage";
 
 const parseJwt = (token) => {
   try {
@@ -142,37 +143,48 @@ function App() {
               </>
             }
           />
-          <Route path="courses">
+          <Route path="joined-courses">
             <Route
               index
               element={
                 <>
-                  <CoursesPage sideBarTrigger={sideBarTrigger} />{" "}
+                  <JoinedCoursesPage sideBarTrigger={sideBarTrigger} />{" "}
                   <Footer sideBarTrigger={sideBarTrigger} />{" "}
                 </>
               }
             />
-            <Route path="course-page">
+          </Route>
+          <Route path="all-courses">
+            <Route
+              index
+              element={
+                <>
+                  <AllCoursesPage sideBarTrigger={sideBarTrigger} />{" "}
+                  <Footer sideBarTrigger={sideBarTrigger} />{" "}
+                </>
+              }
+            />
+          </Route>
+          <Route path="course-page">
+            <Route
+              index
+              element={
+                <>
+                  <CoursePage sideBarTrigger={sideBarTrigger} />{" "}
+                  <Footer sideBarTrigger={sideBarTrigger} />{" "}
+                </>
+              }
+            />
+            <Route path="sections">
               <Route
                 index
                 element={
                   <>
-                    <CoursePage sideBarTrigger={sideBarTrigger} />
+                    <SectionPage sideBarTrigger={sideBarTrigger} />
                     <Footer sideBarTrigger={sideBarTrigger} />
                   </>
                 }
               />
-              <Route path="sections">
-                <Route
-                  index
-                  element={
-                    <>
-                      <SectionPage sideBarTrigger={sideBarTrigger} />
-                      <Footer sideBarTrigger={sideBarTrigger} />
-                    </>
-                  }
-                />
-              </Route>
             </Route>
             <Route
               path="enroll-page"

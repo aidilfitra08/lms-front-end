@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { category } from "../category";
 import Discussion from "../../discussion/discussion";
+import Swal from "sweetalert2";
 
 function CoursePage(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,7 +20,29 @@ function CoursePage(props) {
     return classes.filter(Boolean).join(" ");
   }
   const navigate = useNavigate();
+  if (searchParams.size === 0) {
+    navigate("/student/all-course", { replace: true });
+    // window.location.reload(true);
+  } else if (props.enrollmentStatus === false) {
+    // navigate(`/student/course-page/enroll-page?courseID=${courseID}`);
+    navigate(`/student/course-page/enroll-page?courseID=${courseID}`, {
+      replace: true,
+    });
+    // Swal.fire({
+    //   title: "anda belum join ke kelas ini",
+    //   // text: "!",
+    //   icon: "error",
+    //   confirmButtonColor: "#3085d6",
+    // }).then(() => {
 
+    // });
+    // return (
+    //   <Navigate
+    //     to={`/student/course-page/enroll-page?courseID=${courseID}`}
+    //     replace
+    //   />
+    // );
+  }
   // const courseState = useSelector((state) => state.studentCourse);
   // const courseDetail = courseState.courseDetail;
 
@@ -66,10 +89,6 @@ function CoursePage(props) {
     return counter;
   }
   useEffect(() => {
-    if (searchParams.size === 0) {
-      navigate("/student/courses", { replace: true });
-      // window.location.reload(true);
-    }
     dispatch(checkEnrollment(courseID));
     // if (props.enrollmentStatus === false) {
     //   navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
@@ -77,20 +96,20 @@ function CoursePage(props) {
     //   });
 
     dispatch(fetchCourse(courseID));
-  }, [props.enrollmentStatus]);
-  useEffect(() => {
-    // if (searchParams.size === 0) {
-    //   navigate("/student/courses", { replace: true });
-    //   // window.location.reload(true);
-    // }
-    // dispatch(checkEnrollment(courseID));
-    if (props.enrollmentStatus === false) {
-      navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
-        replace: true,
-      });
-    }
-    // dispatch(fetchCourse(courseID));
-  }, [props.enrollmentStatus]);
+  }, []);
+  // useEffect(() => {
+  //   // if (searchParams.size === 0) {
+  //   //   navigate("/student/courses", { replace: true });
+  //   //   // window.location.reload(true);
+  //   // }
+  //   // dispatch(checkEnrollment(courseID));
+  //   if (props.enrollmentStatus === false) {
+  //     navigate(`/student/course-page/enroll-page?courseID=${courseID}`, {
+  //       replace: true,
+  //     });
+  //   }
+  //   // dispatch(fetchCourse(courseID));
+  // }, [props.enrollmentStatus]);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
@@ -130,11 +149,11 @@ function CoursePage(props) {
           <p>{props.courseDetail.description}</p>
         </div>
         <div className="col-span-1 border border-gray-500 h-auto w-2/4 place-self-center shadow p-4 space-y-2">
-          <div className=" pb-2 border-b border-gray-500">Course Section</div>
+          <div className=" pb-2 border-b border-gray-500">Daftar Bab</div>
           <div>
             <p>
-              {props.courseDetail.Sections.length} Section .{" "}
-              <span>{countLessons()} Lessons</span>
+              {props.courseDetail.Sections.length} Bab .{" "}
+              <span>{countLessons()} Materi</span>
             </p>
           </div>
           <div className=" text-base ">
@@ -151,7 +170,7 @@ function CoursePage(props) {
                         href={
                           "course-page/sections?sectionID=" + section.sectionID
                         }
-                        className="mt-2"
+                        className="mt-2 font-semibold"
                       >
                         {section.title}
                       </a>

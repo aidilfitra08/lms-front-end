@@ -7,6 +7,7 @@ import {
   addSectionsData,
   deleteLesson,
   deleteSection,
+  resetLoadingPercentage,
   updateSectionsData,
 } from "../../../../redux/Lecture/LectureAction";
 import LessonComponent from "./LessonPopup/ComponentLesson";
@@ -240,6 +241,7 @@ function LessonForm(props) {
                         setShowAddLessonPopUp(true);
                         setIndexNow(index);
                         setLessonIndexNow(null);
+                        dispatch(resetLoadingPercentage());
                       }}
                     >
                       <FontAwesomeIcon icon={faCirclePlus} className="pr-1" />{" "}
