@@ -1,31 +1,13 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faMagnifyingGlass,
-  faSchool,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
-import dekstop from "../../assets/Landing Page/video_sdk.webp";
+import React, { useState } from "react";
+
+import dekstop from "../../assets/Landing Page/video_sdk_dekstop.jpg";
 import mobile from "../../assets/Landing Page/video_sdk_mobile.jpg";
 import landingPicture from "../../assets/landing-picture.png";
 import LogoOnly from "../../assets/logo_only.svg";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../redux/Credential/UserAction";
-import { useNavigate, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
 import Footer from "./Footer";
 import { thumbnail } from "./foto";
 import { category } from "../students/category";
-
-const parseJwt = (token) => {
-  try {
-    return JSON.parse(atob(token.split(".")[1]));
-  } catch (e) {
-    return null;
-  }
-};
 
 function LandingPage(props) {
   const [onClickShow, setOnClickShow] = useState(1);
