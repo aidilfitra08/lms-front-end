@@ -40,17 +40,11 @@ function Homepage(props) {
     ":" +
     dateObject.getSeconds() +
     timezone;
-  const data = [
-    { title: "course 1", publishDate: dateStr, status: "published" },
-    { title: "course 2", publishDate: dateStr, status: "notreviewed" },
-    { title: "course 3", publishDate: dateStr, status: "reviewed" },
-    { title: "course 4", publishDate: dateStr, status: "hidden" },
-  ];
 
   const updateStatus = (courseID, status) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You will be able to change later!",
+      title: "Apakah anda yakin?",
+      // text: "Anda dapat mengubahnya lagi nanti!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -63,8 +57,8 @@ function Homepage(props) {
         dispatch(updateCourseStatus(courseID, status));
         setClicked(!clicked);
         Swal.fire({
-          title: "Status Changed!",
-          text: "Your course status has been changed.",
+          title: "Status Kursus Berubah!",
+          text: "Status kursus Anda berhasil diubah",
           icon: "success",
           confirmButtonColor: "#3085d6",
         });
@@ -74,26 +68,24 @@ function Homepage(props) {
 
   const delCourse = (courseID) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak akan dapat mengulangi aksi ini!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Ya, hapus!",
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteCourse(courseID));
         setClicked(!clicked);
         Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
+          title: "Terhapus!",
+          text: "Kursus yang anda pilih berhasil dihapus",
           icon: "success",
         });
       }
     });
-
-    // alert("Kursus berhasil di hapus!");
   };
 
   useEffect(() => {
@@ -108,13 +100,13 @@ function Homepage(props) {
         )}
       >
         <div className="flex flex-row mx-10 max-md:mx-2 mt-5 justify-between">
-          <p className=" text-2xl font-bold">Courses</p>
+          <p className=" text-2xl font-bold">Kursus</p>
 
           <a
             href="/lecture/courses/create-course"
             className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
           >
-            Create Course
+            Buat Kursus
           </a>
         </div>
         <p className="mx-10 max-md:mx-2 my-5">
@@ -124,10 +116,10 @@ function Homepage(props) {
           <table className=" w-full text-center rounded-md border-separate">
             <tr className=" bg-indigo-200">
               <th className=" rounded-tl-md">No.</th>
-              <th className="">Title</th>
-              <th className="">Publish Date</th>
+              <th className="">Judul</th>
+              <th className="">Tanggal Dibuat</th>
               <th className="">Status</th>
-              <th className="rounded-tr-md">Action</th>
+              <th className="rounded-tr-md">Aksi</th>
             </tr>
             {props.courses.map((val, key) => {
               let dateCourse = new Date(val.createdAt);
@@ -165,13 +157,13 @@ function Homepage(props) {
                       href={`/lecture/courses/edit-course?courseID=${val.courseID}`}
                       // onClick={() => setEditData(val.courseID)}
                     >
-                      Edit
+                      Ubah
                     </a>
                     <button
                       className="bg-yellow-400 p-2 rounded-md"
                       onClick={() => delCourse(val.courseID)}
                     >
-                      Delete
+                      Hapus
                     </button>
                   </td>
                 </tr>
@@ -180,7 +172,6 @@ function Homepage(props) {
           </table>
         </div>
       </div>
-      <Footer sideBarTrigger={props.sideBarTrigger} />
     </>
   );
 }

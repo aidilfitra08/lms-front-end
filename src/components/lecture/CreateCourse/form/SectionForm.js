@@ -96,8 +96,8 @@ function LessonForm(props) {
       }
     });
   };
+
   const delSection = (index) => {
-    // console.log(index);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -118,15 +118,12 @@ function LessonForm(props) {
       }
     });
   };
+
   return (
     <div className="space-y-4">
       <div>
         <div className="space-y-4">
-          <p className=" text-2xl font-bold">Section(s)</p>
-          <p className=" text-sm">
-            Silahkan klik update section jika anda ingin melihat atau/dan
-            mengubah detail section.
-          </p>
+          <p className=" text-2xl font-bold">Bab</p>
           <button
             className=" bg-yellow-400 px-4 py-3 rounded-md hover:bg-yellow-200"
             onClick={() => {
@@ -134,16 +131,15 @@ function LessonForm(props) {
             }}
           >
             <FontAwesomeIcon icon={faCirclePlus} className="pr-2" />
-            New Section
+            Tambah Bab
           </button>
-          {/* <div>section created</div> */}
         </div>
       </div>
       <div className="">
         <div
           className={classNames(
             showSectionForm ? "block" : "hidden",
-            "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center"
+            "fixed bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center"
           )}
         >
           <div
@@ -157,10 +153,10 @@ function LessonForm(props) {
           ></div>
           <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4">
             <div className="space-y-2 text-center p-2 border-b-2">
-              <p className="text-xl font-semibold">Section</p>
+              <p className="text-xl font-semibold">Bab</p>
             </div>
             <div className="space-y-2">
-              <label htmlFor="sectionTitle">Section Title</label>
+              <label htmlFor="sectionTitle">Judul Bab</label>
               <input
                 id="sectionTitle"
                 name="sectionTitle"
@@ -173,7 +169,7 @@ function LessonForm(props) {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="sectionDescription">Section Description</label>
+              <label htmlFor="sectionDescription">Deskripsi Bab</label>
               <textarea
                 id="sectionDescription"
                 name="sectionDescription"
@@ -184,14 +180,13 @@ function LessonForm(props) {
                 onChange={(event) => setSectionDescription(event.target.value)}
               />
             </div>
-
             {indexNow != null ? (
               <div className="pt-8">
                 <button
                   className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={updateSection}
                 >
-                  Update Section
+                  Ubah
                 </button>
               </div>
             ) : (
@@ -200,7 +195,7 @@ function LessonForm(props) {
                   className="w-full bg-yellow-400 hover:bg-yellow-200 p-3 rounded-md"
                   onClick={onSaveSection}
                 >
-                  Save Section
+                  Simpan
                 </button>
               </div>
             )}
@@ -214,26 +209,26 @@ function LessonForm(props) {
                   setSectionDescription("");
                 }}
               >
-                Cancel
+                Batalkan
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className=" bg-slate-200 rounded-md p-3">
-        <p className="text-xl border-b border-slate-800 pb-3">
-          Sections Preview
+      <div className=" bg-neutral-100 rounded-md p-3 shadow-lg">
+        <p className="text-xl border-b border-slate-800 pb-3 font-semibold">
+          Pratinjau Bab
         </p>
-        <div className="pt-3">
+        <div className="pt-3 space-y-4">
           {createSectionsData != [] ? (
             createSectionsData.map((section, index) => {
               return section === undefined ? null : (
-                <div className="space-y-3 mb-3">
-                  <p className="">
-                    Section Name:{" "}
-                    <span className="font-semibold">{section.title}</span>
-                  </p>
+                <div className="space-y-3 mb-3 border-neutral-200 border p-4 shadow-md">
+                  <p className="font-semibold">{section.title}</p>
+
+                  <p className="font-normal">{section.detail}</p>
+
                   <div className="space-x-2 space-y-2">
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -245,7 +240,7 @@ function LessonForm(props) {
                       }}
                     >
                       <FontAwesomeIcon icon={faCirclePlus} className="pr-1" />{" "}
-                      Add Lesson
+                      Tambahkan Materi
                     </button>
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -254,8 +249,7 @@ function LessonForm(props) {
                         setIndexNow(index);
                       }}
                     >
-                      <FontAwesomeIcon icon={faPen} className="pr-1" /> Update
-                      Section
+                      <FontAwesomeIcon icon={faPen} className="pr-1" /> Ubah Bab
                     </button>
                     <button
                       className="bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
@@ -264,22 +258,24 @@ function LessonForm(props) {
                       }}
                     >
                       <FontAwesomeIcon icon={faTrash} className="pr-1" />
-                      Delete Section
+                      Hapus Bab
                     </button>
                   </div>
                   <div className="pb-3 space-y-2">
-                    <p>Lesson(s):</p>
+                    <p>Materi</p>
                     {section === undefined
                       ? null
                       : section.Lessons.map((lesson, lessonIndex) => {
                           return (
-                            <div className="border border-indigo-700 p-3 mt-1 rounded-md grid grid-cols-12">
-                              <div className="col-span-10">
-                                <p>Title: {lesson.title}</p>
-                                <p>Description: {lesson.detail}</p>
+                            <div className="border border-neutral-200 shadow-md p-3 mt-1 rounded-md grid grid-cols-12">
+                              <div className="col-span-10 pr-2">
+                                <p>Judul: {lesson.title}</p>
+                                <p className="break-all">
+                                  Description: {lesson.detail}
+                                </p>
                               </div>
 
-                              <div className="col-span-2 space-y-2 border-l border-indigo-700 pl-3">
+                              <div className="col-span-2 space-y-2 border-l border-neutral-300 pl-3">
                                 <button
                                   className="block w-full bg-yellow-400 p-2 text-black hover:bg-yellow-200 rounded-md"
                                   onClick={() => {
@@ -334,7 +330,7 @@ function LessonForm(props) {
           <div
             className={classNames(
               showAddLessonPopUP ? "block" : "hidden",
-              "absolute bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
+              "fixed bg-black/40 w-screen h-screen top-0 z-50 right-0 grid content-center justify-center transition-transform text-black"
             )}
           >
             <div

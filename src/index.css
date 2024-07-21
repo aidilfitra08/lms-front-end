@@ -18,7 +18,11 @@ code {
 /* ::-webkit-scrollbar {
   width: 4px;
 } */
-
+@layer utilities {
+  .paused {
+    animation-play-state: paused;
+  }
+}
 ::-webkit-scrollbar-track {
   background: "transparent";
   /* #212032; */

@@ -4,6 +4,7 @@ import { VideoSDKMeeting } from "@videosdk.live/rtc-js-prebuilt";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import LogoOnly from "../../assets/logo_only.svg";
 
 const parseJwt = (token) => {
   try {
@@ -14,6 +15,7 @@ const parseJwt = (token) => {
 };
 
 function VideoConference2(props) {
+  const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
   const user = useSelector((state) => state.user);
   console.log(user);
   const decodedJwt = parseJwt(user.user.accessToken);
@@ -110,16 +112,15 @@ function VideoConference2(props) {
     },
     branding: {
       enabled: true,
-      logoURL:
-        "https://static.zujonow.com/videosdk.live/videosdk_logo_circle_big.png",
-      name: "Meeting",
+      logoURL: LogoOnly,
+      name: "DigiMaLearn Meeting",
       poweredBy: false,
     },
     permissions: userPermission,
 
     joinScreen: {
       visible: true, // Show the join screen ?
-      title: "Daily scrum", // Meeting title
+      title: user.user.name + " Meeting's", // Meeting title
       meetingUrl: window.location.href, // Meeting joining url
     },
 
@@ -128,7 +129,12 @@ function VideoConference2(props) {
       actionButton: {
         // optional action button
         label: "Homepage", // action button label
-        href: "http://localhost:3000", // action button href
+        href:
+          userRole == "lecture"
+            ? process.env.REACT_APP_BASE_APP_URL + "/lecture"
+            : userRole == "student"
+            ? process.env.REACT_APP_BASE_APP_URL + "/student"
+            : process.env.REACT_APP_SERVER_BASE_APP_URL + "/", // action button href
       },
     },
 
@@ -142,12 +148,13 @@ function VideoConference2(props) {
    Other Feature Properties
     
     */
-    theme: "DARK", // DARK || LIGHT || DEFAULT
+    theme: darkThemeMq.matches ? "DARK" : "DEFAULT", // DARK || LIGHT || DEFAULT
   };
+
   useEffect(() => {
     axios
       .get(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           "/apiv1/conference/validate-room/" +
           meetingId
       )
@@ -158,7 +165,7 @@ function VideoConference2(props) {
       .catch((err) => {
         console.log(err);
         alert("Wrong Meeting Id. Please Enter a valid Meeting Id!");
-        navigate("/", { replace: true });
+        navigate(-1, { replace: true });
         window.location.reload(true);
       });
   }, []);

@@ -10,6 +10,7 @@ import {
   PROFILE_REQUEST_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  RESET_LOADING_PERCENTAGE,
   SUCCESS_REQUEST,
   UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
   USER_REGISTER,
@@ -80,7 +81,7 @@ export const userLogin = (email, password) => {
   return async (dispatch) => {
     dispatch(makeRequest());
     await axios
-      .post(process.env.REACT_APP_BASE_URL + "/apiv1/login", {
+      .post(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/login", {
         email: email,
         password: password,
       })
@@ -105,7 +106,7 @@ export const userRegister = (name, email, password) => {
   return async (dispatch) => {
     dispatch(makeRequest());
     await axios
-      .post(process.env.REACT_APP_BASE_URL + "/apiv1/register", {
+      .post(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/register", {
         name: name,
         email: email,
         password: password,
@@ -132,7 +133,7 @@ export const fetchProfile = () => {
   return async (dispatch) => {
     dispatch(makeRequest());
     await axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/profile", {
+      .get(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/profile", {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },
@@ -164,13 +165,13 @@ export const addProfile = (profileData) => {
 // };
 
 export const editProfile = (data) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem("user"));
   // const decodedJwt = parseJwt(user.accessToken);
   // const role = decodedJwt.role;
   return async (dispatch) => {
     dispatch(makeRequest());
     await axios
-      .put(process.env.REACT_APP_BASE_URL + "/apiv1/profile", data, {
+      .put(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/profile", data, {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },
@@ -178,6 +179,10 @@ export const editProfile = (data) => {
       .then((res) => {
         if (res.status == 201) {
           dispatch(successRequest());
+          // console.log(data.pro);
+          user.photo = data.profilePicture;
+
+          localStorage.setItem("user", JSON.stringify(user));
           alert("Profile berhasil di update.");
           window.location.reload(true);
         }
@@ -202,67 +207,82 @@ export const editProfile = (data) => {
 //     payload: data,
 //   };
 // };
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
-// const uploadPhoto = (data) => {
-//   const user = JSON.parse(localStorage.getItem("user"));
-//   const decodedJwt = parseJwt(user.accessToken);
-//   const userId = decodedJwt.userID;
-//   var sha1 = require("sha1");
-//   let public_id = `photo_${userId}`;
-//   let api_key = "891875937589394";
-//   let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
-//   let timestamp = Date.now();
-//   let folder = `skripsi/photo/user${userId}`;
-//   let signature = sha1(
-//     `folder=${folder}&public_id=${public_id}&timestamp=${timestamp}${api_secret}`
-//   );
-//   const formData = new FormData();
-//   formData.append("file", data);
-//   formData.append("api_key", api_key);
-//   formData.append("timestamp", timestamp);
-//   formData.append("signature", signature);
-//   formData.append("folder", folder);
-//   formData.append("public_id", public_id);
-//   return (dispatch) => {
-//     dispatch(makeRequest());
-//     const axiosInstance = axios.create({
-//       baseURL: process.env.REACT_APP_CLOUDINARY_URL,
-//     });
+const loadingUpdate = (percentage) => {
+  return {
+    type: LOADING_PERCENTAGE,
+    payload: percentage,
+  };
+};
 
-//     const options = {
-//       onUploadProgress: (progressEvent) => {
-//         const { loaded, total } = progressEvent;
-//         let percent = Math.floor((loaded * 100) / total);
-//         console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+const uploadCloudinarySuccess = (data) => {
+  return {
+    type: UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
+    payload: data,
+  };
+};
 
-//         if (percent < 100) {
-//           dispatch(loadingUpdate(percent));
-//         }
-//       },
-//     };
-//     axiosInstance
-//       .post("/image/upload", formData, options)
-//       .then((res) => {
-//         let data = {
-//           url: res.data.secure_url,
-//           public_id: res.data.public_id,
-//         };
-//         dispatch(uploadCloudinarySuccess(data));
-//         // console.log(res);
-//       })
-//       .catch((err) => {
-//         dispatch(failRequest(err.message));
-//       });
-//     // if(data)
-//     // axios
-//     //   .post(process.env.REACT_APP_BASE_URL + "/apiv1/lecture/create-course", {
-//     //     data,
-//     //   })
-//     //   .then((res) => {
-//     //     dispatch();
-//     //   })
-//     //   .catch((err) => {
-//     //     dispatch(failRequest(err.message));
-//     //   });
-//   };
-// };
+export const resetLoadingPercentage = () => {
+  return {
+    type: RESET_LOADING_PERCENTAGE,
+  };
+};
+export const uploadPhoto = (data) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const decodedJwt = parseJwt(user.accessToken);
+  const userId = decodedJwt.userID;
+  var sha1 = require("sha1");
+  let public_id = `photo_${userId}`;
+  let api_key = "891875937589394";
+  let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
+  let timestamp = Date.now();
+  let folder = `skripsi/photo/profile/${userId}`;
+  let signature = sha1(
+    `folder=${folder}&public_id=${public_id}&timestamp=${timestamp}${api_secret}`
+  );
+  const formData = new FormData();
+  formData.append("file", data);
+  formData.append("api_key", api_key);
+  formData.append("timestamp", timestamp);
+  formData.append("signature", signature);
+  formData.append("folder", folder);
+  formData.append("public_id", public_id);
+  return (dispatch) => {
+    dispatch(makeRequest());
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_CLOUDINARY_URL,
+    });
+
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+        console.log(`${loaded}kb of ${total}kb | ${percent}%`);
+
+        if (percent < 100) {
+          dispatch(loadingUpdate(percent));
+        }
+      },
+    };
+    axiosInstance
+      .post("/image/upload", formData, options)
+      .then((res) => {
+        let data = {
+          url: res.data.secure_url,
+          public_id: res.data.public_id,
+        };
+        dispatch(uploadCloudinarySuccess(data));
+        // console.log(res);
+      })
+      .catch((err) => {
+        dispatch(failRequest(err.message));
+      });
+  };
+};

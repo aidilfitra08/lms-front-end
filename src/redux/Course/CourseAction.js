@@ -87,7 +87,7 @@ export const fetchDiscussion = (courseID) => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/course-discussion", {
+      .get(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/course-discussion", {
         params: { courseID: courseID },
         headers: {
           Authorization: `Bearer ${userDetail.accessToken}`,
@@ -115,7 +115,7 @@ export const postTopic = (data) => {
     };
     axios
       .post(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/new-discussion-topic?courseID=${data.courseID}`,
         payload,
         {
@@ -145,7 +145,7 @@ export const deleteTopic = (discussionID) => {
     dispatch(makeRequest());
     axios
       .delete(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/lecture/delete-course?discussionID=${discussionID}`,
         {
           headers: {
@@ -175,7 +175,7 @@ export const postReply = (data) => {
     };
     axios
       .post(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/new-reply-discussion?discussionID=${data.discussionID}`,
         payload,
         {
@@ -205,7 +205,7 @@ export const deleteReply = (replyID, discussionID) => {
     dispatch(makeRequest());
     axios
       .delete(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/lecture/delete-course?replyID=${replyID}&discussionID=${discussionID}`,
         {
           headers: {

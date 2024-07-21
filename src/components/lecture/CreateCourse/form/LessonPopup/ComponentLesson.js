@@ -252,10 +252,10 @@ function LessonComponent(props) {
   return (
     <div className="bg-white min-h-128 max-h-fit w-128 z-100 py-8 px-8 rounded-md space-y-4 overflow-auto">
       <div className="space-y-2 text-center p-2 border-b-2">
-        <p className="text-xl font-semibold">Lesson</p>
+        <p className="text-xl font-semibold">Materi</p>
       </div>
       <div className="space-y-2">
-        <label htmlFor="lessonTitle">Lesson Title</label>
+        <label htmlFor="lessonTitle">Judul Materi</label>
         <input
           id="lessonTitle"
           name="lessonTitle"
@@ -269,7 +269,7 @@ function LessonComponent(props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="lessonDescription">Lesson Description</label>
+        <label htmlFor="lessonDescription">Deskripsi</label>
         <textarea
           id="lessonDescription"
           name="lessonDescription"
@@ -284,7 +284,7 @@ function LessonComponent(props) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="videoType">Lesson Type</label>
+        <label htmlFor="videoType">Jenis Materi</label>
         <select
           id="lessonType"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -292,17 +292,17 @@ function LessonComponent(props) {
           disabled={props.disableText}
           onChange={(event) => setLessonType(event.target.value)}
         >
-          <option selected>Select Video Type</option>
+          <option selected>Jenis Materi</option>
           <option value="video">Video</option>
-          <option value="text">Text</option>
-          <option value="attachment">Text & Attachment</option>
+          <option value="text">Hanya Tulisan</option>
+          <option value="attachment">PDF</option>
         </select>
       </div>
 
       {renderSwitch(lessonType)}
 
       <div className="space-y-2">
-        <label htmlFor="summary">Summary</label>
+        <label htmlFor="summary">Rangkuman</label>
         <input
           id="summary"
           name="summary"
@@ -323,7 +323,7 @@ function LessonComponent(props) {
             onUpdateLesson(props.indexSection, props.lessonIndexNow);
           }}
         >
-          Update Lesson
+          Ubah
         </button>
       ) : (
         <button
@@ -333,7 +333,7 @@ function LessonComponent(props) {
             setVideoFile(null);
           }}
         >
-          Save Lesson
+          Simpan
         </button>
       )}
       <button
@@ -343,7 +343,7 @@ function LessonComponent(props) {
           props.setDisableText(false);
         }}
       >
-        Cancel
+        {props.disableText === true ? "Kembali" : "Batalkan"}
       </button>
     </div>
   );

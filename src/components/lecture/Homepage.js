@@ -17,6 +17,9 @@ function Homepage(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+  useEffect(() => {
+    document.title = "Halaman Utama";
+  }, []);
 
   // const testingMap = [1, 2, 3, 4, 5];
   const lecturedCourses = props.course;
@@ -75,7 +78,7 @@ function Homepage(props) {
       >
         <div className=" col-span-9 min-lg:ml-6 max-lg:pr-2 mt-6 space-y-2 max-lg:col-span-12 max-md:pl-2">
           <div className="flex flex-row justify-between">
-            <p className="text-4xl max-md:text-2xl">Kursus anda ajarkan</p>
+            <p className="text-4xl max-md:text-2xl">Kursus Yang Dimiliki</p>
             <a
               href="/lecture/courses"
               className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
@@ -84,26 +87,17 @@ function Homepage(props) {
             </a>
           </div>
 
-          {/* <div className="flex flex-row mx-10 my-5 justify-between">
-            <p className=" text-2xl font-bold">Courses</p>
-
-            <a
-              href="/lecture/courses/create-course"
-              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
-            >
-              Create Course
-            </a>
-          </div> */}
-
           <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
             {mapYourCourses(numberToMap)}
           </div>
         </div>
         <div className="col-span-3 m-6 max-lg:hidden">
-          <Calendar value={Date.now()} />
+          <Calendar
+            value={Date.now()}
+            className="p-2 rounded-md bg-teal-950 shadow-lg"
+          />
         </div>
       </div>
-      <Footer sideBarTrigger={props.sideBarTrigger} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TestCoursePhoto from "../../../assets/man-photo.png";
+// import TestCoursePhoto from "../../../assets/man-photo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-solid-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";

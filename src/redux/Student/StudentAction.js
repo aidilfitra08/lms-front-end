@@ -70,11 +70,14 @@ export const fetchAllJoinedCourses = () => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/joined-courses", {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      })
+      .get(
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/student/joined-courses",
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
       .then((res) => {
         dispatch(getAllJoinedCourses(res.data.payload));
       })
@@ -97,12 +100,15 @@ export const fetchAllCourses = (
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/all-courses", {
-        params: params,
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      })
+      .get(
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/student/all-courses",
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
       .then((res) => {
         dispatch(getAllCourses(res.data.payload));
       })
@@ -116,9 +122,12 @@ export const fetchCourse = (courseID) => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/course-detail", {
-        params: { courseID: courseID },
-      })
+      .get(
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/student/course-detail",
+        {
+          params: { courseID: courseID },
+        }
+      )
       .then((res) => {
         dispatch(getCourseDetail(res.data.payload));
       })
@@ -132,9 +141,12 @@ export const fetchSection = (sectionID) => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/student/section-detail", {
-        params: { sectionID: sectionID },
-      })
+      .get(
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/student/section-detail",
+        {
+          params: { sectionID: sectionID },
+        }
+      )
       .then((res) => {
         dispatch(getSectionDetail(res.data.payload));
       })
@@ -151,7 +163,7 @@ export const checkEnrollment = (courseID) => {
     dispatch(makeRequest());
     axios
       .get(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/student/check-enrollment?courseID=${courseID}`,
         {
           headers: {
@@ -177,7 +189,7 @@ export const enrollMe = (courseID, enrollmentKey) => {
     dispatch(makeRequest());
     axios
       .post(
-        process.env.REACT_APP_BASE_URL + `/apiv1/student/enroll`,
+        process.env.REACT_APP_SERVER_BASE_URL + `/apiv1/student/enroll`,
         { courseID: courseID, enrollCode: enrollmentKey },
         {
           headers: {

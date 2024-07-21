@@ -1,3 +1,5 @@
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -21,29 +23,35 @@ function Footer(props) {
     <footer
       className={classNames(
         props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
-        " bg-slate-800 bottom-0 h-52 text-neutral-100"
+        " bg-teal-950/90 bottom-0 h-52 text-neutral-100"
       )}
     >
       <div className="grid grid-cols-2 py-6 px-10 mt-12">
         <div className="col-span-1">
           {role === "lecture" && (
             <a href="/lecture" className="block">
-              Home
+              Halaman Utama
             </a>
           )}
           {role === "student" && (
             <a href="/student" className="block">
-              Home
+              Halaman Utama
             </a>
           )}
         </div>
         <div className="col-span-1">
-          <p className="">Need Help? </p>
+          <p className="block mb-3">Butuh Bantuan? </p>
           <a
             className=""
             href="https://wa.me/6282388157890?text=Aku%20butuh%20bantuan%20dengan%20aplikasi%20DigiMaLearn"
           >
-            Contact us
+            {" "}
+            <FontAwesomeIcon
+              icon={faWhatsapp}
+              size="xl"
+              className="pr-2"
+            />{" "}
+            WhatsApp
           </a>
         </div>
       </div>

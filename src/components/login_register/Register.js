@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Background from "../../assets/login_bg.jpg";
-import Bg2 from "../../assets/logo_only.png";
-import LogoScript from "../../assets/logo_script.png";
-import LogoApp from "../../assets/logo_only.png";
+import Background from "../../assets/register_bg.png";
+import Bg2 from "../../assets/logo_only.svg";
+import LogoApp from "../../assets/logo_only.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { connect, useDispatch } from "react-redux";
 import { userRegister } from "../../redux/Credential/UserAction";
 import { useNavigate } from "react-router-dom";
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
 
 function Register(props) {
   function classNames(...classes) {
@@ -48,14 +55,23 @@ function Register(props) {
       window.location.reload(true);
     }
   }, [props.isRegistered]);
+
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      const decodedJwt = parseJwt(props.user.accessToken);
+      const role = decodedJwt.role;
+      if (role == "student") {
+        navigate("/student", { replace: true });
+      } else if (props.isLoggedIn && role === "lecture") {
+        navigate("/lecture", { replace: true });
+      }
+    }
+  }, [props.isLoggedIn]);
   return (
     <div className="grid grid-cols-2 max-lg:grid-cols-1">
       {/* Form */}
-      <div
-        className="col-span-1 h-screen grid content-center justify-center bg-cover"
-        // style={{ backgroundImage: "url(" + Bg2 + ")" }}
-      >
-        <div className=" bg-neutral-200 h-fit w-128 rounded-lg pb-12 bg-opacity-80 max-md:w-80">
+      <div className="col-span-1 h-screen grid content-center justify-center bg-cover">
+        <div className=" bg-neutral-50 shadow-2xl h-fit w-128 rounded-lg pb-12 bg-opacity-80 max-md:w-80">
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-8 max-md:text-sm">
             <div className="space-y-2 grid justify-center text-center">
               <div className="col-span-1 flex justify-center items-center w-32 h-32 ml-16 -my-8 max-md:w-28 max-md:my-[-30px]">
@@ -186,7 +202,7 @@ function Register(props) {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-yellow-400 px-3 py-3 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-teal-900/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   disabled={props.loading}
                 >
                   {props.loading && (
@@ -203,22 +219,13 @@ function Register(props) {
       </div>
 
       {/* image */}
-      <div className=" col-span-1 h-screen max-lg:hidden">
-        <div className="relative h-screen">
-          {/* <div className="absolute inset-0 w-full h-full bg-neutral-100 bg-opacity-30">
-            <img
-              src={LogoScript}
-              className="w-screen absolute z-100 object-cover h-screen"
-              loading="lazy"
-            />
-          </div> */}
-          <img
-            src={Background}
-            alt="background"
-            className="object-cover h-screen"
-            loading="lazy"
-          />
-        </div>
+      <div className=" col-span-1 h-screen max-lg:hidden flex justify-center items-center">
+        <img
+          src={Background}
+          alt="background"
+          className="object-cover h-1/2 rounded-lg"
+          loading="lazy"
+        />
       </div>
     </div>
   );
@@ -227,6 +234,7 @@ function Register(props) {
 const mapStateToProps = (state) => {
   return {
     isRegistered: state.user.isRegistered,
+    isLoggedIn: state.user.isLoggedIn,
     message: state.user.message,
     errorMessage: state.user.errorMessage,
     loading: state.user.loading,

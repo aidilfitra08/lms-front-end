@@ -9,6 +9,7 @@ import {
   PROFILE_REQUEST_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
+  RESET_LOADING_PERCENTAGE,
   SUCCESS_REQUEST,
   UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
 } from "./UserActionTypes";
@@ -21,6 +22,11 @@ const initialState = user
       isLoggedIn: true,
       user,
       errorMessage: "",
+      loadingPercentage: 0,
+      tempCloudinaryData: {
+        url: "",
+        public_id: "",
+      },
       profile: {
         name: "",
         email: "",
@@ -132,6 +138,11 @@ export const userReducer = (state = initialState, action) => {
           url: action.payload.url,
           public_id: action.payload.public_id,
         },
+      };
+    case RESET_LOADING_PERCENTAGE:
+      return {
+        ...state,
+        loadingPercentage: 0,
       };
     default:
       return state;

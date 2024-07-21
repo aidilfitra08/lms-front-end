@@ -40,7 +40,7 @@ function CreateCourse(props) {
   const components = [
     <BasicForm />,
     <SectionForm />,
-    <div className=" text-center text-2xl">Under maintenance please Next</div>,
+    // <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
       <label htmlFor="enrollCode">EnrollCode</label>
       <div className="relative">
@@ -99,10 +99,8 @@ function CreateCourse(props) {
     if (pageCount === 0) {
       setSectionCompletion("0%");
     } else if (pageCount === 1) {
-      setSectionCompletion("33%");
+      setSectionCompletion("50%");
     } else if (pageCount === 2) {
-      setSectionCompletion("67%");
-    } else if (pageCount === 3) {
       setSectionCompletion("100%");
     }
     // updateCompletion();
@@ -118,10 +116,6 @@ function CreateCourse(props) {
   }, []);
 
   if (sectionsDataToUpload.requestSuccess) {
-    // alert(
-    //   "Kursus Anda berhasil ditambahkan, silahkan ubah status kursus di halaman Courses!"
-    // );
-
     return <Navigate to="/lecture/courses" />;
   }
   return (
@@ -134,9 +128,9 @@ function CreateCourse(props) {
           Silahkan akses halaman ini pada browser dekstop anda.
         </p>
       </div>
-      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48 max-md:hidden">
+      <div className="grid grid-cols-1 space-y-6 mt-6 mx-48 max-lg:mx-20 max-md:hidden">
         <div className=" col-span-1 space-y-6">
-          <p className=" text-3xl font-bold">Edit Course</p>
+          <p className=" text-3xl font-bold">Ubah Kursus</p>
           <div className=" bg-slate-300 rounded-lg w-full">
             <div
               className={` bg-yellow-400 py-1 rounded-lg`}
@@ -144,10 +138,6 @@ function CreateCourse(props) {
             ></div>
           </div>
         </div>
-        <form>
-          {/*  */}
-          {/*  */}
-        </form>
         <div>
           {
             // render component from our components array
@@ -159,7 +149,7 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount - 1)}
               className=" float-left my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              <FontAwesomeIcon icon={faArrowLeft} />
+              <FontAwesomeIcon icon={faArrowLeft} className="pl-2" /> Sebelumnya
             </button>
           )}
 
@@ -169,15 +159,16 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount + 1)}
               className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              <FontAwesomeIcon icon={faArrowRight} />
+              Selanjutnya
+              <FontAwesomeIcon icon={faArrowRight} className="pl-2" />
             </button>
           )}
-          {pageCount === 3 && (
+          {pageCount === 2 && (
             <button
               className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
               onClick={handleUpload}
             >
-              Upload Course
+              Simpan
             </button>
           )}
         </div>

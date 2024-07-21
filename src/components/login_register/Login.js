@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 
 import { useNavigate, Navigate } from "react-router-dom";
-import Background from "../../assets/login_bg.jpg";
-import LogoApp from "../../assets/logo_only.png";
+import Background from "../../assets/login_bg.png";
+import LogoApp from "../../assets/logo_only.svg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../redux/Credential/UserAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch (e) {
+    return null;
+  }
+};
+
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  // const user = JSON.parse(user);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -25,26 +35,33 @@ function Login(props) {
   // function togglePasswordVisibility() {
   //   setIsPasswordVisible((prevState) => !prevState);
   // }
-
-  if (props.isLoggedIn) {
-    return <Navigate to="/" />;
-  }
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      const decodedJwt = parseJwt(props.user.accessToken);
+      const role = decodedJwt.role;
+      if (role == "student") {
+        navigate("/student", { replace: true });
+      } else if (props.isLoggedIn && role === "lecture") {
+        navigate("/lecture", { replace: true });
+      }
+    }
+  }, [props.isLoggedIn]);
 
   return (
     <div className="grid grid-cols-2 max-lg:grid-cols-1">
       {/* {props.user && alert(props.user.name + " is successfully logged in!")} */}
       <div
-        className=" bg-cover col-span-1 h-screen max-lg:hidden"
+        className=" bg-cover col-span-1 h-screen max-lg:hidden flex justify-center items-center"
         // style={{ backgroundImage: "url(" + Background + ")" }}
       >
         <img
           src={Background}
-          className="object-cover h-screen"
+          className="object-cover h-1/2 rounded-lg"
           loading="lazy"
         />
       </div>
       <div className=" col-span-1 h-screen grid content-center justify-center">
-        <div className=" bg-neutral-200 shadow w-128 rounded-lg max-h-fit pb-12 max-lg:w-128 max-md:w-80 max-md:text-sm">
+        <div className=" bg-neutral-50 shadow-2xl w-128 rounded-lg max-h-fit pb-12 max-lg:w-128 max-md:w-80 max-md:text-sm">
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-6 ">
             <div className="grid space-y-2 text-center justify-center">
               <div className="col-span-1 flex justify-center items-center w-32 h-32 ml-3 my-[-20px] max-md:w-28 max-md:my-[-30px]">
@@ -94,14 +111,14 @@ function Login(props) {
                   >
                     Password
                   </label>
-                  <div className="">
+                  {/* <div className="">
                     <a
                       href="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Lupa password?
                     </a>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mt-2">
                   <input
@@ -147,7 +164,7 @@ function Login(props) {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md text-black bg-yellow-400 px-3 py-3 text-sm font-semibold leading-6 shadow-sm hover:bg-teal-900/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   disabled={props.loading}
                 >
                   {props.loading && (

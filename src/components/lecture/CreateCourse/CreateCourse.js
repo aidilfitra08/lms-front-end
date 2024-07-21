@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import LessonForm from "./form/LessonForm";
+import LessonForm from "./form/SectionForm";
 import QuizForm from "./form/QuizForm";
 import BasicForm from "./form/BasicForm";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -32,9 +32,9 @@ function CreateCourse(props) {
   const components = [
     <BasicForm />,
     <LessonForm />,
-    <div className=" text-center text-2xl">Under maintenance please Next</div>,
+    // <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
-      <label htmlFor="enrollCode">EnrollCode</label>
+      <label htmlFor="enrollCode">Kode Enroll</label>
       <div className="">
         <input
           id="enrollCode"
@@ -43,7 +43,7 @@ function CreateCourse(props) {
           autoComplete="enrollCode"
           required
           className="block w-full pr-12 rounded-md"
-          placeholder="Enroll Code"
+          placeholder="Kode Enroll Kelas"
           maxLength={25}
           value={enrollCode}
           onChange={(event) => setEnrollCode(event.target.value)}
@@ -72,15 +72,20 @@ function CreateCourse(props) {
     if (pageCount === 0) {
       setSectionCompletion("0%");
     } else if (pageCount === 1) {
-      setSectionCompletion("33%");
+      setSectionCompletion("50%");
     } else if (pageCount === 2) {
-      setSectionCompletion("67%");
-    } else if (pageCount === 3) {
       setSectionCompletion("100%");
     }
+    // else if (pageCount === 3) {
+    //   setSectionCompletion("100%");
+    // }
     // updateCompletion();
     // console.log(basicFormData);
   }, [pageCount]);
+
+  useEffect(() => {
+    dispatch(addEnrollCode(enrollCode));
+  }, [enrollCode]);
 
   useEffect(() => {
     dispatch(addEnrollCode(enrollCode));
@@ -110,7 +115,7 @@ function CreateCourse(props) {
       </div>
       <div className="grid grid-cols-1 space-y-6 mt-6 mx-48 max-md:hidden">
         <div className=" col-span-1 space-y-6">
-          <p className=" text-3xl font-bold">Create New Course</p>
+          <p className=" text-3xl font-bold">Buat Kursus</p>
           <div className=" bg-slate-300 rounded-lg w-full">
             <div
               className={` bg-yellow-400 py-1 rounded-lg`}
@@ -133,7 +138,7 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount - 1)}
               className=" float-left my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              <FontAwesomeIcon icon={faArrowLeft} />
+              <FontAwesomeIcon icon={faArrowLeft} className="pl-2" /> Sebelumnya
             </button>
           )}
 
@@ -143,15 +148,16 @@ function CreateCourse(props) {
               onClick={() => setPageCount(pageCount + 1)}
               className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
             >
-              <FontAwesomeIcon icon={faArrowRight} />
+              Selanjutnya{" "}
+              <FontAwesomeIcon icon={faArrowRight} className="pl-2" />
             </button>
           )}
-          {pageCount === 3 && (
+          {pageCount === 2 && (
             <button
               className=" float-right my-6 bg-yellow-400 py-2 px-4 rounded-md hover:bg-yellow-200"
               onClick={handleUpload}
             >
-              Upload Course
+              Tambahkan Kursus
             </button>
           )}
         </div>

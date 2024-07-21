@@ -82,17 +82,6 @@ function Homepage(props) {
             </a>
           </div>
 
-          {/* <div className="flex flex-row mx-10 my-5 justify-between">
-            <p className=" text-2xl font-bold">Courses</p>
-
-            <a
-              href="/lecture/courses/create-course"
-              className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"
-            >
-              Create Course
-            </a>
-          </div> */}
-
           <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
             {mapYourCourses(numberToMap)}
           </div>

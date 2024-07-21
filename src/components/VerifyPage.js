@@ -13,7 +13,11 @@ function VerifyPage(props) {
     // }
     await axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/verify-email/" + id + "/" + token
+        process.env.REACT_APP_SERVER_BASE_URL +
+          "/verify-email/" +
+          id +
+          "/" +
+          token
       )
       .then((res) => {
         if (res.status === 200) {

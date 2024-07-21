@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import TestCoursePhoto from "../../../assets/man-photo.png";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   checkEnrollment,
@@ -21,85 +20,24 @@ function CourseDiscussion(props) {
   }
   const navigate = useNavigate();
 
-  // const courseState = useSelector((state) => state.studentCourse);
-  // const courseDetail = courseState.courseDetail;
-
-  console.log(props.courseDetail);
-  // useEffect(() => {
-
-  // }, []);
-  const testData = {
-    sections: [
-      {
-        name: "section 1",
-        lessons: [
-          {
-            name: "section 1 lesson 1",
-          },
-          {
-            name: "section 1 lesson 2",
-          },
-          {
-            name: "section 1 lesson 3",
-          },
-        ],
-      },
-      {
-        name: "section 2",
-        lessons: [
-          {
-            name: "section 2 lesson 1",
-          },
-          {
-            name: "section 2 lesson 2",
-          },
-        ],
-      },
-    ],
-  };
-
-  function countLessons() {
-    var counter = 0;
-    props.courseDetail.sections.map((section) => {
-      counter = counter + section.Lessons.length;
-    });
-    // console.log(counter);
-    return counter;
-  }
   useEffect(() => {
     if (searchParams.size === 0) {
       navigate("/", { replace: true });
       // window.location.reload(true);
     }
-    // dispatch(checkEnrollment(courseID));
-    // if (props.enrollmentStatus === false) {
-    //   navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
-    //     replace: true,
-    //   });
-
     dispatch(getCourseDetail(courseID));
   }, [props.enrollmentStatus]);
-  useEffect(() => {
-    // if (searchParams.size === 0) {
-    //   navigate("/student/courses", { replace: true });
-    //   // window.location.reload(true);
-    // }
-    // dispatch(checkEnrollment(courseID));
-    // if (props.enrollmentStatus === false) {
-    //   navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
-    //     replace: true,
-    //   });
-    // }
-    // dispatch(fetchCourse(courseID));
-  }, [props.enrollmentStatus]);
-  console.log(props.courseDetail);
+
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64" : "pl-0",
+        "pt-16 max-md:pl-0"
+      )}
     >
       <div className=" grid grid-cols-1 space-y-10">
-        <div className=" bg-neutral-700 text-white col-span-1 grid grid-cols-2 min-h-80 space-x-4 max-h-fit">
-          <div className="col-span-1 space-y-2 p-8 h">
+        <div className=" bg-neutral-700 text-white col-span-1 grid grid-cols-2 max-md:grid-cols-1 min-h-80 max-h-fit">
+          <div className="col-span-1 space-y-2 p-8 content-center">
             {props.loading ? (
               <div>
                 <FontAwesomeIcon icon={faSpinner} size="lg" />
@@ -111,7 +49,7 @@ function CourseDiscussion(props) {
             ) : (
               ""
             )}
-            <p className=" text-4xl font-bold">
+            <p className=" text-5xl font-bold">
               {console.log(props.courseDetail.basicInformation.title)}
               {props.courseDetail.basicInformation.title}
             </p>
@@ -123,16 +61,19 @@ function CourseDiscussion(props) {
               {category[props.courseDetail.basicInformation.categoryID - 1]}
             </a>
             {/* <p>total section: 30</p> */}
+            {/* <p>
+              : <span>{props.user.name}</span>
+            </p> */}
             <p>
-              Course by: <span>{props.user.name}</span>
-            </p>
-            <p>
-              Course Status:{" "}
+              Status Kursus:{" "}
               <span>{props.courseDetail.basicInformation.courseStatus}</span>
             </p>
           </div>
-          <div className="col-span-1 pt-4 xl:mt-8">
-            <img src={TestCoursePhoto} className="h-72 w-fit border" />
+          <div className="col-span-1 pt-4 bg-white max-md:order-first max-md:-ml-4">
+            <img
+              src={props.courseDetail.basicInformation.thumbnail}
+              className="h-72 w-full object-contain"
+            />
           </div>
         </div>
 

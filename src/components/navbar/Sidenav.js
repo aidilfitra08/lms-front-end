@@ -36,12 +36,7 @@ function Sidenav(props) {
   const courseID = searchParams.get("courseID");
 
   const [coursesDropDown, setCoursesDropDown] = useState(false);
-  const navigation = [
-    { name: "Dashboard", href: "/student", current: true },
-    { name: "Login", href: "/login", current: false },
-    { name: "Conference", href: "/student/conference", current: false },
-    { name: "Calendar", href: "#", current: false },
-  ];
+
   let navigate = useNavigate();
 
   const loading = useSelector((state) => state.user.loading);
@@ -52,7 +47,9 @@ function Sidenav(props) {
 
   const handleConference = () => {
     axios
-      .post(process.env.REACT_APP_BASE_URL + "/apiv1/conference/create-room")
+      .post(
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/conference/create-room"
+      )
       .then((res) => {
         let roomId = res.data.payload.roomId;
         console.log(roomId);
@@ -75,12 +72,23 @@ function Sidenav(props) {
     <aside
       className={classNames(
         props.sideBarTrigger ? " " : " hidden",
-        "pt-16 w-64  h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl bg-white"
+        "pt-16 w-64  h-screen fixed inset-y-0 flex flex-col overflow-auto shadow-2xl bg-white z-30"
       )}
     >
       <a
-        href="/"
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200 content-center"
+        href={
+          role === "student"
+            ? "/student"
+            : role === "lecture"
+            ? "/lecture"
+            : "/"
+        }
+        className={classNames(
+          location.pathname == "/student" || location.pathname == "/lecture"
+            ? "bg-yellow-400 hover:bg-yellow-200"
+            : "hover:bg-yellow-400",
+          "w-full  block py-4 content-center"
+        )}
       >
         <FontAwesomeIcon
           icon={faHouseChimney}
@@ -97,7 +105,13 @@ function Sidenav(props) {
             ? "/lecture/courses"
             : "/"
         }
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+        className={classNames(
+          location.pathname == "/student/joined-courses" ||
+            location.pathname == "/lecture/courses"
+            ? "bg-yellow-400 hover:bg-yellow-200"
+            : "hover:bg-yellow-400",
+          "w-full  block py-4 "
+        )}
       >
         <FontAwesomeIcon icon={faBookmark} size="lg" className="px-6" />
         <span className=" md:inline">Kursus Anda</span>
@@ -105,7 +119,12 @@ function Sidenav(props) {
       {role === "student" && (
         <a
           href="/student/all-courses"
-          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+          className={classNames(
+            location.pathname == "/student/all-courses"
+              ? "bg-yellow-400 hover:bg-yellow-200"
+              : "hover:bg-yellow-400",
+            "w-full  block py-4 "
+          )}
         >
           <FontAwesomeIcon icon={faBook} size="lg" className="px-6" />
           <span className=" md:inline">Semua Kursus</span>
@@ -136,7 +155,12 @@ function Sidenav(props) {
       {role === "lecture" && (
         <a
           href="/lecture/courses/create-course"
-          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+          className={classNames(
+            location.pathname == "/lecture/courses/create-course"
+              ? "bg-yellow-400 hover:bg-yellow-200"
+              : "hover:bg-yellow-400",
+            "w-full block py-4 "
+          )}
         >
           <FontAwesomeIcon icon={faPen} size="lg" className="px-5" />
           <span className=" md:inline">Buat Kursus</span>
@@ -145,7 +169,7 @@ function Sidenav(props) {
       {role === "lecture" && (
         <button
           onClick={handleConference}
-          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+          className="w-full  block py-4 hover:bg-yellow-400"
         >
           <FontAwesomeIcon icon={faVideo} size="lg" className="pr-4  -ml-16" />
           <span className=" md:inline ">Buat Pertemuan</span>
@@ -154,7 +178,12 @@ function Sidenav(props) {
       {role === "student" && (
         <a
           href="/student/join-conference"
-          className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
+          className={classNames(
+            location.pathname == "/student/join-conference"
+              ? "bg-yellow-400 hover:bg-yellow-200"
+              : "hover:bg-yellow-400",
+            "w-full  block py-4 "
+          )}
         >
           <FontAwesomeIcon icon={faVideo} size="lg" className="pl-6 pr-5" />
           <span className=" md:inline">Gabung Pertemuan</span>

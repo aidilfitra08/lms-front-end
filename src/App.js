@@ -38,6 +38,8 @@ import Calendar from "./components/calendar/calendar";
 import CourseDiscussion from "./components/lecture/Course Discussion/CourseDiscussion";
 import VerifyPage from "./components/VerifyPage";
 import AllCoursesPage from "./components/students/CoursesPage/AllCoursesPage";
+import LandingPage from "./components/landing page/LandingPage";
+import NavbarLanding from "./components/navbar/NavbarLandingPage";
 
 const parseJwt = (token) => {
   try {
@@ -60,12 +62,6 @@ function App() {
 
     if (user) {
       const decodedJwt = parseJwt(user.accessToken);
-
-      if (decodedJwt.exp * 1000 < Date.now()) {
-        dispatch(userLogout());
-        alert("Sesi anda telah habis silahkan login kembali!");
-        window.location.reload(true);
-      }
     }
   }, []);
   const [sideBarTrigger, setSideBarTrigger] = useState(
@@ -79,6 +75,16 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="verify-email" element={<VerifyPage />} />
         <Route
+          path="/"
+          element={
+            <>
+              <NavbarLanding />
+              <LandingPage />
+              <Outlet />
+            </>
+          }
+        />
+        {/* <Route
           path=""
           element={
             <>
@@ -93,9 +99,19 @@ function App() {
               <Outlet />
             </>
           }
-        ></Route>
+        ></Route> */}
 
-        <Route path="conference/:meetingId" element={<VideoConference2 />} />
+        <Route
+          path="conference/:meetingId"
+          element={
+            <>
+              <Protected>
+                <VideoConference2 />
+                <Outlet />
+              </Protected>
+            </>
+          }
+        />
         {/* <Route path="simpleconference" element={<SimpleVideoConference />} /> */}
         <Route
           element={
@@ -196,6 +212,25 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="*"
+            element={
+              <>
+                <ProtectedNotFoundPage>
+                  <Navbar2
+                    setSideBarTrigger={setSideBarTrigger}
+                    sideBarTrigger={sideBarTrigger}
+                  />
+                  <Sidenav sideBarTrigger={sideBarTrigger} />
+                  <NotFoundPage
+                    setSideBarTrigger={setSideBarTrigger}
+                    sideBarTrigger={sideBarTrigger}
+                  />
+                  <Outlet />
+                </ProtectedNotFoundPage>
+              </>
+            }
+          />
         </Route>
 
         <Route
@@ -207,55 +242,104 @@ function App() {
                   sideBarTrigger={sideBarTrigger}
                 />
                 <Sidenav sideBarTrigger={sideBarTrigger} />
+                <Outlet />
               </ProtectedFromStudent>
-              <Outlet />
             </>
           }
           path="lecture"
         >
           <Route
             path=""
-            element={<HomepageLecture sideBarTrigger={sideBarTrigger} />}
+            element={
+              <>
+                <HomepageLecture sideBarTrigger={sideBarTrigger} />
+                <Footer sideBarTrigger={sideBarTrigger} />
+              </>
+            }
           />
           <Route path="courses">
             <Route
               path="create-course"
-              element={<CreateCourse sideBarTrigger={sideBarTrigger} />}
+              element={
+                <>
+                  <CreateCourse sideBarTrigger={sideBarTrigger} />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                </>
+              }
             />
             <Route
               path="course-page"
-              element={<CourseDiscussion sideBarTrigger={sideBarTrigger} />}
+              element={
+                <>
+                  <CourseDiscussion sideBarTrigger={sideBarTrigger} />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                </>
+              }
             />
             <Route
               path="edit-course"
-              element={<CourseEdit sideBarTrigger={sideBarTrigger} />}
+              element={
+                <>
+                  <CourseEdit sideBarTrigger={sideBarTrigger} />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                </>
+              }
             />
             <Route
               path=""
-              element={<CoursesView sideBarTrigger={sideBarTrigger} />}
+              element={
+                <>
+                  <CoursesView sideBarTrigger={sideBarTrigger} />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                </>
+              }
             />
           </Route>
           <Route
             path="profile"
             element={<Profile sideBarTrigger={sideBarTrigger} />}
           />
+          <Route
+            path="*"
+            element={
+              <>
+                <ProtectedNotFoundPage>
+                  <Navbar2
+                    setSideBarTrigger={setSideBarTrigger}
+                    sideBarTrigger={sideBarTrigger}
+                  />
+                  <Sidenav sideBarTrigger={sideBarTrigger} />
+                  <NotFoundPage
+                    setSideBarTrigger={setSideBarTrigger}
+                    sideBarTrigger={sideBarTrigger}
+                  />
+                  <Footer sideBarTrigger={sideBarTrigger} />
+                  <Outlet />
+                </ProtectedNotFoundPage>
+              </>
+            }
+          />
         </Route>
         <Route
           path="*"
           element={
             <>
-              <ProtectedNotFoundPage>
+              <NavbarLanding />
+              <NotFoundPage
+              // setSideBarTrigger={setSideBarTrigger}
+              // sideBarTrigger={sideBarTrigger}
+              />
+
+              <Outlet />
+              {/* <ProtectedNotFoundPage>
                 <Navbar2
                   setSideBarTrigger={setSideBarTrigger}
                   sideBarTrigger={sideBarTrigger}
                 />
                 <Sidenav sideBarTrigger={sideBarTrigger} />
-                <NotFoundPage
-                  setSideBarTrigger={setSideBarTrigger}
-                  sideBarTrigger={sideBarTrigger}
-                />
+                
                 <Outlet />
-              </ProtectedNotFoundPage>
+              </ProtectedNotFoundPage> */}
             </>
           }
         />

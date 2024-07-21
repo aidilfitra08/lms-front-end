@@ -25,23 +25,31 @@ function BasicForm(props) {
     (state) => state.lecture.tempCloudinaryData
   );
   let loadingPercentage = useSelector(
-    (state) => state.lecture.loadingPercentage
+    (state) => state.lecture.loadingPercentageThumbnail
   );
   const [uploadClick, setUploadClick] = useState(false);
   const dispatch = useDispatch();
-
+  console.log(cloudinaryLink);
+  console.log(thumbnail);
   function onUpload() {
-    setUploadClick(true);
-    // console.log(videoFile);
-    // console.log(videoFile[0]);
-    dispatch(uploadPhoto(thumbnailFile));
-    setThumbnail(cloudinaryLink.url);
+    if (thumbnailFile.size <= 2097152) {
+      setUploadClick(true);
+      // console.log(videoFile);
+      // console.log(videoFile[0]);
+      dispatch(uploadPhoto(thumbnailFile, title));
+    } else {
+      alert("file too big,select another!");
+    }
+
     // setpublicId(cloudinaryLink.public_id);
   }
 
   useEffect(() => {
     setTitleCounter(100 - title.length);
   }, [title]);
+  useEffect(() => {
+    setThumbnail(cloudinaryLink.url);
+  }, [cloudinaryLink]);
   useEffect(() => {
     dispatch(
       addBasicInformData({
@@ -53,42 +61,70 @@ function BasicForm(props) {
         thumbnail: thumbnail,
       })
     );
-  }, [title, shortDescription, description, courseLanguage, category]);
+  }, [
+    title,
+    shortDescription,
+    description,
+    courseLanguage,
+    category,
+    cloudinaryLink.url,
+  ]);
+
   return (
-    <div className="col-span-1 space-y-3">
-      <p className=" text-2xl font-bold">Basic Information</p>
-      <div className="space-y-4">
+    <div className="col-span-1 space-y-6">
+      <p className=" text-2xl font-bold pb-2 border-b-2">Informasi Kursus</p>
+      <div className="space-y-6">
         <div className="space-y-2">
-          <label htmlFor="courseTitle">Course Title</label>
-          <div className="">
+          {/* <label htmlFor="courseTitle">Judul</label> */}
+          <div className="relative">
             <input
               id="courseTitle"
               name="courseTitle"
               type="text"
               autoComplete="courseTitle"
               required
-              className="block w-full pr-12 rounded-md"
-              placeholder="Course Title"
+              className="block w-full pr-12 rounded-md border-neutral-300"
+              placeholder="Judul Kursus"
               maxLength={100}
               value={basicForm.title}
               onChange={(event) => setTitle(event.target.value)}
             />
-            <p className="block h-10 absolute top-[1px] right-[1px] bg-yellow-300 pt-2 px-2 rounded-md">
+            <p className="block h-10 absolute top-[1px] right-[1px] bg-yellow-300 pt-2 px-2 rounded-md w-12 text-center">
               {titleCounter}
             </p>
           </div>
         </div>
         <div className="space-y-2">
-          <label htmlFor="thumbnail">Thumbnail</label>
+          {/* <label htmlFor="thumbnail">Thumbnail</label> */}
+          {basicForm.title == "" ? (
+            <p className="text-red-600 font-semibold text-sm break-words">
+              Silahkan tambahkan judul kursus sebelum menambahkan atau mengubah
+              thumbnail
+            </p>
+          ) : (
+            ""
+          )}
+          {thumbnail != "" ? (
+            <img
+              src={thumbnail}
+              alt="Thumbnail"
+              className="h-36 w-72 bg-neutral-200 rounded-md object-cover"
+            />
+          ) : (
+            <div className="h-36 w-full bg-neutral-200 text-center content-center rounded-md">
+              <p className="">Thumbnail Preview</p>
+            </div>
+          )}
           <div className="">
             <input
               id="thumbnail"
               name="thumbnail"
               type="file"
               autoComplete="thumbnail"
-              accept=".jpg"
+              accept="image/jpg, image/png, image/jpeg"
               required
-              className="block w-full"
+              disabled={basicForm.title == "" ? true : false}
+              className="block w-full text-base file:border-0 file:bg-gray-600 file:font-semibold file:text-white file:py-2 file:px-4 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               onChange={(event) => setThumbnailFile(event.target.files[0])}
             />
           </div>
@@ -103,41 +139,43 @@ function BasicForm(props) {
               </progress>
             )}
             {loadingPercentage == 100 && (
-              <p className=" text-center">Upload Complete</p>
+              <p className=" text-center">Berhasil ditambahkan</p>
             )}
-            {thumbnailFile != null && loadingPercentage != 100 && (
+            {thumbnailFile != null && loadingPercentage == 0 && (
               <button
-                className="block bg-yellow-400 py-2 px-5 mt-2 w-full"
+                className="block bg-yellow-400 py-2 px-5 mt-2 w-full rounded-lg"
                 onClick={onUpload}
               >
-                Upload
+                Unggah
               </button>
             )}
           </div>
         </div>
         <div className="space-y-2">
-          <label htmlFor="shortDescription">Short Description</label>
+          {/* <label htmlFor="shortDescription">Deskripsi pendek</label> */}
           <textarea
             id="shortDescription"
             name="shortDescription"
             rows={4}
             autoComplete="shortDescription"
             required
-            className="block w-full rounded-md"
+            placeholder="Deskripsi Pendek"
+            className="block w-full rounded-md resize-none border-neutral-300"
             value={basicForm.shortDescription}
             onChange={(event) => setShortDescription(event.target.value)}
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="Description">Description</label>
+          {/* <label htmlFor="Description">Deskripsi</label> */}
           <textarea
             id="description"
             name="Description"
             rows={5}
             autoComplete="Description"
             required
-            className="block w-full rounded-md"
+            placeholder="Deskripsi"
+            className="block w-full rounded-md resize-none border-neutral-300"
             value={basicForm.description}
             onChange={(event) => setDescription(event.target.value)}
           />
@@ -145,27 +183,27 @@ function BasicForm(props) {
 
         <div className="grid grid-cols-2">
           <div className=" col-span-1 space-y-2 max-md:mr-0 max-md:col-span-2 mr-3">
-            <label htmlFor="languange">Course Language</label>
+            {/* <label htmlFor="languange">Bahasa Kursus</label> */}
             <select
               id="language"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={basicForm.language}
               onChange={(event) => setCourseLanguage(event.target.value)}
             >
-              <option selected>Choose category</option>
-              <option value="Bahasa">Bahasa</option>
-              <option value="English">English</option>
+              <option selected>Bahasa</option>
+              <option value="Bahasa">Indonesia</option>
+              <option value="English">Inggris</option>
             </select>
           </div>
           <div className="space-y-2 max-md:ml-0 max-md:col-span-2 ml-3">
-            <label htmlFor="sectionType">Course Category</label>
+            {/* <label htmlFor="sectionType">Kategori Kursus</label> */}
             <select
               id="sectionType"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={basicForm.category}
               onChange={(event) => setCategory(event.target.value)}
             >
-              <option selected>Choose category</option>
+              <option selected>Pilih Kategori</option>
               <option value="1">Marketing Management</option>
               <option value="2">Social Media Marketing</option>
               <option value="3">Creative Copywriting</option>

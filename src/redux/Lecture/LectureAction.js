@@ -204,12 +204,12 @@ const parseJwt = (token) => {
     return null;
   }
 };
-export const uploadPhoto = (data) => {
+export const uploadPhoto = (data, name) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const decodedJwt = parseJwt(user.accessToken);
   const userId = decodedJwt.userID;
   var sha1 = require("sha1");
-  let public_id = `photo_${userId}`;
+  let public_id = `photo_${name}`;
   let api_key = "891875937589394";
   let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
   let timestamp = Date.now();
@@ -256,7 +256,7 @@ export const uploadPhoto = (data) => {
       });
     // if(data)
     // axios
-    //   .post(process.env.REACT_APP_BASE_URL + "/apiv1/lecture/create-course", {
+    //   .post(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/lecture/create-course", {
     //     data,
     //   })
     //   .then((res) => {
@@ -280,7 +280,7 @@ export const postCourse = (data) => {
     };
     axios
       .post(
-        process.env.REACT_APP_BASE_URL + "/apiv1/lecture/create-course",
+        process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/lecture/create-course",
         payload,
         {
           headers: {
@@ -306,7 +306,7 @@ export const fetchAllCourses = () => {
   return (dispatch) => {
     dispatch(makeRequest());
     axios
-      .get(process.env.REACT_APP_BASE_URL + "/apiv1/lecture", {
+      .get(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/lecture", {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },
@@ -328,7 +328,7 @@ export const updateCourseStatus = (courseID, courseStatus) => {
     dispatch(makeRequest());
     axios
       .put(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/lecture/update-status?courseID=${courseID}`,
         { courseStatus: courseStatus },
         {
@@ -356,7 +356,7 @@ export const deleteCourse = (courseID) => {
     dispatch(makeRequest());
     axios
       .delete(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/lecture/delete-course?courseID=${courseID}`,
         {
           headers: {
@@ -383,7 +383,7 @@ export const getCourseDetail = (courseID) => {
     dispatch(makeRequest());
     axios
       .get(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_BASE_URL +
           `/apiv1/lecture/course-detail?courseID=${courseID}`,
         {
           headers: {
@@ -412,7 +412,7 @@ export const updateCourse = (data, courseID) => {
     dispatch(makeRequest());
     axios
       .put(
-        process.env.REACT_APP_BASE_URL + `/apiv1/lecture/update-course`,
+        process.env.REACT_APP_SERVER_BASE_URL + `/apiv1/lecture/update-course`,
         data,
         {
           headers: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TestCoursePhoto from "../../../assets/man-photo.png";
+import TestCoursePhoto from "../../../assets/Landing Page/copywriting.jpg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   checkEnrollment,

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import TestCoursePhoto from "../../assets/man-photo.png";
-// import { category } from "./category";
+import TestCoursePhoto from "../../assets/Landing Page/copywriting.jpg";
+import { category } from "../students/category";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function CourseCard(props) {
   const totalSection = 14;
@@ -21,12 +23,12 @@ function CourseCard(props) {
     // console.log(sectionCompletion)
   }, []);
   return (
-    <div className="flex flex-col m-2 bg-neutral-200 rounded-md p-2 space-y-2">
+    <div className="flex flex-col m-2 bg-neutral-100 rounded-md space-y-2 h-[17rem]">
       <a
         href={
           "/lecture/courses/course-page?courseID=" + props.courseDetail.courseID
         }
-        className="thumbnail0 w-full  rounded-t-md"
+        className="w-full h-40 rounded-md"
       >
         <img
           src={
@@ -34,35 +36,35 @@ function CourseCard(props) {
               ? props.courseDetail.thumbnail
               : TestCoursePhoto
           }
-          className="rounded-t-md"
+          className=" object-cover h-full w-auto rounded-t-md"
         />
       </a>
       <a
         href={
           "/lecture/courses/course-page?courseID=" + props.courseDetail.courseID
         }
-        className="title text-xl max-md:text-lg font-semibold block"
+        className="title text-xl max-md:text-lg font-semibold block px-3"
       >
         {props.courseDetail.title}
       </a>
-      <p className=" max-md:text-sm font-normal">
-        {/* {category[props.courseDetail.categoryID - 1]} */}
+      <p className=" text-sm max-md:text-sm font-normal px-3">
+        {category[props.courseDetail.categoryID - 1]}
       </p>
-      <div className=" max-md:text-sm font-medium">
-        {/* {props.courseDetail.User.name} */}
-      </div>
+      {/* <div className=" max-md:text-sm font-medium text-end bg-red-400 px-3">
+        Ke Diskusi <FontAwesomeIcon icon={faArrowRight} />
+      </div> */}
       {/* <div className=" bg-slate-300 rounded-lg">
         <div
           className={` bg-yellow-600 py-1 rounded-lg`}
           style={{ width: sectionCompletion }}
         ></div>
       </div> */}
-      <div className="thumbnail">
+      {/* <div className="">
         Total:{" "}
         <span className="max-md:text-sm font-semibold">
-          {/* {props.courseDetail.Sections.length} Sections */}
+          {props.courseDetail.Sections.length} Sections
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }

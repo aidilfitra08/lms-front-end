@@ -7,9 +7,14 @@ function NotFoundPage(props) {
   }
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64" : "pl-0",
+        "pt- text-center content-center h-[85vh] text-neutral-950"
+      )}
     >
-      Not Found 404
+      <p className="text-7xl font-semibold">404</p>
+      <p className="text-lg font-semibold">Not Found</p>
+      <p className="text-sm ">Halaman yang anda cari tidak dapat ditemukan</p>
     </div>
   );
 }
