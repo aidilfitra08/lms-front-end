@@ -151,8 +151,8 @@ export const resetLoadingPercentage = () => {
 export const uploadVideo = (data) => {
   var sha1 = require("sha1");
   let public_id = "test_video3";
-  let api_key = "891875937589394";
-  let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
+  let api_key = process.env.REACT_APP_CLOUDINARY_API_KEY;
+  let api_secret = process.env.REACT_APP_CLOUDINARY_SECRET_KEY;
   let timestamp = Date.now();
   let folder = "skripsi/test1";
   let signature = sha1(
@@ -210,8 +210,8 @@ export const uploadPhoto = (data, name) => {
   const userId = decodedJwt.userID;
   var sha1 = require("sha1");
   let public_id = `photo_${name}`;
-  let api_key = "891875937589394";
-  let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
+  let api_key = process.env.REACT_APP_CLOUDINARY_API_KEY;
+  let api_secret = process.env.REACT_APP_CLOUDINARY_SECRET_KEY;
   let timestamp = Date.now();
   let folder = `skripsi/photo/course_user${userId}`;
   let signature = sha1(

@@ -240,8 +240,8 @@ export const uploadPhoto = (data) => {
   const userId = decodedJwt.userID;
   var sha1 = require("sha1");
   let public_id = `photo_${userId}`;
-  let api_key = "891875937589394";
-  let api_secret = "IflTR_gKs4YmER030iYSK_q2Yzk";
+  let api_key = process.env.REACT_APP_CLOUDINARY_API_KEY;
+  let api_secret = process.env.REACT_APP_CLOUDINARY_SECRET_KEY;
   let timestamp = Date.now();
   let folder = `skripsi/photo/profile/${userId}`;
   let signature = sha1(
