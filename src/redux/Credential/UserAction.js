@@ -94,7 +94,9 @@ export const userLogin = (email, password) => {
       .catch((error) => {
         console.log(error.response);
 
-        dispatch(loginFail("Login Gagal"));
+        dispatch(
+          loginFail("Email atau password salah, silahkan login kembali.")
+        );
       });
   };
 };
