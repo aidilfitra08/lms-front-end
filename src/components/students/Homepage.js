@@ -12,6 +12,9 @@ import "react-calendar/dist/Calendar.css";
 import ReactPlayer from "react-player";
 
 function Homepage(props) {
+  useEffect(() => {
+    document.title = "Halaman Utama";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

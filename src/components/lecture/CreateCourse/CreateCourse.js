@@ -19,6 +19,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CreateCourse(props) {
+  useEffect(() => {
+    document.title = "Buat Kursus";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

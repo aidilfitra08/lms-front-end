@@ -17,6 +17,9 @@ const parseJwt = (token) => {
 };
 
 function Register(props) {
+  useEffect(() => {
+    document.title = "Daftar";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

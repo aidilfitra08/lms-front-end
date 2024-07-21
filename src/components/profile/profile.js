@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function Profile(props) {
+  useEffect(() => {
+    document.title = "Profil Saya";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

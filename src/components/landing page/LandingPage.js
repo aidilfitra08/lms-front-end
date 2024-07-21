@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import dekstop from "../../assets/Landing Page/video_sdk_dekstop.jpg";
 import mobile from "../../assets/Landing Page/video_sdk_mobile.jpg";
@@ -10,6 +10,9 @@ import { thumbnail } from "./foto";
 import { category } from "../students/category";
 
 function LandingPage(props) {
+  useEffect(() => {
+    document.title = "DigiMaLearn";
+  }, []);
   const [onClickShow, setOnClickShow] = useState(1);
   return (
     <>

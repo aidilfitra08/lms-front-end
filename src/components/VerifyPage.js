@@ -4,6 +4,9 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 function VerifyPage(props) {
+  useEffect(() => {
+    document.title = "Verifikasi";
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const userID = searchParams.get("id");
   const token = searchParams.get("token");

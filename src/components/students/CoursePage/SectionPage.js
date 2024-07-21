@@ -9,6 +9,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPlayer from "react-player/lazy";
 
 function SectionPage(props) {
+  useEffect(() => {
+    document.title = "Materi Kursus";
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const sectionID = searchParams.get("sectionID");
   const [videoDetail, setVideoDetail] = useState({});

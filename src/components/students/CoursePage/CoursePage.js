@@ -13,6 +13,9 @@ import Discussion from "../../discussion/discussion";
 import Swal from "sweetalert2";
 
 function CoursePage(props) {
+  useEffect(() => {
+    document.title = "Kursus";
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const courseID = searchParams.get("courseID");
   const dispatch = useDispatch();

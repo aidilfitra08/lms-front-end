@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function JoinMeetingPage(props) {
+  useEffect(() => {
+    document.title = "Gabung Pertemuan";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

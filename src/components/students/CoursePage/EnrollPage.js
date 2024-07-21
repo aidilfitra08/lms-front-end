@@ -12,6 +12,9 @@ import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { category } from "../category";
 
 function EnrollPage(props) {
+  useEffect(() => {
+    document.title = "Enroll ke Kursus";
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const courseID = searchParams.get("courseID");
   const dispatch = useDispatch();

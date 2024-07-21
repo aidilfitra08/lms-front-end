@@ -18,6 +18,10 @@ const parseJwt = (token) => {
 };
 
 function Login(props) {
+  useEffect(() => {
+    document.title = "Masuk";
+  }, []);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();

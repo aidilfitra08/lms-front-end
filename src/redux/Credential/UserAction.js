@@ -92,12 +92,9 @@ export const userLogin = (email, password) => {
         dispatch(loginSuccess(res.data.payload));
       })
       .catch((error) => {
-        // console.log(error.response.status);
-        // if (error.response.data.message) {
-        //   dispatch(loginFail(error.response.data.message));
-        // } else {
-        dispatch(loginFail(error.response.data.message));
-        // }
+        console.log(error.response);
+
+        dispatch(loginFail("Login Gagal"));
       });
   };
 };

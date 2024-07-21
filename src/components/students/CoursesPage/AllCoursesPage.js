@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 function AllCoursesPage(props) {
+  useEffect(() => {
+    document.title = "Semua Kursus";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

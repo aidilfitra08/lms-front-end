@@ -12,6 +12,9 @@ import Discussion from "../../discussion/discussion";
 import { getCourseDetail } from "../../../redux/Lecture/LectureAction";
 
 function CourseDiscussion(props) {
+  useEffect(() => {
+    document.title = "Diskusi Kursus";
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const courseID = searchParams.get("courseID");
   const dispatch = useDispatch();

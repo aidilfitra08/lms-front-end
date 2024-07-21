@@ -20,6 +20,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function CreateCourse(props) {
+  useEffect(() => {
+    document.title = "Ubah Kursus";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }

@@ -9,6 +9,9 @@ import {
 import Swal from "sweetalert2";
 
 function Homepage(props) {
+  useEffect(() => {
+    document.title = "Kursus Anda";
+  }, []);
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
