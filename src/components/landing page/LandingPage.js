@@ -101,7 +101,7 @@ function LandingPage(props) {
               onClickShow == 1 ? "block" : "hidden"
             } justify-center flex flex-row`}
           >
-            <img src={dekstop} className="" />
+            <img src={dekstop} className="rounded-xl" />
           </div>
           <div
             className={`${
