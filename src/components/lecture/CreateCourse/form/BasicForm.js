@@ -208,12 +208,9 @@ function BasicForm(props) {
               <option value="2">Social Media Marketing</option>
               <option value="3">Creative Copywriting</option>
               <option value="4">Facebook Ads</option>
-              <option value="5">TikTok Ads</option>
-              <option value="6">Google Ads</option>
-              <option value="7">Influencer and Community Marketing</option>
-              <option value="8">Search Engine Optimization</option>
-              <option value="9">App Store Optimization</option>
-              <option value="10">Customer Relationship Management</option>
+              <option value="5">Youtube Ads</option>
+              <option value="6">Influencer and Community Marketing</option>
+              <option value="7">Search Engine Optimization</option>
             </select>
           </div>
         </div>
