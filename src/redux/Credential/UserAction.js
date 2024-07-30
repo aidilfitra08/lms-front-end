@@ -92,11 +92,7 @@ export const userLogin = (email, password) => {
         dispatch(loginSuccess(res.data.payload));
       })
       .catch((error) => {
-        console.log(error);
-        console.log("baru");
-        dispatch(
-          loginFail("Email atau password salah, silahkan login kembali.")
-        );
+        dispatch(loginFail(error.response.data.message));
       });
   };
 };
