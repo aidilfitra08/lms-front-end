@@ -51,13 +51,11 @@ function SectionForm(props) {
   }
 
   function onClickUpdateSection(title, detail) {
-    console.log(indexNow);
     //----------------------------------------------------------
     setShowSectionForm(true);
 
     setSectionTitle(title);
     setSectionDescription(detail);
-    // setShowSectionForm(false);
   }
 
   function updateSection() {
@@ -87,7 +85,6 @@ function SectionForm(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteLesson(sectionIndex, lessonIndex, lessonID));
-        // setClicked(!clicked);
         Swal.fire({
           title: "Deleted!",
           text: "Your Lesson has been deleted.",
@@ -109,7 +106,6 @@ function SectionForm(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteSection(index, sectionID));
-        // setClicked(!clicked);
         Swal.fire({
           title: "Deleted!",
           text: "Your Lesson has been deleted.",

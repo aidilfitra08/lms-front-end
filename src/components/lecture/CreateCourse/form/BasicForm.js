@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addBasicInformData,
@@ -29,19 +28,13 @@ function BasicForm(props) {
   );
   const [uploadClick, setUploadClick] = useState(false);
   const dispatch = useDispatch();
-  console.log(cloudinaryLink);
-  console.log(thumbnail);
   function onUpload() {
     if (thumbnailFile.size <= 2097152) {
       setUploadClick(true);
-      // console.log(videoFile);
-      // console.log(videoFile[0]);
       dispatch(uploadPhoto(thumbnailFile, title));
     } else {
       alert("file too big,select another!");
     }
-
-    // setpublicId(cloudinaryLink.public_id);
   }
 
   useEffect(() => {
@@ -75,7 +68,6 @@ function BasicForm(props) {
       <p className=" text-2xl font-bold pb-2 border-b-2">Informasi Kursus</p>
       <div className="space-y-6">
         <div className="space-y-2">
-          {/* <label htmlFor="courseTitle">Judul</label> */}
           <div className="relative">
             <input
               id="courseTitle"
@@ -95,7 +87,6 @@ function BasicForm(props) {
           </div>
         </div>
         <div className="space-y-2">
-          {/* <label htmlFor="thumbnail">Thumbnail</label> */}
           {basicForm.title == "" ? (
             <p className="text-red-600 font-semibold text-sm break-words">
               Silahkan tambahkan judul kursus sebelum menambahkan atau mengubah
@@ -152,7 +143,6 @@ function BasicForm(props) {
           </div>
         </div>
         <div className="space-y-2">
-          {/* <label htmlFor="shortDescription">Deskripsi pendek</label> */}
           <textarea
             id="shortDescription"
             name="shortDescription"
@@ -167,7 +157,6 @@ function BasicForm(props) {
         </div>
 
         <div className="space-y-2">
-          {/* <label htmlFor="Description">Deskripsi</label> */}
           <textarea
             id="description"
             name="Description"
@@ -183,7 +172,6 @@ function BasicForm(props) {
 
         <div className="grid grid-cols-2">
           <div className=" col-span-1 space-y-2 max-md:mr-0 max-md:col-span-2 mr-3">
-            {/* <label htmlFor="languange">Bahasa Kursus</label> */}
             <select
               id="language"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -196,7 +184,6 @@ function BasicForm(props) {
             </select>
           </div>
           <div className="space-y-2 max-md:ml-0 max-md:col-span-2 ml-3">
-            {/* <label htmlFor="sectionType">Kategori Kursus</label> */}
             <select
               id="sectionType"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

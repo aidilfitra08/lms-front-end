@@ -26,13 +26,6 @@ export const Protected = ({ children }) => {
     alert("Sesi anda telah habis silahkan login kembali!");
     window.location.reload(true);
   }
-  // const role = decodedJwt.role;
-  // // let role = JSON.parse(localStorage.getItem("user")).role;
-  // if (role != "student" && role != "admin") {
-  //   return <Navigate to="/lecture" replace />;
-  // } else if (role != "lecture" && role != "admin") {
-  //   return <Navigate to="/student" replace />;
-  // }
   return children;
 };
 

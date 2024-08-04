@@ -23,7 +23,6 @@ function Register(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [passCheck, setPassCheck] = useState(false);
@@ -32,7 +31,6 @@ function Register(props) {
   const dispatch = useDispatch();
   const handleRegister = async (e) => {
     e.preventDefault();
-
     dispatch(userRegister(name, email, password));
   };
   const navigate = useNavigate();
@@ -47,7 +45,6 @@ function Register(props) {
       setPassCheck(true);
     }
   }, [password, confirmPassword]);
-
   useEffect(() => {
     if (props.isRegistered) {
       alert(
@@ -58,7 +55,6 @@ function Register(props) {
       window.location.reload(true);
     }
   }, [props.isRegistered]);
-
   useEffect(() => {
     if (props.isLoggedIn) {
       const decodedJwt = parseJwt(props.user.accessToken);
@@ -72,7 +68,6 @@ function Register(props) {
   }, [props.isLoggedIn]);
   return (
     <div className="grid grid-cols-2 max-lg:grid-cols-1">
-      {/* Form */}
       <div className="col-span-1 h-screen grid content-center justify-center bg-cover">
         <div className=" bg-neutral-50 shadow-2xl h-fit w-128 rounded-lg pb-12 bg-opacity-80 max-md:w-80">
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm p-4 space-y-8 max-md:text-sm">
@@ -130,7 +125,6 @@ function Register(props) {
                   />
                 </div>
               </div>
-
               <div>
                 <div className="flex items-center justify-between">
                   <label
@@ -201,7 +195,6 @@ function Register(props) {
                   Masuk disini
                 </a>
               </p>
-
               <div>
                 <button
                   type="submit"
@@ -220,8 +213,6 @@ function Register(props) {
           </div>
         </div>
       </div>
-
-      {/* image */}
       <div className=" col-span-1 h-screen max-lg:hidden flex justify-center items-center">
         <img
           src={Background}

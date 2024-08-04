@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import dekstop from "../../assets/Landing Page/video_sdk_dekstop.jpg";
 import mobile from "../../assets/Landing Page/video_sdk_mobile.jpg";
 import landingPicture from "../../assets/landing-picture.png";

@@ -16,7 +16,6 @@ function Footer(props) {
     return classes.filter(Boolean).join(" ");
   }
   const token = useSelector((state) => state.user.user.accessToken);
-  // const user = JSON.parse(localStorage.getItem("user"));
   const decodedJwt = parseJwt(token);
   const role = decodedJwt.role;
   return (

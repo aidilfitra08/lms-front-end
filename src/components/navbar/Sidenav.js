@@ -3,9 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
   faBookmark,
-  faCalendarDays,
-  faChartLine,
-  faEnvelope,
   faHouseChimney,
   faPen,
   faVideo,
@@ -18,7 +15,6 @@ import {
 } from "react-router-dom";
 import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { fetchCourse } from "../../redux/Student/StudentAction";
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -33,15 +29,11 @@ function Sidenav(props) {
   const dispatch = useDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const courseID = searchParams.get("courseID");
-
-  const [coursesDropDown, setCoursesDropDown] = useState(false);
 
   let navigate = useNavigate();
 
   const loading = useSelector((state) => state.user.loading);
   const token = useSelector((state) => state.user.user.accessToken);
-  // const user = JSON.parse(localStorage.getItem("user"));
   const decodedJwt = parseJwt(token);
   const role = decodedJwt.role;
 
@@ -52,7 +44,6 @@ function Sidenav(props) {
       )
       .then((res) => {
         let roomId = res.data.payload.roomId;
-        console.log(roomId);
         navigate("/conference/" + roomId, { replace: true });
         window.location.reload(true);
       })
@@ -62,12 +53,6 @@ function Sidenav(props) {
   };
   const location = useLocation();
   let sections = useSelector((state) => state.studenCourse);
-  console.log(sections);
-
-  // useEffect(() => {
-  //   dispatch(fetchCourse(courseID));
-  // }, []);
-  console.log(props.courseDetail);
   return (
     <aside
       className={classNames(
@@ -130,28 +115,6 @@ function Sidenav(props) {
           <span className=" md:inline">Semua Kursus</span>
         </a>
       )}
-
-      {/* <a
-        href="/student/calendar"
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
-      >
-        <FontAwesomeIcon icon={faCalendarDays} size="lg" className="px-5" />
-        <span className="hidden md:inline">Calendar</span>
-      </a> */}
-      {/* <a
-        href="/student/homepage"
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
-      >
-        <FontAwesomeIcon icon={faChartLine} size="lg" className="px-5" />
-        <span className="hidden md:inline">Activities</span>
-      </a> */}
-      {/* <a
-        href="/student/homepage"
-        className="w-full bg-yellow-400 block py-4 hover:bg-yellow-200"
-      >
-        <FontAwesomeIcon icon={faEnvelope} size="lg" className="px-5" />
-        <span className="hidden md:inline">Messages (Lecture & Student)</span>
-      </a> */}
       {role === "lecture" && (
         <a
           href="/lecture/courses/create-course"
@@ -190,20 +153,6 @@ function Sidenav(props) {
         </a>
       )}
 
-      {/* {location.pathname == "/student/courses" ? (
-        <div>
-          <hr className="py-[1px] mx-3 my-4 bg-black" />
-          <p className="w-full bg-yellow-400 block py-4"> Your Class</p>
-          <a
-            href="/student/courses/course-page"
-            className="w-full bg-yellow-400 block py-4 hover:bg-yellow-400"
-          >
-            {" "}
-            Class Page 1
-          </a>
-        </div>
-      ) : null} */}
-
       {location.pathname == "/student/courses/course-page" &&
       props.enrollmentStatus ? (
         <div>
@@ -224,7 +173,6 @@ function Sidenav(props) {
           })}
         </div>
       ) : null}
-      {/* <p>Current Pathname: {location.pathname}</p> */}
     </aside>
   );
 }

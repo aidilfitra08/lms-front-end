@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { VideoSDKMeeting } from "@videosdk.live/rtc-js-prebuilt";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,18 +16,10 @@ const parseJwt = (token) => {
 function VideoConference2(props) {
   const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
   const user = useSelector((state) => state.user);
-  console.log(user);
   const decodedJwt = parseJwt(user.user.accessToken);
-  console.log(decodedJwt);
   const userRole = decodedJwt.role;
   const navigate = useNavigate();
-  // const [name, setName] = useState("");
   const { meetingId } = useParams();
-  // useEffect(() => {
-  console.log(meetingId);
-  // }, []);
-  // console.log(user);
-  // const userRole = JSON.parse(localStorage.getItem("user"));
 
   let userPermission = {
     pin: true,
@@ -68,7 +59,6 @@ function VideoConference2(props) {
       changeLayout: true, //can change layout
     };
   }
-  console.log(userPermission);
   const config = {
     name: user.user.name,
     meetingId: meetingId,
@@ -163,7 +153,6 @@ function VideoConference2(props) {
         meeting.init(config);
       })
       .catch((err) => {
-        console.log(err);
         alert("Wrong Meeting Id. Please Enter a valid Meeting Id!");
         navigate(-1, { replace: true });
         window.location.reload(true);
@@ -172,7 +161,5 @@ function VideoConference2(props) {
 
   return <div></div>;
 }
-
-// VideoConference2.propTypes = {}
 
 export default VideoConference2;

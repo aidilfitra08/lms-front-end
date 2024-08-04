@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 function NotFoundPage(props) {
   function classNames(...classes) {
@@ -18,7 +17,5 @@ function NotFoundPage(props) {
     </div>
   );
 }
-
-NotFoundPage.propTypes = {};
 
 export default NotFoundPage;

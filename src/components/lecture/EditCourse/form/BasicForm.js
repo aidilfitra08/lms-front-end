@@ -29,22 +29,14 @@ function BasicForm(props) {
   );
   const [uploadClick, setUploadClick] = useState(false);
   const dispatch = useDispatch();
-  console.log(cloudinaryLink);
-  console.log(thumbnail);
   function onUpload() {
     if (thumbnailFile.size <= 2097152) {
       setUploadClick(true);
-      // console.log(videoFile);
-      // console.log(videoFile[0]);
       dispatch(uploadPhoto(thumbnailFile, title));
     } else {
       alert("file too big, select another!");
     }
-
-    // setpublicId(cloudinaryLink.public_id);
   }
-
-  // const dispatch = useDispatch();
   useEffect(() => {
     setThumbnail(cloudinaryLink.url);
   }, [cloudinaryLink]);
@@ -76,7 +68,6 @@ function BasicForm(props) {
       <p className=" text-2xl font-bold">Informasi Kursus</p>
       <div className="space-y-4">
         <div className="space-y-2">
-          {/* <label htmlFor="courseTitle">Judul Kursus</label> */}
           <div className="relative">
             <input
               id="courseTitle"
@@ -96,7 +87,6 @@ function BasicForm(props) {
           </div>
         </div>
         <div className="space-y-2">
-          {/* <p>Thumbnail</p> */}
           {basicForm.title == "" ? (
             <p className="text-red-600 font-semibold text-sm break-words">
               Silahkan tambahkan judul kursus sebelum menambahkan atau mengubah
@@ -157,7 +147,6 @@ function BasicForm(props) {
           </div>
         </div>
         <div className="space-y-2">
-          {/* <label htmlFor="shortDescription">Short Description</label> */}
           <textarea
             id="shortDescription"
             name="shortDescription"
@@ -172,7 +161,6 @@ function BasicForm(props) {
         </div>
 
         <div className="space-y-2">
-          {/* <label htmlFor="Description">Description</label> */}
           <textarea
             id="description"
             name="Description"
@@ -188,7 +176,6 @@ function BasicForm(props) {
 
         <div className="grid grid-cols-2">
           <div className=" col-span-1 space-y-2 max-md:mr-0 max-md:col-span-2 mr-3">
-            {/* <label htmlFor="languange">Course Language</label> */}
             <select
               id="language"
               className="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -212,12 +199,9 @@ function BasicForm(props) {
               <option value="2">Social Media Marketing</option>
               <option value="3">Creative Copywriting</option>
               <option value="4">Facebook Ads</option>
-              <option value="5">TikTok Ads</option>
-              <option value="6">Google Ads</option>
-              <option value="7">Influencer and Community Marketing</option>
-              <option value="8">Search Engine Optimization</option>
-              <option value="9">App Store Optimization</option>
-              <option value="10">Customer Relationship Management</option>
+              <option value="5">Youtube Ads</option>
+              <option value="6">Influencer and Community Marketing</option>
+              <option value="7">Search Engine Optimization</option>
             </select>
           </div>
         </div>

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import TestCoursePhoto from "../../../assets/Landing Page/copywriting.jpg";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
   checkEnrollment,
   enrollMe,
   fetchCourse,
 } from "../../../redux/Student/StudentAction";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { category } from "../category";
 
 function EnrollPage(props) {
@@ -25,16 +23,13 @@ function EnrollPage(props) {
   const [enrollKey, setEnrollKey] = useState("");
   if (searchParams.size === 0) {
     navigate("/student/all-courses", { replace: true });
-    // window.location.reload(true);
   } else if (props.enrollmentStatus === true) {
     navigate(`/student/course-page?courseID=${courseID}`, { replace: true });
-    // window.location.reload(true);
   }
 
   const handleEnroll = () => {
     dispatch(enrollMe(courseID, enrollKey));
   };
-  console.log(props.courseDetail);
   useEffect(() => {
     dispatch(fetchCourse(courseID));
     dispatch(checkEnrollment(courseID));
@@ -81,10 +76,7 @@ function EnrollPage(props) {
             />
           </div>
         </div>
-        <div
-          className="col-span-2 mt-10 mb-5"
-          // hidden={clickedButton === true ? false : true}
-        >
+        <div className="col-span-2 mt-10 mb-5">
           <button
             className=" w-full p-3 rounded-xl text-black bg-yellow-400 hover:bg-yellow-200"
             onClick={() => handleEnroll()}

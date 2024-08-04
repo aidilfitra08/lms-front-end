@@ -107,18 +107,10 @@ export const userRegister = (name, email, password) => {
         password: password,
       })
       .then((res) => {
-        // if (res.data.payload.accessToken) {
-        //   localStorage.setItem("user", JSON.stringify(res.data.payload));
-        // }
         dispatch(registerSuccess(res.status));
       })
       .catch((error) => {
-        // console.log(error.response.status);
-        // if (error.response.data.message) {
-        //   dispatch(loginFail(error.response.data.message));
-        // } else {
         dispatch(registerFail(error.response.data.message));
-        // }
       });
   };
 };
@@ -151,18 +143,8 @@ export const addProfile = (profileData) => {
   };
 };
 
-// const parseJwt = (token) => {
-//   try {
-//     return JSON.parse(atob(token.split(".")[1]));
-//   } catch (e) {
-//     return null;
-//   }
-// };
-
 export const editProfile = (data) => {
   let user = JSON.parse(localStorage.getItem("user"));
-  // const decodedJwt = parseJwt(user.accessToken);
-  // const role = decodedJwt.role;
   return async (dispatch) => {
     dispatch(makeRequest());
     await axios
@@ -174,7 +156,6 @@ export const editProfile = (data) => {
       .then((res) => {
         if (res.status == 201) {
           dispatch(successRequest());
-          // console.log(data.pro);
           user.photo = data.profilePicture;
 
           localStorage.setItem("user", JSON.stringify(user));
@@ -190,18 +171,6 @@ export const editProfile = (data) => {
   };
 };
 
-// const loadingUpdate = (percentage) => {
-//   return {
-//     type: LOADING_PERCENTAGE,
-//     payload: percentage,
-//   };
-// };
-// const uploadCloudinarySuccess = (data) => {
-//   return {
-//     type: UPLOAD_VIDEO_CLOUDINARY_SUCCESS,
-//     payload: data,
-//   };
-// };
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -274,7 +243,6 @@ export const uploadPhoto = (data) => {
           public_id: res.data.public_id,
         };
         dispatch(uploadCloudinarySuccess(data));
-        // console.log(res);
       })
       .catch((err) => {
         dispatch(failRequest(err.message));

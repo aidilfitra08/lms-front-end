@@ -5,7 +5,6 @@ import {
   updateLessonData,
   uploadVideo,
 } from "../../../../../redux/Lecture/LectureAction";
-// import PropTypes from 'prop-types'
 
 function LessonComponent(props) {
   const createLessonData = useSelector(
@@ -48,16 +47,8 @@ function LessonComponent(props) {
       ? createLessonData.Lessons[props.lessonIndexNow].clodinaryPublicID
       : ""
   );
-  // const [order, setOrder] = useState(1);
   const dispatch = useDispatch();
 
-  console.log(createLessonData.Lessons[props.lessonIndexNow]);
-  if (props.lessonIndexNow != null) {
-    // setLessonTitle();
-    console.log(createLessonData.Lessons[props.lessonIndexNow].lessonTitle);
-    console.log("berhasil");
-  }
-  // console.log(lessonTitle);
   function onSaveLesson(index) {
     let videoUrl = videoLink;
     if (cloudinaryLink.url != "") {
@@ -123,12 +114,9 @@ function LessonComponent(props) {
   const [uploadClick, setUploadClick] = useState(false);
   function onUpload() {
     setUploadClick(true);
-    // console.log(videoFile);
-    // console.log(videoFile[0]);
     dispatch(uploadVideo(videoFile));
     setVideoLink(cloudinaryLink.url);
     setpublicId(cloudinaryLink.public_id);
-    // setUploadClick(false);
   }
   function renderSwitch(lessonType) {
     switch (lessonType) {
@@ -144,7 +132,6 @@ function LessonComponent(props) {
               onChange={(event) => setVideoType(event.target.value)}
             >
               <option selected>Select Video Type</option>
-              {/* <option value="html">HTML5(mp4)</option> */}
               <option value="externalURL">External URL</option>
               <option value="yt">Youtube</option>
               <option value="embedded">embedded</option>
@@ -190,7 +177,6 @@ function LessonComponent(props) {
                 disabled={props.disableText}
                 accept="video/mp4"
                 className="block"
-                // value={videoFile}
                 onChange={(event) => setVideoFile(event.target.files[0])}
               />
             </div>
@@ -348,7 +334,5 @@ function LessonComponent(props) {
     </div>
   );
 }
-
-// lessonComponent.propTypes = {}
 
 export default LessonComponent;

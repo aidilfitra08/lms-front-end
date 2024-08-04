@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Sidenav from "../navbar/Sidenav";
 import Footer from "../footer/Footer";
 import CourseCard from "./CourseCard";
 import { connect, useDispatch } from "react-redux";
@@ -9,7 +8,6 @@ import {
 } from "../../redux/Student/StudentAction";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import ReactPlayer from "react-player";
 
 function Homepage(props) {
   useEffect(() => {
@@ -18,8 +16,6 @@ function Homepage(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
-  // const testingMap = [1, 2, 3, 4, 5];
   const joinedCourses = props.course.allJoinedCourses;
   const allCourses = props.course.allCourses;
   const dispatch = useDispatch();
@@ -27,11 +23,9 @@ function Homepage(props) {
     dispatch(fetchAllJoinedCourses());
     dispatch(fetchAllCourses(0, 5));
   }, []);
-
   const [numberToMap, setNumberToMap] = useState(
     window.innerWidth <= 1024 ? 2 : 3
   );
-
   const mapAllCourses = (number) => (
     <>
       {allCourses.slice(0, number).map((course) => (
@@ -41,7 +35,6 @@ function Homepage(props) {
       ))}
     </>
   );
-
   const mapYourCourses = (number) => (
     <>
       {joinedCourses.slice(0, number).map((course) => (
@@ -51,7 +44,6 @@ function Homepage(props) {
       ))}
     </>
   );
-
   const minHandler = () => setNumberToMap(2);
   const maxHandler = () => setNumberToMap(3);
   useEffect(() => {
@@ -67,7 +59,6 @@ function Homepage(props) {
   }, [window.innerWidth]);
   return (
     <>
-      {/* <Sidenav/> */}
       <div
         className={classNames(
           props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",
@@ -84,7 +75,6 @@ function Homepage(props) {
               Show More
             </a>
           </div>
-
           <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
             {mapYourCourses(numberToMap)}
           </div>

@@ -1,14 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faMagnifyingGlass,
-  faSchool,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
-import LogoLong from "../../assets/logo_long.svg";
+import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
 import LogoOnly from "../../assets/logo_only.svg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/Credential/UserAction";
@@ -33,38 +25,21 @@ function Navbar2(props) {
     setProfileDropDown(!profileDropDown);
   }
 
-  function onClickNotificationBar() {
-    setNotificationBar(!notificationBar);
-  }
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
   const [profileDropDown, setProfileDropDown] = useState(true);
   const [notificationBar, setNotificationBar] = useState(true);
-  const [searchInput, setSearchInput] = useState("");
   const user = useSelector((state) => state.user);
-  const handleSearchInputChange = (e) => {
-    e.preventDefault();
-    setSearchInput(e.target.value);
-  };
 
   const dispatch = useDispatch();
   const handleLogOut = () => {
     dispatch(userLogout());
-    // alert(props.user.name + " is successfully logged in!");
     navigate("/login", { replace: true });
     window.location.reload(true);
   };
 
-  // if (props.isLoggedIn === false) {
-  //   return <Navigate to="/" />;
-  // }
-
-  if (searchInput.length > 0) {
-    console.log(searchInput);
-  }
   const token = useSelector((state) => state.user.user.accessToken);
   const decodedJwt = parseJwt(token);
   const role = decodedJwt.role;
@@ -94,20 +69,6 @@ function Navbar2(props) {
             <img src={LogoOnly} className="h-12" />
           </a>
         </div>
-
-        {/* <div className="searchbar pt-3 hidden md:block md:pl-16 max lg:pl-24 xl:pl-52">
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            size="lg"
-            className="px-3"
-          />
-          <input
-            type="text"
-            placeholder="Search here"
-            onChange={handleSearchInputChange}
-            value={searchInput}
-          />
-        </div> */}
       </div>
       <div className="flex sm:ml-10 h-full items-center">
         <div className="  pt-2 px-6">
@@ -139,7 +100,6 @@ function Navbar2(props) {
                 {user.user.email}
               </p>
             </div>
-            {console.log(user.user.role)}
             <a
               href={
                 role === "student" ? "/student/profile" : "/lecture/profile"

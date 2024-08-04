@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import LessonForm from "./form/SectionForm";
-import QuizForm from "./form/QuizForm";
 import BasicForm from "./form/BasicForm";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
@@ -31,11 +29,9 @@ function CreateCourse(props) {
   const [enrollCode, setEnrollCode] = useState(
     basicInformation ? basicInformation.enrollCode : ""
   );
-  // const [quizFormData, setQuizFormData] = useState({});
   const components = [
     <BasicForm />,
     <LessonForm />,
-    // <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
       <label htmlFor="enrollCode">Kode Enroll</label>
       <div className="">
@@ -54,24 +50,15 @@ function CreateCourse(props) {
       </div>
     </div>,
   ];
-
   const [pageCount, setPageCount] = useState(0);
   const [sectionCompletion, setSectionCompletion] = useState("0%");
-
   const sectionsDataToUpload = useSelector((state) => state.lecture);
-  // const postSuccess = useSelector((state) => state.lecture);
   const dispatch = useDispatch();
   const handleUpload = () => {
     dispatch(postCourse(sectionsDataToUpload));
-    // if (sectionsDataToUpload.postSuccess) {
-
-    //   return <Navigate to="/" />;
-    // }
   };
 
   useEffect(() => {
-    // setSectionCompletion((sectionComplete/totalSection)*100);
-    // console.log(sectionCompletion)
     if (pageCount === 0) {
       setSectionCompletion("0%");
     } else if (pageCount === 1) {
@@ -79,11 +66,6 @@ function CreateCourse(props) {
     } else if (pageCount === 2) {
       setSectionCompletion("100%");
     }
-    // else if (pageCount === 3) {
-    //   setSectionCompletion("100%");
-    // }
-    // updateCompletion();
-    // console.log(basicFormData);
   }, [pageCount]);
 
   useEffect(() => {
@@ -93,7 +75,6 @@ function CreateCourse(props) {
   useEffect(() => {
     dispatch(addEnrollCode(enrollCode));
   }, [enrollCode]);
-
   if (sectionsDataToUpload.postSuccess) {
     Swal.fire({
       title: "Kursus Berhasil ditambahkan",
@@ -126,16 +107,8 @@ function CreateCourse(props) {
             ></div>
           </div>
         </div>
-        <form>
-          {/*  */}
-          {/*  */}
-        </form>
         <div>
-          {
-            // render component from our components array
-            components[pageCount]
-          }
-          {/* show previous button if we are not on first element */}
+          {components[pageCount]}
           {pageCount > 0 && (
             <button
               onClick={() => setPageCount(pageCount - 1)}
@@ -144,8 +117,6 @@ function CreateCourse(props) {
               <FontAwesomeIcon icon={faArrowLeft} className="pl-2" /> Sebelumnya
             </button>
           )}
-
-          {/* hide next button if we are at the last element */}
           {pageCount < components.length - 1 && (
             <button
               onClick={() => setPageCount(pageCount + 1)}

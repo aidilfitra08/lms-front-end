@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addLessonData,
   addSectionsData,
   deleteLesson,
   deleteSection,
@@ -37,7 +35,6 @@ function LessonForm(props) {
   const createSectionsData = useSelector((state) => state.lecture.sections);
 
   function onSaveSection() {
-    //----------------------------------------------------------
     dispatch(
       addSectionsData({
         title: sectionTitle,
@@ -51,17 +48,12 @@ function LessonForm(props) {
   }
 
   function onClickUpdateSection(title, detail) {
-    console.log(indexNow);
-    //----------------------------------------------------------
     setShowSectionForm(true);
-
     setSectionTitle(title);
     setSectionDescription(detail);
-    // setShowSectionForm(false);
   }
 
   function updateSection() {
-    //----------------------------------------------------------
     dispatch(
       updateSectionsData({
         title: sectionTitle,
@@ -87,7 +79,6 @@ function LessonForm(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteLesson(sectionIndex, lessonIndex));
-        // setClicked(!clicked);
         Swal.fire({
           title: "Deleted!",
           text: "Your Lesson has been deleted.",
@@ -109,7 +100,6 @@ function LessonForm(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteSection(index));
-        // setClicked(!clicked);
         Swal.fire({
           title: "Deleted!",
           text: "Your section has been deleted.",

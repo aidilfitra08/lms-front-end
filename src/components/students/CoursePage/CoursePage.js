@@ -25,94 +25,22 @@ function CoursePage(props) {
   const navigate = useNavigate();
   if (searchParams.size === 0) {
     navigate("/student/all-course", { replace: true });
-    // window.location.reload(true);
   } else if (props.enrollmentStatus === false) {
-    // navigate(`/student/course-page/enroll-page?courseID=${courseID}`);
     navigate(`/student/course-page/enroll-page?courseID=${courseID}`, {
       replace: true,
     });
-    // Swal.fire({
-    //   title: "anda belum join ke kelas ini",
-    //   // text: "!",
-    //   icon: "error",
-    //   confirmButtonColor: "#3085d6",
-    // }).then(() => {
-
-    // });
-    // return (
-    //   <Navigate
-    //     to={`/student/course-page/enroll-page?courseID=${courseID}`}
-    //     replace
-    //   />
-    // );
   }
-  // const courseState = useSelector((state) => state.studentCourse);
-  // const courseDetail = courseState.courseDetail;
-
-  console.log(props.courseDetail);
-  // useEffect(() => {
-
-  // }, []);
-  const testData = {
-    sections: [
-      {
-        name: "section 1",
-        lessons: [
-          {
-            name: "section 1 lesson 1",
-          },
-          {
-            name: "section 1 lesson 2",
-          },
-          {
-            name: "section 1 lesson 3",
-          },
-        ],
-      },
-      {
-        name: "section 2",
-        lessons: [
-          {
-            name: "section 2 lesson 1",
-          },
-          {
-            name: "section 2 lesson 2",
-          },
-        ],
-      },
-    ],
-  };
-
   function countLessons() {
     var counter = 0;
     props.courseDetail.Sections.map((section) => {
       counter = counter + section.Lessons.length;
     });
-    // console.log(counter);
     return counter;
   }
   useEffect(() => {
     dispatch(checkEnrollment(courseID));
-    // if (props.enrollmentStatus === false) {
-    //   navigate(`/student/courses/enroll-page?courseID=${courseID}`, {
-    //     replace: true,
-    //   });
-
     dispatch(fetchCourse(courseID));
   }, []);
-  // useEffect(() => {
-  //   // if (searchParams.size === 0) {
-  //   //   navigate("/student/courses", { replace: true });
-  //   //   // window.location.reload(true);
-  //   // }
-  //   // dispatch(checkEnrollment(courseID));
-  //   if (props.enrollmentStatus === false) {
-  //     navigate(`/student/course-page/enroll-page?courseID=${courseID}`, {
-  //       replace: true,
-  //     });
-  //   }
-  //   // dispatch(fetchCourse(courseID));
-  // }, [props.enrollmentStatus]);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
@@ -137,7 +65,6 @@ function CoursePage(props) {
             <a href="#" className="block text-md font-semibold">
               {category[props.courseDetail.categoryID - 1]}
             </a>
-            {/* <p>total section: 30</p> */}
             <p>
               Course by: <span>{props.courseDetail.User.name}</span>
             </p>
@@ -166,9 +93,6 @@ function CoursePage(props) {
                   <>
                     <hr />
                     <li className="py-2">
-                      {/* <button className="mr-2">
-                        <FontAwesomeIcon icon={faAngleDown} />
-                      </button> */}
                       <a
                         href={
                           "course-page/sections?sectionID=" + section.sectionID
@@ -194,7 +118,6 @@ function CoursePage(props) {
             </ul>
           </div>
         </div>
-
         <Discussion courseID={courseID} />
       </div>
     </div>

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import SectionForm from "./form/SectionForm";
-import QuizForm from "./form/QuizForm";
 import BasicForm from "./form/BasicForm";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   addEnrollCode,
   getCourseDetail,
-  postCourse,
   updateCourse,
 } from "../../../redux/Lecture/LectureAction";
 import { Navigate, useSearchParams } from "react-router-dom";
@@ -28,7 +25,6 @@ function CreateCourse(props) {
   }
   const [searchParams, setSearchParams] = useSearchParams();
   const courseID = searchParams.get("courseID");
-  // console.log(courseID);
   const basicInformation = useSelector(
     (state) => state.lecture.basicInformation
   );
@@ -38,12 +34,9 @@ function CreateCourse(props) {
   useEffect(() => {
     setEnrollCode(basicInformation.enrollCode);
   }, [basicInformation]);
-  // console.log(basicInformation);
-  // const [quizFormData, setQuizFormData] = useState({});
   const components = [
     <BasicForm />,
     <SectionForm />,
-    // <div className=" text-center text-2xl">Under maintenance please Next</div>,
     <div className="space-y-2">
       <label htmlFor="enrollCode">EnrollCode</label>
       <div className="relative">
@@ -67,7 +60,6 @@ function CreateCourse(props) {
   const [sectionCompletion, setSectionCompletion] = useState("0%");
 
   const sectionsDataToUpload = useSelector((state) => state.lecture);
-  // const postSuccess = useSelector((state) => state.lecture);
   const dispatch = useDispatch();
   const handleUpload = () => {
     Swal.fire({
@@ -81,7 +73,6 @@ function CreateCourse(props) {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(updateCourse(sectionsDataToUpload, courseID));
-        // setClicked(!clicked);
         Swal.fire({
           title: "Berhasil!",
           text: "Kursus anda berhasil dibuat.",
@@ -89,16 +80,9 @@ function CreateCourse(props) {
         });
       }
     });
-
-    // if (sectionsDataToUpload.postSuccess) {
-    //   alert("update sukses");
-    //   return <Navigate to="/" />;
-    // }
   };
 
   useEffect(() => {
-    // setSectionCompletion((sectionComplete/totalSection)*100);
-    // console.log(sectionCompletion)
     if (pageCount === 0) {
       setSectionCompletion("0%");
     } else if (pageCount === 1) {
@@ -106,8 +90,6 @@ function CreateCourse(props) {
     } else if (pageCount === 2) {
       setSectionCompletion("100%");
     }
-    // updateCompletion();
-    // console.log(basicFormData);
   }, [pageCount]);
 
   useEffect(() => {
@@ -142,11 +124,7 @@ function CreateCourse(props) {
           </div>
         </div>
         <div>
-          {
-            // render component from our components array
-            components[pageCount]
-          }
-          {/* show previous button if we are not on first element */}
+          {components[pageCount]}
           {pageCount > 0 && (
             <button
               onClick={() => setPageCount(pageCount - 1)}
@@ -155,8 +133,6 @@ function CreateCourse(props) {
               <FontAwesomeIcon icon={faArrowLeft} className="pl-2" /> Sebelumnya
             </button>
           )}
-
-          {/* hide next button if we are at the last element */}
           {pageCount < components.length - 1 && (
             <button
               onClick={() => setPageCount(pageCount + 1)}

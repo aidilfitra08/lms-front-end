@@ -1,8 +1,4 @@
 import {
-  ADD_NEW_TOPIC,
-  ADD_REPLY,
-  DELETE_REPLY,
-  DELETE_TOPIC,
   FAIL_REQUEST,
   GET_DISCUSSION,
   MAKE_REQUEST,
@@ -65,27 +61,6 @@ export const courseReducer = (state = initialState, action) => {
         errorMessage: "",
         discussions: action.payload,
       };
-
-    // case ADD_NEW_TOPIC:
-    //   return {
-    //     ...state,
-    //     discussion: [action.payload],
-    //   }
-
-    // case DELETE_TOPIC:
-    //   return {
-
-    //   }
-
-    // case ADD_REPLY:
-    //   return {
-
-    //   }
-
-    // case DELETE_REPLY:
-    //   return {
-
-    //   }
 
     default:
       return state;

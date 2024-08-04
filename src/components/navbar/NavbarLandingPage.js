@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import LogoOnly from "../../assets/logo_only.svg";
-import LogoLong from "../../assets/logo_long.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const parseJwt = (token) => {
   try {
@@ -55,7 +51,6 @@ function NavbarLandingPage(props) {
           onClick={goTo}
         >
           Masuk
-          {/* {!localStorage.getItem("user") ? "Masuk" : "Halaman Belajar"} */}
         </button>
         <button className="px-5 hover:bg-yellow-400 hover:font-semibold h-full hover:text-white">
           <a href="/register">Daftar</a>

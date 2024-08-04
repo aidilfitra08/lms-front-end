@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import TestCoursePhoto from "../../../assets/man-photo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {} from "@fortawesome/free-solid-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";
@@ -20,50 +19,10 @@ function SectionPage(props) {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-  console.log(searchParams.size);
   if (searchParams.size === 0) {
     navigate(-1, { replace: true });
-    // window.location.reload(true);
   }
   const dispatch = useDispatch();
-  const testData = {
-    name: "section 1",
-    lessons: [
-      {
-        name: "section 1 lesson 1",
-        lessonType: "video",
-      },
-      {
-        name: "section 1 lesson 2",
-        lessonType: "text",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "attachment",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "video",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "video",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "video",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "video",
-      },
-      {
-        name: "section 1 lesson 3",
-        lessonType: "video",
-      },
-    ],
-  };
-  console.log(videoDetail.url);
   const sectionsOption = [
     <ReactPlayer
       url={videoDetail.url}
@@ -86,17 +45,6 @@ function SectionPage(props) {
     <p>Download Attachment here</p>,
   ];
 
-  // const videoRender = (videoType) => {
-  //   switch (videoType) {
-  //     case "html":
-  //       return (
-
-  //       )
-
-  //     default:
-  //       break;
-  //   }
-  // }
   const [focusLessonType, setFocusLessonType] = useState({
     type: "video",
     sectionsOption: 0,
@@ -118,13 +66,9 @@ function SectionPage(props) {
       setFocusLessonType({ type: lessonType, sectionsOption: 2 });
     }
   };
-  // useEffect(() => {
-  //   console.log(focusLessonType.sectionsOption);
-  // }, [focusLessonType]);
   useEffect(() => {
     dispatch(fetchSection(sectionID));
   }, []);
-  // const [video, setVideo] = useState([]);
   return (
     <div
       className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
@@ -203,10 +147,6 @@ function SectionPage(props) {
             tellus.
           </p>
         </div>
-
-        {/* <div className="col-span-1">
-          <button className=" bg-gray-800 text-white p-4">Next Section</button>
-        </div> */}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import Footer from "../../footer/Footer";
 import {
   deleteCourse,
   fetchAllCourses,
@@ -16,33 +15,8 @@ function Homepage(props) {
     return classes.filter(Boolean).join(" ");
   }
   const [clicked, setClicked] = useState(false);
-  // const testingMap = [1, 2, 3, 4, 5];
-  // const courses = props.course.allCourses;
+
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchAllCourses());
-  // }, []);
-  const dateObject = new Date("2023-09-27 23:40:30.405+07");
-  console.log(dateObject);
-  const humanDateFormat = dateObject.toString();
-  let timezone = "+01";
-  if (dateObject.getTimezoneOffset() == "-420") {
-    timezone = "+07";
-  }
-  console.log(timezone);
-  const dateStr =
-    dateObject.getFullYear() +
-    "-" +
-    (dateObject.getMonth() + 1) +
-    "-" +
-    dateObject.getDate() +
-    " " +
-    dateObject.getHours() +
-    ":" +
-    dateObject.getMinutes() +
-    ":" +
-    dateObject.getSeconds() +
-    timezone;
 
   const updateStatus = (courseID, status) => {
     Swal.fire({
@@ -127,7 +101,6 @@ function Homepage(props) {
             {props.courses.map((val, key) => {
               let dateCourse = new Date(val.createdAt);
               dateCourse = dateCourse.toString();
-              // console.log(date);
               return (
                 <tr key={key} className="bg-slate-100">
                   <td>{key + 1}</td>
@@ -142,9 +115,6 @@ function Homepage(props) {
                   <td>{dateCourse}</td>
                   <td>{val.courseStatus}</td>
                   <td className="space-x-2 space-y-2 max-lg:grid p-3">
-                    {/* <button className="bg-yellow-400 p-2 w-20 rounded-md">
-                      Students
-                    </button> */}
                     <button
                       className="bg-yellow-400 p-2 w-20 rounded-md"
                       onClick={() =>
@@ -158,7 +128,6 @@ function Homepage(props) {
                     <a
                       className="bg-yellow-400 p-2 rounded-md"
                       href={`/lecture/courses/edit-course?courseID=${val.courseID}`}
-                      // onClick={() => setEditData(val.courseID)}
                     >
                       Ubah
                     </a>

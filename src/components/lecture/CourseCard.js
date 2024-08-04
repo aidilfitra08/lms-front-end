@@ -17,10 +17,7 @@ function CourseCard(props) {
   };
 
   useEffect(() => {
-    // setSectionCompletion((sectionComplete/totalSection)*100);
-    // console.log(sectionCompletion)
     updateCompletion();
-    // console.log(sectionCompletion)
   }, []);
   return (
     <div className="flex flex-col m-2 bg-neutral-100 rounded-md space-y-2 h-[17rem]">
@@ -50,21 +47,6 @@ function CourseCard(props) {
       <p className=" text-sm max-md:text-sm font-normal px-3">
         {category[props.courseDetail.categoryID - 1]}
       </p>
-      {/* <div className=" max-md:text-sm font-medium text-end bg-red-400 px-3">
-        Ke Diskusi <FontAwesomeIcon icon={faArrowRight} />
-      </div> */}
-      {/* <div className=" bg-slate-300 rounded-lg">
-        <div
-          className={` bg-yellow-600 py-1 rounded-lg`}
-          style={{ width: sectionCompletion }}
-        ></div>
-      </div> */}
-      {/* <div className="">
-        Total:{" "}
-        <span className="max-md:text-sm font-semibold">
-          {props.courseDetail.Sections.length} Sections
-        </span>
-      </div> */}
     </div>
   );
 }

@@ -26,19 +26,10 @@ function Login(props) {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  // const user = JSON.parse(user);
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
     dispatch(userLogin(email, password));
   };
-
-  // const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  // function togglePasswordVisibility() {
-  //   setIsPasswordVisible((prevState) => !prevState);
-  // }
   useEffect(() => {
     if (props.isLoggedIn) {
       const decodedJwt = parseJwt(props.user.accessToken);
@@ -53,11 +44,7 @@ function Login(props) {
 
   return (
     <div className="grid grid-cols-2 max-lg:grid-cols-1">
-      {/* {props.user && alert(props.user.name + " is successfully logged in!")} */}
-      <div
-        className=" bg-cover col-span-1 h-screen max-lg:hidden flex justify-center items-center"
-        // style={{ backgroundImage: "url(" + Background + ")" }}
-      >
+      <div className=" bg-cover col-span-1 h-screen max-lg:hidden flex justify-center items-center">
         <img
           src={Background}
           className="object-cover h-1/2 rounded-lg"
@@ -76,9 +63,6 @@ function Login(props) {
                 Masuk
               </p>
               <p className=" col-span-1">Silahkan masuk disini.</p>
-
-              {/* <p className=" col-span-1 text-3xl font-bold">Masuk</p>
-              <p className=" col-span-1">Silahkan masuk disini.</p> */}
             </div>
 
             <form
@@ -115,14 +99,6 @@ function Login(props) {
                   >
                     Password
                   </label>
-                  {/* <div className="">
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Lupa password?
-                    </a>
-                  </div> */}
                 </div>
                 <div className="mt-2">
                   <input
@@ -136,16 +112,6 @@ function Login(props) {
                     style={{ fontSize: "16px" }}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  {/* <div
-                    className="relative -mt-7 float-right"
-                    onClick={togglePasswordVisibility}
-                  >
-                    {isPasswordVisible ? (
-                      <FontAwesomeIcon icon={faEye} />
-                    ) : (
-                      <FontAwesomeIcon icon={faEyeSlash} />
-                    )}
-                  </div> */}
                 </div>
               </div>
               {props.errorMessage && (

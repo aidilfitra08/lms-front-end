@@ -71,8 +71,6 @@ export const updateLessonData = (lessonData) => {
 };
 
 export const deleteLesson = (sectionIndex, lessonIndex, lessonID = null) => {
-  // console.log(sectionIndex);
-  // console.log(lessonIndex);
   return {
     type: DELETE_LESSON_STATE,
     payload: {
@@ -190,7 +188,6 @@ export const uploadVideo = (data) => {
           public_id: res.data.public_id,
         };
         dispatch(uploadCloudinarySuccess(data));
-        // console.log(res);
       })
       .catch((err) => {
         dispatch(failRequest(err.message));
@@ -249,29 +246,16 @@ export const uploadPhoto = (data, name) => {
           public_id: res.data.public_id,
         };
         dispatch(uploadCloudinarySuccess(data));
-        // console.log(res);
       })
       .catch((err) => {
         dispatch(failRequest(err.message));
       });
-    // if(data)
-    // axios
-    //   .post(process.env.REACT_APP_SERVER_BASE_URL + "/apiv1/lecture/create-course", {
-    //     data,
-    //   })
-    //   .then((res) => {
-    //     dispatch();
-    //   })
-    //   .catch((err) => {
-    //     dispatch(failRequest(err.message));
-    //   });
   };
 };
 
 export const postCourse = (data) => {
   const user = localStorage.getItem("user");
   let userDetail = JSON.parse(user);
-  // console.log(data);
   return (dispatch) => {
     dispatch(makeRequest());
     let payload = {
@@ -289,15 +273,11 @@ export const postCourse = (data) => {
         }
       )
       .then((res) => {
-        // if (res.status == 201) {
-        // console.log("berhasil");
         dispatch(postCourseSuccess());
       })
       .catch((err) => {
-        console.log(err);
         dispatch(failRequest(err.message));
       });
-    console.log(userDetail.accessToken);
   };
 };
 
@@ -322,8 +302,6 @@ export const fetchAllCourses = () => {
 
 export const updateCourseStatus = (courseID, courseStatus) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.accessToken);
-  console.log(courseID);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -350,8 +328,6 @@ export const updateCourseStatus = (courseID, courseStatus) => {
 
 export const deleteCourse = (courseID) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.accessToken);
-  console.log(courseID);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -377,8 +353,6 @@ export const deleteCourse = (courseID) => {
 
 export const getCourseDetail = (courseID) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.accessToken);
-  console.log(courseID);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -393,7 +367,6 @@ export const getCourseDetail = (courseID) => {
       )
       .then((res) => {
         if (res.status == 201) {
-          console.log("berhasil");
           dispatch(courseDetail(res.data.payload));
         }
       })
@@ -407,7 +380,6 @@ export const updateCourse = (data, courseID) => {
   const user = JSON.parse(localStorage.getItem("user"));
   data.courseID = courseID;
   data.sections = data.sections.filter(Boolean);
-  console.log(data);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -426,7 +398,6 @@ export const updateCourse = (data, courseID) => {
         }
       })
       .catch((err) => {
-        console.log(err);
         dispatch(failRequest(err.message));
       });
   };

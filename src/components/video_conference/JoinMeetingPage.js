@@ -11,11 +11,6 @@ function JoinMeetingPage(props) {
   }
   const [meetingID, setMeetingID] = useState("");
   const navigate = useNavigate();
-  // const testingMap = [1, 2, 3, 4, 5];
-
-  // useEffect(() => {
-
-  // }, []);
   const onClick = () => {
     if (!meetingID) {
       alert("Meeting ID is empty!");
@@ -37,7 +32,6 @@ function JoinMeetingPage(props) {
   };
   return (
     <>
-      {/* <Sidenav/> */}
       <div
         className={classNames(
           props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",

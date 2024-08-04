@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Sidenav from "../navbar/Sidenav";
-import Footer from "../footer/Footer";
 import CourseCard from "./CourseCard";
 import { connect, useDispatch } from "react-redux";
 import { fetchAllJoinedCourses } from "../../redux/Student/StudentAction";
-import {
-  deleteCourse,
-  fetchAllCourses,
-  updateCourseStatus,
-} from "../../redux/Lecture/LectureAction";
+import { fetchAllCourses } from "../../redux/Lecture/LectureAction";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import ReactPlayer from "react-player";
 
 function Homepage(props) {
   function classNames(...classes) {
@@ -20,29 +13,15 @@ function Homepage(props) {
   useEffect(() => {
     document.title = "Halaman Utama";
   }, []);
-
-  // const testingMap = [1, 2, 3, 4, 5];
   const lecturedCourses = props.course;
-  // const allCourses = props.course.allCourses;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAllJoinedCourses());
     dispatch(fetchAllCourses(0, 5));
   }, []);
-
   const [numberToMap, setNumberToMap] = useState(
     window.innerWidth <= 1024 ? 2 : 3
   );
-
-  // const mapAllCourses = (number) => (
-  //   <>
-  //     {allCourses.slice(0, number).map((course) => (
-  //       <div className="col-span-1">
-  //         <CourseCard courseDetail={course} />
-  //       </div>
-  //     ))}
-  //   </>
-  // );
 
   const mapYourCourses = (number) => (
     <>
@@ -53,7 +32,6 @@ function Homepage(props) {
       ))}
     </>
   );
-
   const minHandler = () => setNumberToMap(2);
   const maxHandler = () => setNumberToMap(3);
   useEffect(() => {
@@ -69,7 +47,6 @@ function Homepage(props) {
   }, [window.innerWidth]);
   return (
     <>
-      {/* <Sidenav/> */}
       <div
         className={classNames(
           props.sideBarTrigger ? "pl-64 max-md:pl-0" : "pl-0",

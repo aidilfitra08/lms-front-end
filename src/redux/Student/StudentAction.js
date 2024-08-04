@@ -158,7 +158,6 @@ export const fetchSection = (sectionID) => {
 
 export const checkEnrollment = (courseID) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.accessToken);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -173,18 +172,15 @@ export const checkEnrollment = (courseID) => {
       )
       .then((res) => {
         dispatch(enrollmentStatus(res.data.enrollmentStatus));
-        console.log(res.data);
       })
       .catch((err) => {
         dispatch(failRequest(err.message));
-        console.log(err);
       });
   };
 };
 
 export const enrollMe = (courseID, enrollmentKey) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user.accessToken);
   return (dispatch) => {
     dispatch(makeRequest());
     axios
@@ -199,14 +195,12 @@ export const enrollMe = (courseID, enrollmentKey) => {
       )
       .then((res) => {
         dispatch(enrollmentSuccess());
-        // console.log(res.data);
         alert("Anda telah Berhasil enroll ke kelas ini.");
       })
       .catch((err) => {
         dispatch(failRequest(err.message));
         alert("Enrollment Key salah, silahkan isi kembali.");
         window.location.reload(true);
-        // console.log(err);
       });
   };
 };

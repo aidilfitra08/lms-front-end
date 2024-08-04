@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { connect, useDispatch } from "react-redux";
 import {
   fetchDiscussion,
@@ -27,11 +26,6 @@ function Discussion(props) {
   const [reply, setReply] = useState("");
   const [topicDescription, setTopicDescription] = useState("");
   const [newDataAdded, setNewDataAdded] = useState(false);
-  // const showReplies = () => {
-  //   setShowReply(!showReply);
-  //   // setShowReply([...showReply, { index: index, status: !false }]);
-  // };
-  console.log(props.courseID);
 
   const addNewTopic = () => {
     const data = {
@@ -46,7 +40,6 @@ function Discussion(props) {
     setNewDataAdded(!newDataAdded);
     Swal.fire({
       title: "Topik baru berhasil ditambahkan",
-      // text: "!",
       icon: "success",
       confirmButtonColor: "#3085d6",
     });
@@ -63,7 +56,6 @@ function Discussion(props) {
     setNewDataAdded(!newDataAdded);
     Swal.fire({
       title: "Balasan anda berhasil ditambahkan",
-      // text: "!",
       icon: "success",
       confirmButtonColor: "#3085d6",
     });
@@ -79,7 +71,6 @@ function Discussion(props) {
           <p className=" text-3xl ">Course Discussion</p>
           <button
             className="bg-yellow-400 p-2 rounded-lg block"
-            // disabled={indexNow === index ? false : true}
             onClick={() => {
               setNewTopicBox(!newTopicBox);
             }}
@@ -127,7 +118,6 @@ function Discussion(props) {
           </div>
           <button
             className="bg-yellow-400 p-2 rounded-lg w-full block"
-            // disabled={indexNow === index ? false : true}
             onClick={() => {
               addNewTopic();
             }}
@@ -142,7 +132,6 @@ function Discussion(props) {
         <ul className="list-none">
           {props.discussions.length != 0 ? (
             props.discussions.map((topic, index) => {
-              // showReply.kolom = showReply.kolom + 1;
               return (
                 <li className="py-2 border-b-2 border-slate-50">
                   <div className="  p-2">
@@ -160,7 +149,6 @@ function Discussion(props) {
                           ? "bg-yellow-400 p-2 rounded-xl"
                           : "bg-yellow-400 p-2 rounded-xl"
                       }
-                      // disabled={indexNow === index ? false : true}
                       onClick={() => {
                         setReplyBox(!replyBox);
                         setIndexNow(index);
@@ -199,7 +187,6 @@ function Discussion(props) {
                       </div>
                       <button
                         className="bg-yellow-400 p-2 rounded-lg w-full block"
-                        // disabled={indexNow === index ? false : true}
                         onClick={() => {
                           addReply(topic.discussionID);
                         }}
@@ -256,10 +243,6 @@ function Discussion(props) {
     </div>
   );
 }
-
-// Discussion.PropTypes ={
-
-// }
 
 const mapStateToProps = (state) => {
   return {

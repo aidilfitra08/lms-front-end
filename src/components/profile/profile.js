@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
-  addProfile,
   editProfile,
   fetchProfile,
   resetLoadingPercentage,
@@ -18,10 +17,7 @@ function Profile(props) {
     return classes.filter(Boolean).join(" ");
   }
   const dispatch = useDispatch();
-
-  // const profile = useSelector((state) => state.user.profile);
   const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
   const [dateBirth, setDateBirth] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [gender, setGender] = useState("");
@@ -30,30 +26,24 @@ function Profile(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passCheck, setPassCheck] = useState(false);
-  // console.log(props.profile);
-  // console.log(oldPassword);
+
   const cloudinaryLink = useSelector((state) => state.user.tempCloudinaryData);
   let loadingPercentage = useSelector((state) => state.user.loadingPercentage);
   const [uploadClick, setUploadClick] = useState(false);
   function onUpload() {
     if (photoFile.size <= 2097152) {
       setUploadClick(true);
-      // console.log(videoFile);
-      // console.log(videoFile[0]);
+
       dispatch(uploadPhoto(photoFile));
     } else {
       alert("file too big,select another!");
     }
-
-    // setpublicId(cloudinaryLink.public_id);
   }
 
   let date = new Date(props.profile.dateBirth);
   let dateMDY = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(
     -2
   )}-${("0" + date.getDate()).slice(-2)}`;
-
-  console.log(props.profile.dateBirth);
   const [clickedButton, setClickedButton] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
   const [photo, setPhoto] = useState(null);
@@ -93,11 +83,9 @@ function Profile(props) {
 
   useEffect(() => {
     dispatch(fetchProfile());
-    // trigger();
   }, []);
   useEffect(() => {
     setPhoto(cloudinaryLink.url);
-    // trigger();
   }, [cloudinaryLink.url]);
   useEffect(() => {
     if (confirmPassword != "") {
@@ -110,7 +98,6 @@ function Profile(props) {
       setPassCheck(true);
     }
   }, [password, confirmPassword]);
-  console.log(photoFile);
   return (
     <div
       className={classNames(
@@ -132,9 +119,6 @@ function Profile(props) {
         <div className="grid grid-cols-12 max-lg:grid-cols-1">
           <div className="col-span-5 max-lg:col-span-1 space-y-6">
             <div className="space-y-5 grid justify-items-stretch">
-              {/* <label htmlFor="profilePicture" className="mb-1">
-                Profile Picture
-              </label> */}
               {!props.profile.profilePicture ? (
                 <div className="h-40 w-40 rounded-full object-contain justify-self-center bg-slate-200 content-center text-center">
                   <FontAwesomeIcon icon={faUser} size="2xl" className="" />
@@ -158,10 +142,8 @@ function Profile(props) {
                     name="photo"
                     type="file"
                     required
-                    // disabled={props.disableText}
                     accept="image/jpg, image/png, image/jpeg"
                     className="block w-full text-base file:border-0 file:bg-gray-600 file:font-semibold file:text-white file:py-2 file:px-4 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    // value={}
                     onChange={(event) => setPhotoFile(event.target.files[0])}
                   />
                 </div>

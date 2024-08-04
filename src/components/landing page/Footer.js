@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
@@ -35,7 +34,5 @@ function Footer(props) {
     </footer>
   );
 }
-
-Footer.propTypes = {};
 
 export default Footer;

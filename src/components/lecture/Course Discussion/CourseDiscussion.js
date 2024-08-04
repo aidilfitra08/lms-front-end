@@ -26,7 +26,6 @@ function CourseDiscussion(props) {
   useEffect(() => {
     if (searchParams.size === 0) {
       navigate("/", { replace: true });
-      // window.location.reload(true);
     }
     dispatch(getCourseDetail(courseID));
   }, [props.enrollmentStatus]);
@@ -53,20 +52,14 @@ function CourseDiscussion(props) {
               ""
             )}
             <p className=" text-5xl font-bold">
-              {console.log(props.courseDetail.basicInformation.title)}
               {props.courseDetail.basicInformation.title}
             </p>
             <p className="">
               {props.courseDetail.basicInformation.shortDescription}
             </p>
-            {/* <p className=" text-lg">estimate time: hours</p> */}
             <a href="#" className="block text-md font-semibold">
               {category[props.courseDetail.basicInformation.categoryID - 1]}
             </a>
-            {/* <p>total section: 30</p> */}
-            {/* <p>
-              : <span>{props.user.name}</span>
-            </p> */}
             <p>
               Status Kursus:{" "}
               <span>{props.courseDetail.basicInformation.courseStatus}</span>
@@ -87,7 +80,6 @@ function CourseDiscussion(props) {
 }
 const mapStateToProps = (state) => {
   return {
-    // courseDetail: state.student.courseDetail,
     courseDetail: state.lecture,
     user: state.user.user,
     loading: state.lecture.loading,

@@ -50,16 +50,9 @@ const parseJwt = (token) => {
 };
 
 function App() {
-  // if (localStorage.getItem("token")) {
-  //   console.log(localStorage.getItem("token"));
-  // }
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // console.log(user.accessToken);
   const dispatch = useDispatch();
-
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-
     if (user) {
       const decodedJwt = parseJwt(user.accessToken);
     }
@@ -69,7 +62,6 @@ function App() {
   );
   return (
     <Router>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -84,23 +76,6 @@ function App() {
             </>
           }
         />
-        {/* <Route
-          path=""
-          element={
-            <>
-              <Protected>
-                <Navbar2
-                  setSideBarTrigger={setSideBarTrigger}
-                  sideBarTrigger={sideBarTrigger}
-                />
-                <Sidenav sideBarTrigger={sideBarTrigger} />{" "}
-                <Homepage sideBarTrigger={sideBarTrigger} />{" "}
-              </Protected>
-              <Outlet />
-            </>
-          }
-        ></Route> */}
-
         <Route
           path="conference/:meetingId"
           element={
@@ -112,7 +87,6 @@ function App() {
             </>
           }
         />
-        {/* <Route path="simpleconference" element={<SimpleVideoConference />} /> */}
         <Route
           element={
             <>
@@ -325,21 +299,8 @@ function App() {
           element={
             <>
               <NavbarLanding />
-              <NotFoundPage
-              // setSideBarTrigger={setSideBarTrigger}
-              // sideBarTrigger={sideBarTrigger}
-              />
-
+              <NotFoundPage />
               <Outlet />
-              {/* <ProtectedNotFoundPage>
-                <Navbar2
-                  setSideBarTrigger={setSideBarTrigger}
-                  sideBarTrigger={sideBarTrigger}
-                />
-                <Sidenav sideBarTrigger={sideBarTrigger} />
-                
-                <Outlet />
-              </ProtectedNotFoundPage> */}
             </>
           }
         />
