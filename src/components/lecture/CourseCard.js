@@ -20,7 +20,7 @@ function CourseCard(props) {
     updateCompletion();
   }, []);
   return (
-    <div className="flex flex-col m-2 bg-neutral-100 rounded-md space-y-2 h-[17rem]">
+    <div className="flex flex-col m-2 bg-neutral-100 rounded-md space-y-2 h-[17rem] w-full">
       <a
         href={
           "/lecture/courses/course-page?courseID=" + props.courseDetail.courseID
@@ -33,7 +33,7 @@ function CourseCard(props) {
               ? props.courseDetail.thumbnail
               : TestCoursePhoto
           }
-          className=" object-cover h-full w-auto rounded-t-md"
+          className=" object-cover h-full w-full rounded-t-md"
         />
       </a>
       <a
