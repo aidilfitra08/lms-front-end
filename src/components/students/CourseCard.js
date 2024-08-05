@@ -38,7 +38,7 @@ function CourseCard(props) {
               ? props.courseDetail.thumbnail
               : TestCoursePhoto
           }
-          className="rounded-t-md object-cover h-full w-auto"
+          className="rounded-t-md object-cover h-full w-full"
         />
       </a>
       <a

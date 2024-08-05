@@ -7,6 +7,7 @@ import {
   addSectionsData,
   deleteLesson,
   deleteSection,
+  resetLoadingPercentage,
   updateSectionsData,
 } from "../../../../redux/Lecture/LectureAction";
 import LessonComponent from "./LessonPopup/ComponentLesson";
@@ -232,6 +233,7 @@ function SectionForm(props) {
                         setShowAddLessonPopUp(true);
                         setIndexNow(index);
                         setLessonIndexNow(null);
+                        dispatch(resetLoadingPercentage());
                       }}
                     >
                       <FontAwesomeIcon icon={faCirclePlus} className="pr-2" />
@@ -286,6 +288,7 @@ function SectionForm(props) {
                                     setShowAddLessonPopUp(true);
                                     setIndexNow(index);
                                     setLessonIndexNow(lessonIndex);
+                                    dispatch(resetLoadingPercentage());
                                   }}
                                 >
                                   <FontAwesomeIcon
@@ -338,7 +341,10 @@ function SectionForm(props) {
           >
             <div
               className="fixed w-screen h-screen top-0 right-0 -z-10"
-              onClick={() => setShowAddLessonPopUp(false)}
+              onClick={() => {
+                setShowAddLessonPopUp(false);
+                setDisableText(false);
+              }}
             ></div>
             <LessonComponent
               setShowAddLessonPopUp={setShowAddLessonPopUp}

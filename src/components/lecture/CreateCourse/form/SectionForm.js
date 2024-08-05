@@ -283,6 +283,7 @@ function LessonForm(props) {
                                     setShowAddLessonPopUp(true);
                                     setIndexNow(index);
                                     setLessonIndexNow(lessonIndex);
+                                    dispatch(resetLoadingPercentage());
                                   }}
                                 >
                                   <FontAwesomeIcon icon={faPen} />

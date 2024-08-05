@@ -62,7 +62,14 @@ function BasicForm(props) {
         thumbnail: thumbnail,
       })
     );
-  }, [title, shortDescription, description, courseLanguage, category]);
+  }, [
+    title,
+    shortDescription,
+    description,
+    courseLanguage,
+    category,
+    cloudinaryLink.url,
+  ]);
   return (
     <div className="col-span-1 space-y-3">
       <p className=" text-2xl font-bold">Informasi Kursus</p>

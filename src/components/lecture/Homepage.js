@@ -64,7 +64,7 @@ function Homepage(props) {
             </a>
           </div>
 
-          <div className="grid grid-cols-3 py-6 max-xl:grid-cols-2">
+          <div className="grid grid-cols-3 py-6 space-x-3 max-xl:grid-cols-2">
             {mapYourCourses(numberToMap)}
           </div>
         </div>
