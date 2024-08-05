@@ -40,17 +40,6 @@ function CourseDiscussion(props) {
       <div className=" grid grid-cols-1 space-y-10">
         <div className=" bg-neutral-700 text-white col-span-1 grid grid-cols-2 max-md:grid-cols-1 min-h-80 max-h-fit">
           <div className="col-span-1 space-y-2 p-8 content-center">
-            {props.loading ? (
-              <div>
-                <FontAwesomeIcon icon={faSpinner} size="lg" />
-              </div>
-            ) : props.errorMessage ? (
-              <div>
-                <h2>{props.errorMessage}</h2>
-              </div>
-            ) : (
-              ""
-            )}
             <p className=" text-5xl font-bold">
               {props.courseDetail.basicInformation.title}
             </p>

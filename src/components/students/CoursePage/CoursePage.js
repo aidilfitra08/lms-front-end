@@ -48,20 +48,8 @@ function CoursePage(props) {
       <div className=" grid grid-cols-1 space-y-10">
         <div className=" bg-neutral-700 text-white col-span-1 grid grid-cols-2 min-h-80 space-x-4 max-h-fit">
           <div className="col-span-1 space-y-2 p-8 h">
-            {props.loading ? (
-              <div>
-                <FontAwesomeIcon icon={faSpinner} size="lg" />
-              </div>
-            ) : props.errorMessage ? (
-              <div>
-                <h2>{props.errorMessage}</h2>
-              </div>
-            ) : (
-              ""
-            )}
             <p className=" text-4xl font-bold">{props.courseDetail.title}</p>
             <p className="">{props.courseDetail.shortDescription}</p>
-            {/* <p className=" text-lg">estimate time: hours</p> */}
             <a href="#" className="block text-md font-semibold">
               {category[props.courseDetail.categoryID - 1]}
             </a>
