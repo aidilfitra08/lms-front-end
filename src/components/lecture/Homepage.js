@@ -55,7 +55,9 @@ function Homepage(props) {
       >
         <div className=" col-span-9 min-lg:ml-6 max-lg:pr-2 mt-6 space-y-2 max-lg:col-span-12 max-md:pl-2">
           <div className="flex flex-row justify-between">
-            <p className="text-4xl max-md:text-2xl">Kursus Yang Dimiliki</p>
+            <p className="text-4xl max-md:text-2xl pl-2">
+              Kursus Yang Dimiliki
+            </p>
             <a
               href="/lecture/courses"
               className=" bg-yellow-400 hover:bg-yellow-200 px-3 py-2 rounded-md"

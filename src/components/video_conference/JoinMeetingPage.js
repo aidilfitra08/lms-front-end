@@ -13,7 +13,7 @@ function JoinMeetingPage(props) {
   const navigate = useNavigate();
   const onClick = () => {
     if (!meetingID) {
-      alert("Meeting ID is empty!");
+      alert("Kode pertemuan kosong!");
     } else {
       axios
         .get(
@@ -26,7 +26,7 @@ function JoinMeetingPage(props) {
           window.location.reload(true);
         })
         .catch((err) => {
-          alert("Wrong Meeting Id. Please Enter a valid Meeting Id!");
+          alert("Kode pertemuan tidak sesuai!");
         });
     }
   };
@@ -39,14 +39,12 @@ function JoinMeetingPage(props) {
         )}
       >
         <div className="space-y-4 mt-40 col-span-1">
-          <p className="text-3xl font-bold">Join Meeting</p>
-          <p className="">
-            You can join conference by fill the Meeting ID below.
-          </p>
+          <p className="text-3xl font-bold">Gabung Pertemuan</p>
+          <p className="">Silahkan masukan Kode Pertemuan.</p>
           <p className=" font-semibold">ex: abcd-efgh-ijkl</p>
           <input
             type="text"
-            placeholder="Meeting ID"
+            placeholder="Kode Pertemuan"
             className=" border-neutral-300"
             onChange={(event) => setMeetingID(event.target.value)}
           />
@@ -54,7 +52,7 @@ function JoinMeetingPage(props) {
             onClick={onClick}
             className="bg-yellow-400 hover:bg-yellow-200 py-[9px] px-6 ml-[1px]"
           >
-            button
+            Gabung
           </button>
         </div>
       </div>

@@ -29,7 +29,7 @@ function JoinedCoursesPage(props) {
       )}
     >
       <div className="grid grid-cols-1 mt-6 space-y-2">
-        <p className="text-4xl col-span-1">Your Joined Courses</p>
+        <p className="text-4xl col-span-1 pl-2">Kursus Yang Diikuti</p>
         <div className="col-span-1">
           <div className="grid grid-cols-4 max-lg:grid-cols-2">
             {courses.map((course) => (
