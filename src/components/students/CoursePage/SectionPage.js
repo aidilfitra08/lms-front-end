@@ -141,12 +141,12 @@ function SectionPage(props) {
             </div>
           </div>
         </div>
-        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 ">
+        <div className="p-6 col-span-1 h-auto w-full space-y-4 ">
           <p className=" text-3xl">{props.sectionDetail.title}</p>
           <p>{props.sectionDetail.detail} </p>
         </div>
 
-        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 text-center">
+        <div className="p-6 col-span-1 h-auto w-full space-y-4 text-center">
           <p className=" text-3xl">Kesimpulan Materi</p>
           <p>
             {props.sectionDetail.Lessons[0] != null
