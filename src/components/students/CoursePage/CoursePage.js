@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TestCoursePhoto from "../../../assets/Landing Page/copywriting.jpg";
+import TestCoursePhoto from "../../../assets/default-course.jpg";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
   checkEnrollment,
@@ -54,7 +54,7 @@ function CoursePage(props) {
               {category[props.courseDetail.categoryID - 1]}
             </a>
             <p>
-              Course by: <span>{props.courseDetail.User.name}</span>
+              Kursus Oleh: <span>{props.courseDetail.User.name}</span>
             </p>
           </div>
           <div className="col-span-1 pt-4 xl:mt-8">
@@ -63,7 +63,6 @@ function CoursePage(props) {
         </div>
 
         <div className="col-span-1 h-auto w-3/4 space-y-4 place-self-center">
-          <p className=" text-3xl">Course Detail</p>
           <p>{props.courseDetail.description}</p>
         </div>
         <div className="col-span-1 border border-gray-500 h-auto w-2/4 place-self-center shadow p-4 space-y-2">

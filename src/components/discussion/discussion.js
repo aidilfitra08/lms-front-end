@@ -68,7 +68,7 @@ function Discussion(props) {
     <div className="  col-span-1 w-3/4 place-self-center p-2 h-auto bg-slate-100">
       <div className="border-b-2 py-2 border-black">
         <div className=" flex justify-between">
-          <p className=" text-3xl ">Course Discussion</p>
+          <p className=" text-3xl ">Diskusi Kursus</p>
           <button
             className="bg-yellow-400 p-2 rounded-lg block"
             onClick={() => {

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {} from "@fortawesome/free-solid-svg-icons";
+import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-regular-svg-icons";
 import { connect, useDispatch } from "react-redux";
 import { fetchSection } from "../../../redux/Student/StudentAction";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPlayer from "react-player/lazy";
+import { pdfjs, Document, Page } from "react-pdf";
+// import defaultPdf from "../../../assets/default-pdf.pdf";
+import pdfFile from "../../../assets/default-pdf.pdf";
 
 function SectionPage(props) {
   useEffect(() => {
@@ -15,6 +18,7 @@ function SectionPage(props) {
   const sectionID = searchParams.get("sectionID");
   const [videoDetail, setVideoDetail] = useState({});
   const [attachmentDetail, setAttachmentDetail] = useState({});
+  const [index, setIndex] = useState(0);
   const navigate = useNavigate();
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -23,6 +27,7 @@ function SectionPage(props) {
     navigate(-1, { replace: true });
   }
   const dispatch = useDispatch();
+  const pdfURL = "";
   const sectionsOption = [
     <ReactPlayer
       url={videoDetail.url}
@@ -32,17 +37,9 @@ function SectionPage(props) {
       height="100%"
       className="absolute top-0 right-0 overflow-hidden rounded-lg bg-white"
     />,
-    // <iframe
-    //   // width={1280}
-    //   // height={}
-    //   src={videoDetail.url ? videoDetail.url : ""}
-    //   title="Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film"
-    //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    //   allowfullscreen="true"
-    //   className="w-full aspect-video rounded-xl my-auto bg-white"
-    // ></iframe>
+
     <p>Show Below For More</p>,
-    <p>Download Attachment here</p>,
+    <embed src={pdfFile} height={1000} width={800} />,
   ];
 
   const [focusLessonType, setFocusLessonType] = useState({
@@ -69,44 +66,70 @@ function SectionPage(props) {
   useEffect(() => {
     dispatch(fetchSection(sectionID));
   }, []);
+  console.log(props.sectionDetail.Lessons[0]);
+  // console.log(props.sectionDetail.Lessons[0].lessonType);
+  useEffect(() => {
+    if (props.sectionDetail.Lessons[0] != null) {
+      sectionClicked(
+        props.sectionDetail.Lessons[0].lessonType,
+        props.sectionDetail.Lessons[0].videoType,
+        props.sectionDetail.Lessons[0].videoUrl,
+        props.sectionDetail.Lessons[0].attachment,
+        props.sectionDetail.Lessons[0].attachmentType
+      );
+    }
+  }, [props.sectionDetail]);
   return (
     <div
-      className={classNames(props.sideBarTrigger ? "pl-64" : "pl-0", "pt-16")}
+      className={classNames(
+        props.sideBarTrigger ? "pl-64 max-lg:pl-0" : "pl-0",
+        "pt-16"
+      )}
     >
       <div className=" mb-6 grid grid-cols-1 space-y-10">
         <div className="grid grid-cols-4 bg-neutral-400 px-16">
           <div
             className={classNames(
               focusLessonType.sectionsOption != 0
-                ? " h-128 pt-52"
+                ? " h-128 pt-52 max-lg:h-56"
                 : " min-h-128 pt-[55%]",
-              " col-span-3 max-md:col-span-4 text-center my-8 mr-6 relative "
+              " col-span-3 max-lg:col-span-4 text-center my-8 mr-6 relative max-lg:mr-0 max-lg:mb-0 "
             )}
           >
             {sectionsOption[focusLessonType.sectionsOption]}
           </div>
-          <div className="col-span-1 max-md:col-span-4  bg-white px-6 rounded-xl my-8">
+          <div className="col-span-1 max-lg:col-span-4  bg-white px-6 rounded-xl my-8 max-lg:h-56">
             <p className="pt-6 pb-4">Materi</p>
             <div className="relative h-full">
-              <div className=" text-lg space-y-3 absolute h-[86%] w-full overflow-x-hidden overflow-y-auto">
+              <div className=" text-lg space-y-3 absolute h-[50%] w-full overflow-x-hidden overflow-y-auto">
                 <ul className="list-none space-y-2">
-                  {props.sectionDetail.Lessons.map((lesson) => {
+                  {props.sectionDetail.Lessons.map((lesson, index) => {
                     return (
                       <>
-                        <li className="">
+                        <li className=" ">
                           <button
-                            onClick={() =>
+                            className="grid grid-cols-12 text-left"
+                            onClick={() => {
                               sectionClicked(
                                 lesson.lessonType,
                                 lesson.videoType,
                                 lesson.videoUrl,
                                 lesson.attachment,
                                 lesson.attachmentType
-                              )
-                            }
+                              );
+                              setIndex(index);
+                            }}
                           >
-                            <FontAwesomeIcon icon={faCirclePlay} />{" "}
-                            {lesson.title}
+                            <span className="col-span-1">
+                              {lesson.lessonType == "video" ? (
+                                <FontAwesomeIcon icon={faCirclePlay} />
+                              ) : (
+                                <FontAwesomeIcon icon={faFileLines} />
+                              )}
+                            </span>
+                            <span className="col-span-11 ml-2">
+                              {lesson.title}
+                            </span>
                           </button>
                         </li>
                         <hr />
@@ -118,12 +141,18 @@ function SectionPage(props) {
             </div>
           </div>
         </div>
-        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
+        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 ">
           <p className=" text-3xl">{props.sectionDetail.title}</p>
+          <p>{props.sectionDetail.detail} </p>
         </div>
 
-        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
-          <p className=" text-3xl">Lesson Summary</p>
+        <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 text-center">
+          <p className=" text-3xl">Kesimpulan Materi</p>
+          <p>
+            {props.sectionDetail.Lessons[0] != null
+              ? props.sectionDetail.Lessons[index].summary
+              : ""}
+          </p>
         </div>
       </div>
     </div>

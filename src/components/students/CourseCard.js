@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TestCoursePhoto from "../../assets/Landing Page/copywriting.jpg";
+import TestCoursePhoto from "../../assets/default-course.jpg";
 import { category } from "./category";
 import { connect, useDispatch } from "react-redux";
 import { checkEnrollment } from "../../redux/Student/StudentAction";
