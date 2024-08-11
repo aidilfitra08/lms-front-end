@@ -59,7 +59,10 @@ function EnrollPage(props) {
         </div>
 
         <div className="col-span-1">
-          <img src={TestCoursePhoto} className="h-fit w-fit border" />
+          <img
+            src={props.courseDetail.thumbnail}
+            className="h-fit w-fit border"
+          />
         </div>
         <div className="space-y-2 col-span-2">
           <label htmlFor="enrollKey">Enrollment Key</label>

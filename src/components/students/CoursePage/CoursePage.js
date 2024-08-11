@@ -58,7 +58,10 @@ function CoursePage(props) {
             </p>
           </div>
           <div className="col-span-1 pt-4 xl:mt-8">
-            <img src={TestCoursePhoto} className="h-72 w-fit border" />
+            <img
+              src={props.courseDetail.thumbnail}
+              className="h-72 w-fit border"
+            />
           </div>
         </div>
 
