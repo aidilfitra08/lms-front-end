@@ -120,32 +120,10 @@ function SectionPage(props) {
         </div>
         <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
           <p className=" text-3xl">{props.sectionDetail.title}</p>
-          <p>
-            Pada sesi ini. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Quisque tristique leo vel sapien sagittis, id convallis erat
-            tristique. Morbi fringilla nulla at sapien congue, vitae viverra
-            nisi fermentum. Nulla facilisi. Nunc accumsan mi eget magna
-            lobortis, at luctus urna molestie. Integer ultricies est vitae nulla
-            varius, in gravida justo feugiat. Ut placerat orci at leo consequat,
-            id pretium erat scelerisque. Morbi cursus neque in dapibus
-            scelerisque. Aenean nec lorem sed dolor sodales faucibus ut quis
-            tellus.
-          </p>
         </div>
 
         <div className="p-6 col-span-1 h-auto max-w-7xl space-y-4 place-self-center">
           <p className=" text-3xl">Lesson Summary</p>
-          <p>
-            Pada sesi ini. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Quisque tristique leo vel sapien sagittis, id convallis erat
-            tristique. Morbi fringilla nulla at sapien congue, vitae viverra
-            nisi fermentum. Nulla facilisi. Nunc accumsan mi eget magna
-            lobortis, at luctus urna molestie. Integer ultricies est vitae nulla
-            varius, in gravida justo feugiat. Ut placerat orci at leo consequat,
-            id pretium erat scelerisque. Morbi cursus neque in dapibus
-            scelerisque. Aenean nec lorem sed dolor sodales faucibus ut quis
-            tellus.
-          </p>
         </div>
       </div>
     </div>
