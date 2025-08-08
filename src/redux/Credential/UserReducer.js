@@ -68,7 +68,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isRegistered: false,
-        errorMessage: action.payload,
+        errorMessage: action.payload.message,
+        errorCode: action.payload.code,
       };
     case LOGIN_SUCCESS:
       return {
@@ -84,7 +85,8 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         isLoggedIn: false,
         user: null,
-        errorMessage: action.payload,
+        errorMessage: action.payload.message,
+        errorCode: action.payload.code,
       };
     case LOGOUT:
       return {

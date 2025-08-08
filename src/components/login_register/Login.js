@@ -8,6 +8,7 @@ import { userLogin } from "../../redux/Credential/UserAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import Swal from "sweetalert2";
 
 const parseJwt = (token) => {
   try {
@@ -29,6 +30,16 @@ function Login(props) {
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(userLogin(email, password));
+    if (props.errorCode && props.errorCode === "ERR_NETWORK") {
+      Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "Server is offline, please contact the developer.",
+        background: "#222",
+        color: "#fff",
+        confirmButtonColor: "#facc15",
+      });
+    }
   };
   useEffect(() => {
     if (props.isLoggedIn) {
@@ -41,7 +52,7 @@ function Login(props) {
       }
     }
   }, [props.isLoggedIn]);
-
+  console.log(props);
   return (
     <div className="grid grid-cols-2 max-lg:grid-cols-1">
       <div className=" bg-cover col-span-1 h-screen max-lg:hidden flex justify-center items-center">
@@ -159,6 +170,7 @@ const mapStateToProps = (state) => {
     errorMessage: state.user.errorMessage,
     loading: state.user.loading,
     user: state.user.user,
+    errorCode: state.user.errorCode,
   };
 };
 export default connect(mapStateToProps)(Login);

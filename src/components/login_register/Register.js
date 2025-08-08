@@ -7,6 +7,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { connect, useDispatch } from "react-redux";
 import { userRegister } from "../../redux/Credential/UserAction";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const parseJwt = (token) => {
   try {
@@ -32,6 +33,16 @@ function Register(props) {
   const handleRegister = async (e) => {
     e.preventDefault();
     dispatch(userRegister(name, email, password));
+    if (props.errorCode && props.errorCode === "ERR_NETWORK") {
+      Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "Server is offline, please contact the developer.",
+        background: "#222",
+        color: "#fff",
+        confirmButtonColor: "#facc15",
+      });
+    }
   };
   const navigate = useNavigate();
   useEffect(() => {
@@ -51,7 +62,7 @@ function Register(props) {
         "Akun berhasil didaftarkan, silahkan cek email anda untuk verifikasi."
       );
 
-      navigate(`/login`, { replace: true });
+      navigate(`/login`);
       window.location.reload(true);
     }
   }, [props.isRegistered]);
@@ -233,6 +244,7 @@ const mapStateToProps = (state) => {
     errorMessage: state.user.errorMessage,
     loading: state.user.loading,
     user: state.user.user,
+    errorCode: state.user.errorCode,
   };
 };
 

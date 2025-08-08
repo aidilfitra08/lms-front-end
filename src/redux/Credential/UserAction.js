@@ -92,7 +92,11 @@ export const userLogin = (email, password) => {
         dispatch(loginSuccess(res.data.payload));
       })
       .catch((error) => {
-        dispatch(loginFail(error.response.data.message));
+        const payload = {
+          code: error.code,
+          error: error.message,
+        };
+        dispatch(loginFail(payload));
       });
   };
 };
@@ -110,7 +114,11 @@ export const userRegister = (name, email, password) => {
         dispatch(registerSuccess(res.status));
       })
       .catch((error) => {
-        dispatch(registerFail(error.response.data.message));
+        const payload = {
+          code: error.code,
+          error: error.message,
+        };
+        dispatch(registerFail(payload));
       });
   };
 };
