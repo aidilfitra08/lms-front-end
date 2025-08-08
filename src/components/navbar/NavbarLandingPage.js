@@ -19,7 +19,7 @@ function NavbarLandingPage(props) {
   };
 
   const goTo = () => {
-    navigate("/login", { replace: true });
+    navigate("/login");
   };
   const handleResize = () => {
     if (window.innerWidth <= 768) {
